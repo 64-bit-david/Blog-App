@@ -6,11 +6,7 @@ const userSchema = new Schema({
   googleId: {
     type: String,
     required: true
-  },
-  username: {
-    type: String,
-    required: true
-  },
+  }
   //comments?
 },
   { timestamps: true });
