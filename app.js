@@ -1,14 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const keys = require('./utils/keys');
 
 
-dotenv.config();
 
 const postRoutes = require('./routes/posts');
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = keys.mongoURI;
+
 
 
 const app = express();
@@ -25,6 +25,7 @@ app.use((error, req, res, next) => {
 })
 
 const PORT = process.env.PORT || 5000;
+
 
 mongoose.connect(MONGODB_URI,
   {
