@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const keys = require('./config/keys');
 const passport = require('passport');
 const cookieSession = require("cookie-session");
+const cors = require('cors');
 
 
 
@@ -13,11 +14,20 @@ const authRoutes = require('./routes/auth');
 
 const MONGODB_URI = keys.mongoURI;
 
-
-
 const app = express();
 
+
 app.use(bodyParser.json());
+
+
+
+app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS', 'GET', 'PUT', 'POST', 'PATCH', 'DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 app.use(
   cookieSession({
@@ -27,6 +37,8 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 
 app.use(postRoutes);
 app.use(authRoutes);
