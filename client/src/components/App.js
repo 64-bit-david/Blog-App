@@ -23,7 +23,6 @@ const App = ({ fetchPosts, posts }) => {
     <div>
       <Header />
       {renderPosts()}
-      <a href="#">Click me</a>
     </div>
   )
 }

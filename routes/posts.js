@@ -6,14 +6,14 @@ const postController = require('../controller/posts');
 
 const router = express.Router();
 
-router.get('/', postController.getPosts);
+router.get('/api/posts', postController.getPosts);
 
-router.get('/posts/:postId', postController.getPost);
+router.get('/api/posts/:postId', postController.getPost);
 
-router.post('/create-post', isAuth, postController.addPost);
+router.post('/api/create-post', isAuth, postController.addPost);
 
-router.put('/posts/:postId', isAuth, postController.editPost);
+router.put('/api/posts/:postId', isAuth, postController.editPost);
 
-router.delete('/posts/:postId', isAuth, postController.deletePost);
+router.delete('/api/posts/:postId', isAuth, postController.deletePost);
 
 module.exports = router;

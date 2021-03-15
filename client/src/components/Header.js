@@ -12,11 +12,11 @@ const Header = ({ fetchUser, auth }) => {
   const isLoggedIn = () => {
     if (auth) {
       return (
-        <button className="btn sign-in-btn">Log Out</button>
+        <a href="/api/logout" className="btn sign-in-btn">Log Out</a>
       );
     }
     return (
-      <a href="/auth/google">Log In With Google</a>
+      <a className=" btn sign-in-btn" href="/auth/google">Log In With Google</a>
     )
   }
 
