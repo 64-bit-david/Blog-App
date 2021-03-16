@@ -1,4 +1,7 @@
-export const FETCH_POSTS = 'FETCH_POSTS';
+export const FETCH_STORIES = 'FETCH_STORIES';
 export const FETCH_USER = 'FETCH_USER';
+export const POST_STORY = 'POST_STORY';
+export const UPDATE_USER = 'UPDATE_USER';
+
 
 

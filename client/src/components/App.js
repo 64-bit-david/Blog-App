@@ -1,34 +1,27 @@
-import { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { fetchPosts } from '../actions/index';
+import { BrowserRouter, Route } from 'react-router-dom';
+
 import Header from './Header';
+import Stories from './Stories';
+import AddStory from './AddStory';
+import UserProfile from './UserProfile';
 
 
-const App = ({ fetchPosts, posts }) => {
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+const App = () => {
 
-
-  const renderPosts = () => {
-    return posts.map(post => {
-      return (
-        <div key={post._id}>{post.title}</div>
-      )
-    })
-  }
 
   return (
     <div>
-      <Header />
-      {renderPosts()}
+      <BrowserRouter>
+        <Header />
+        <div>
+          <Route path="/" exact component={Stories} />
+          <Route path="/add-story" component={AddStory} />
+          <Route path="/your-profile" component={UserProfile} />
+        </div>
+      </BrowserRouter>
     </div>
   )
 }
 
-const mapStateToProps = ({ posts }) => {
-  return { posts }
-}
-
-export default connect(mapStateToProps, { fetchPosts })(App);
+export default App;

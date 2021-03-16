@@ -1,7 +1,15 @@
+//variables, reusables
+
+$main-font:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+
+
+//Rests
 html {
   box-sizing: border-box;
   font-size: 62.5%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: $main-font;
 }
 
 *, *:before, *:after {
@@ -23,6 +31,13 @@ img {
   height: auto;
 }
 
+
+
+
+ 
+
+
+
 .btn{
   border-radius: 0;
   border: none;
@@ -38,3 +53,9 @@ img {
 }
 
 @import 'header';
+@import 'stories';
+@import 'addStory';
+@import 'userProfile';
+
+
+

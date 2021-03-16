@@ -31,11 +31,13 @@ exports.getPost = async (req, res, next) => {
 
 exports.addPost = async (req, res, next) => {
   const title = req.body.title;
-  const content = req.body.content;
+  const description = req.body.description;
+  const story = req.body.story;
   const creator = req.body.creator;
 
+
   try {
-    const post = new Post({ title, content, creator });
+    const post = new Post({ title, description, story, creator });
     const response = await post.save();
     if (!response) {
       const error = new Error('Creating post failed');

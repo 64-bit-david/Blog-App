@@ -1,0 +1,52 @@
+.add-story-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+.forms-container{
+  width: 80rem;
+
+  h2{
+    font-size: 4rem;
+  }
+  form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: inherit;
+
+
+    label{
+      margin-right: 1rem;
+      font-size: 2.2rem;
+    }
+
+    input, textarea{
+      height: 3rem;
+      border-radius: 0;
+      border: 2px solid grey;
+      width: 60rem;
+      font-family: $main-font;
+      font-size: 1.8rem;
+    }
+
+    textarea {
+      height: 12rem;
+    }
+
+    .add-story-item-container{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 1rem 0;
+      width: inherit;
+    }
+
+    button.add-story-item-container{
+      width: initial;
+      align-self: flex-start;
+      cursor: pointer;
+    }
+  }
+}
+}
