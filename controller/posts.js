@@ -33,11 +33,15 @@ exports.addPost = async (req, res, next) => {
   const title = req.body.title;
   const description = req.body.description;
   const story = req.body.story;
-  const creator = req.body.creator;
 
 
   try {
-    const post = new Post({ title, description, story, creator });
+    const post = new Post({
+      title,
+      description,
+      story,
+      _user: req.user._id
+    });
     const response = await post.save();
     if (!response) {
       const error = new Error('Creating post failed');

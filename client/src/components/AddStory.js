@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { postStory } from '../actions';
 
 
-const AddStory = ({ postStory }) => {
+const AddStory = ({ postStory, auth }) => {
 
 
   const [title, setTitle] = useState('');
@@ -13,9 +13,9 @@ const AddStory = ({ postStory }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const creator = { name: 'Dvavid' };
+    const creator = auth._id;
     const postBody = { title, description, story, creator };
-    postStory(postBody);
+    postStory(postBody)
   }
 
 
@@ -63,4 +63,8 @@ const AddStory = ({ postStory }) => {
   )
 }
 
-export default connect(null, { postStory })(AddStory)
+const mapStateToProps = ({ auth }) => {
+  return { auth }
+}
+
+export default connect(mapStateToProps, { postStory })(AddStory)

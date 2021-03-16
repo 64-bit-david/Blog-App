@@ -9,6 +9,10 @@ const userSchema = new Schema({
   },
   username: {
     type: String,
+  },
+  name: {
+    type: String,
+    required: true
   }
   //comments?
 },

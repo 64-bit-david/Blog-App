@@ -15,8 +15,8 @@ const postSchema = new Schema({
     type: String,
     required: true
   },
-  creator: {
-    type: Object,
+  _user: {
+    type: Schema.Types.ObjectId, ref: 'User',
     required: true,
   }
 }, { timestamps: true });

@@ -14,7 +14,7 @@ export const postStory = ({ title, description, story, creator }) => async dispa
   const res = await axios.post('/api/create-post', {
     title, description, story, creator
   })
-  console.log(res);
+  dispatch({ type: POST_STORY, payload: res.data.post });
 }
 
 export const updateUser = (username) => async dispatch => {
@@ -22,7 +22,6 @@ export const updateUser = (username) => async dispatch => {
     username
   });
 
-  console.log(res);
-
+  dispatch({ type: UPDATE_USER, payload: res.data.user })
 }
 

@@ -9,7 +9,7 @@ const UserProfile = ({ updateUser }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(updateUser(input));
+    updateUser(input);
 
   }
   const renderInput = () => {

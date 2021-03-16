@@ -30,9 +30,15 @@ passport.use(
         return done(null, existingUser);
       }
 
-      console.log(profile);
+      let googleName;
+      if (profile.name.familyName) {
+        googleName = profile.name.givenName + ' ' + profile.name.familyName[0];
+      }
+      else {
+        googleName = profile.name.givenName;
+      }
 
-      const user = await new User({ googleId: profile.id, username: null }).save();
+      const user = await new User({ googleId: profile.id, username: null, name: googleName }).save();
       done(null, user);
     }
   )
