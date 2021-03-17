@@ -4,6 +4,7 @@ import Header from './Header';
 import Stories from './Stories';
 import AddStory from './AddStory';
 import UserProfile from './UserProfile';
+import Story from './Story';
 
 
 
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/" exact component={Stories} />
           <Route path="/add-story" component={AddStory} />
           <Route path="/your-profile" component={UserProfile} />
+          <Route path="/posts/:post" component={Story} />
         </div>
       </BrowserRouter>
     </div>

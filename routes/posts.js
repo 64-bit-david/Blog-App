@@ -10,6 +10,8 @@ router.get('/api/posts', postController.getPosts);
 
 router.get('/api/posts/:postId', postController.getPost);
 
+router.get('/posts/:postId', postController.getPost);
+
 router.post('/api/create-post', isAuth, postController.addPost);
 
 router.put('/api/posts/:postId', isAuth, postController.editPost);

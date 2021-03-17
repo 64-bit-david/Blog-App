@@ -11,6 +11,7 @@ const cors = require('cors');
 require('./services/passport');
 const postRoutes = require('./routes/posts');
 const authRoutes = require('./routes/auth');
+const usersRoutes = require('./routes/users');
 
 const MONGODB_URI = keys.mongoURI;
 
@@ -42,6 +43,8 @@ app.use(passport.session());
 
 app.use(postRoutes);
 app.use(authRoutes);
+app.use(usersRoutes);
+
 
 app.use((error, req, res, next) => {
   console.log(error);
