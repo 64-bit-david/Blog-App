@@ -7,7 +7,7 @@ const Header = ({ fetchUser, auth }) => {
 
   useEffect(() => {
     fetchUser();
-  }, [])
+  }, [fetchUser])
 
 
   const isLoggedIn = () => {
