@@ -8,13 +8,13 @@ const AddStory = ({ postStory, auth }) => {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [story, setStory] = useState('');
+  const [content, setContent] = useState('');
 
 
   const onSubmit = (e) => {
     e.preventDefault();
     const creator = auth._id;
-    const postBody = { title, description, story, creator };
+    const postBody = { title, description, content, creator };
     postStory(postBody)
   }
 
@@ -44,9 +44,9 @@ const AddStory = ({ postStory, auth }) => {
           <div className="add-story-input-content add-story-item-container">
             <label>Story</label>
             <textarea
-              name="story"
-              value={story}
-              onChange={(e => setStory(e.target.value))}
+              name="content"
+              value={content}
+              onChange={(e => setContent(e.target.value))}
             />
           </div>
           <button className="add-username-btn btn" type="submit">Submit</button>

@@ -11,7 +11,7 @@ const postSchema = new Schema({
     type: String,
     required: true
   },
-  story: {
+  content: {
     type: String,
     required: true
   },

@@ -19,7 +19,7 @@ const App = () => {
           <Route path="/" exact component={Stories} />
           <Route path="/add-story" component={AddStory} />
           <Route path="/your-profile" component={UserProfile} />
-          <Route path="/posts/:post" component={Story} />
+          <Route path="/stories/:storyId" component={Story} />
         </div>
       </BrowserRouter>
     </div>

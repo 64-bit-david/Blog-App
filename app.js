@@ -9,7 +9,7 @@ const cors = require('cors');
 
 
 require('./services/passport');
-const postRoutes = require('./routes/posts');
+const storyRoutes = require('./routes/story');
 const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
 
@@ -41,7 +41,7 @@ app.use(passport.session());
 
 
 
-app.use(postRoutes);
+app.use(storyRoutes);
 app.use(authRoutes);
 app.use(usersRoutes);
 

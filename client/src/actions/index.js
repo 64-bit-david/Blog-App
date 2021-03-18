@@ -2,8 +2,8 @@ import axios from 'axios';
 import { FETCH_STORIES, FETCH_USER, POST_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR } from './types';
 
 export const fetchStories = () => async (dispatch) => {
-  const res = await axios.get('/api/posts');
-  dispatch({ type: FETCH_STORIES, payload: res.data.posts });
+  const res = await axios.get('/api/stories');
+  dispatch({ type: FETCH_STORIES, payload: res.data.stories });
 }
 
 
@@ -13,11 +13,11 @@ export const fetchUser = () => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
-export const postStory = ({ title, description, story, creator }) => async dispatch => {
-  const res = await axios.post('/api/create-post', {
-    title, description, story, creator
+export const postStory = ({ title, description, content, creator }) => async dispatch => {
+  const res = await axios.post('/api/create-story', {
+    title, description, content, creator
   })
-  dispatch({ type: POST_STORY, payload: res.data.post });
+  dispatch({ type: POST_STORY, payload: res.data.story });
 }
 
 export const updateUser = (username) => async dispatch => {
@@ -30,7 +30,7 @@ export const updateUser = (username) => async dispatch => {
 
 
 export const fetchStory = (storyId) => async dispatch => {
-  const res = await axios.get(`/api/posts/${storyId}`);
+  const res = await axios.get(`/api/stories/${storyId}`);
   dispatch({ type: FETCH_STORY, payload: res.data.post })
 }
 

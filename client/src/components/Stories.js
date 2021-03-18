@@ -26,6 +26,7 @@ const Stories = ({ stories, fetchStories }) => {
   //renders the array of user stories into grid items. Array has the liveFeed data inserted into pos 1, so requires different conditions
   const renderGrid = () => {
     const storiesWithFeed = storiesArrayWithFeed();
+    console.log(storiesWithFeed);
     return storiesWithFeed.map((story, index) => {
       if (index === 1) {
         return (
@@ -42,10 +43,10 @@ const Stories = ({ stories, fetchStories }) => {
         return (
           <div className="stories-grid-item story-item" key={story._id}>
             <Link
-              to={`/posts/${story._id}`}
+              to={`/stories/${story._id}`}
             >
               <h3>{story.title}</h3>
-              <p>{story.story}</p>
+              <p>{story.content}</p>
             </Link>
           </div>
         )
