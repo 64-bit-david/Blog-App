@@ -4,7 +4,7 @@ import { postStory } from '../actions';
 import history from 'react-router-dom';
 
 
-const AddStory = ({ postStory, auth, story, history }) => {
+const AddStory = ({ postStory, auth, history }) => {
 
 
   const [title, setTitle] = useState('');

@@ -34,6 +34,7 @@ exports.addStory = async (req, res, next) => {
   const title = req.body.title;
   const description = req.body.description;
   const content = req.body.content;
+  // const sanitizedHtml = req.body.content;
 
 
   try {

@@ -27,6 +27,8 @@ const Story = ({ match, story, fetchStory, fetchAuthorBasic, author }) => {
     return author.name
   }
 
+
+
   return (
     <div>
       {author && story ?
@@ -36,7 +38,9 @@ const Story = ({ match, story, fetchStory, fetchAuthorBasic, author }) => {
           <p className="story-page-desc">{story.description}</p>
           <div className="story-page-grid">
             <div className="story-page-main-item grid-item">
-              <p className="story-page-story">{story.content}</p>
+              <p dangerouslySetInnerHTML={{ __html: `${story.sanitizedHtml}` }}
+                className="story-page-story">
+              </p>
             </div>
             <div className="story-page-sub-item grid-item">
               <div className="author-container">
