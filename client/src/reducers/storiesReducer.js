@@ -1,6 +1,6 @@
 import { FETCH_STORIES, POST_STORY } from '../actions/types';
 
-export default function (state = [], action) {
+export default function func(state = [], action) {
   switch (action.type) {
     case FETCH_STORIES:
       return action.payload

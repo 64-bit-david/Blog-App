@@ -1,6 +1,6 @@
 import { FETCH_AUTHOR, FETCH_AUTHOR_BASIC } from "../actions/types";
 
-export default function (state = null, action) {
+export default function func(state = null, action) {
   switch (action.type) {
     case FETCH_AUTHOR:
       return action.payload;

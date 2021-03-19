@@ -96,17 +96,22 @@ exports.postStoryComment = async (req, res, next) => {
   const commentId = Date.now()
   req.user.username ? username = req.user.username : username = req.user.name;
   const commentText = req.body.commentText;
-
   const commentObj = { username, userId, commentText, id: commentId };
+  try {
+    const updatedStory = await Story.findOneAndUpdate(
+      { _id: storyId }, { "$push": { comments: commentObj } })
+    if (!updatedStory) {
+      const error = new Error('Could not find story');
+      error.statusCode = 500;
+      throw Error;
+    }
 
-  const updatedStory = await Story.findOneAndUpdate(
-    { _id: storyId }, { "$push": { comments: commentObj } })
-
-
-  // await updatedStory.save();
-
-
-  res.status(200).json({ msg: 'comment added', comment: commentObj, story: updatedStory });
+    res.status(200).json(
+      { msg: 'comment added', comment: commentObj, story: updatedStory }
+    );
+  } catch (err) {
+    next(err);
+  }
 }
 
 exports.deleteStory = async (req, res, next) => {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { updateStoryComments } from '../actions';
 
 
@@ -22,7 +23,7 @@ const StoryComments = ({ story, updateStoryComments }) => {
         return (
           <li key={comment.id}>
             <span className="user-comment">
-              {comment.username}
+              <Link to={`/author/${comment.userId}`}>{comment.username}</Link>
             </span>
             {comment.commentText}
           </li>

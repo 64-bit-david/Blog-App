@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { postStory } from '../actions';
+import history from 'react-router-dom';
 
 
-const AddStory = ({ postStory, auth }) => {
+const AddStory = ({ postStory, auth, story, history }) => {
 
 
   const [title, setTitle] = useState('');
@@ -15,8 +16,13 @@ const AddStory = ({ postStory, auth }) => {
     e.preventDefault();
     const creator = auth._id;
     const postBody = { title, description, content, creator };
-    postStory(postBody)
+    postStory(postBody).then(() => {
+      history.push('/')
+    }).catch((err) => {
+      console.log(err);
+    })
   }
+
 
 
   const forms = () => {
@@ -63,8 +69,8 @@ const AddStory = ({ postStory, auth }) => {
   )
 }
 
-const mapStateToProps = ({ auth }) => {
-  return { auth }
+const mapStateToProps = ({ auth, story }) => {
+  return { auth, story }
 }
 
 export default connect(mapStateToProps, { postStory })(AddStory)
