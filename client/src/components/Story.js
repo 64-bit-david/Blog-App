@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchStory, fetchAuthor } from '../actions';
+import { fetchStory, fetchAuthorBasic } from '../actions';
 
-const Story = ({ match, story, fetchStory, fetchAuthor, author }) => {
+import StoryComments from './StoryComments';
+
+const Story = ({ match, story, fetchStory, fetchAuthorBasic, author }) => {
+
 
 
   useEffect(() => {
-    fetchStory(match.params.post);
+    fetchStory(match.params.storyId);
   }, [fetchStory]);
 
   useEffect(() => {
     if (story) {
-      fetchAuthor(story._user);
+      fetchAuthorBasic(story._user);
     }
   }, [story])
 
@@ -33,21 +36,16 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author }) => {
           <p className="story-page-desc">{story.description}</p>
           <div className="story-page-grid">
             <div className="story-page-main-item grid-item">
-              <p className="story-page-story">{story.story}</p>
+              <p className="story-page-story">{story.content}</p>
             </div>
             <div className="story-page-sub-item grid-item">
               <div className="author-container">
-                <h4>Written By: {authorNameCheck(author)}</h4>
-                <button class="btn donate-btn">Donate</button>
+                <h4>Written By:
+                   <Link to={`/author/${story._user}`}><span>{authorNameCheck(author)}</span></Link>
+                </h4>
+                <button className="btn donate-btn">Donate</button>
               </div>
-              <div className="comments-container">
-                <h5>Here's what others are saying</h5>
-                <ul>
-                  <li><span className="user-comment">Random User</span>This is great! Love the flow of it</li>
-                  <li><span className="user-comment">Random User</span><span>Hopefully you get the next one out quick</span></li>
-                  <li><span className="user-comment">Random User</span><span>Love your work. Donated another few bucks!</span></li>
-                </ul>
-              </div>
+              <StoryComments />
             </div>
           </div>
         </div>
@@ -60,4 +58,4 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author }) => {
 const mapStateToProps = ({ story, author }) => {
   return { story, author }
 }
-export default connect(mapStateToProps, { fetchStory, fetchAuthor })(Story)
+export default connect(mapStateToProps, { fetchStory, fetchAuthorBasic })(Story)

@@ -5,6 +5,8 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const SELECT_STORY = 'SELECT_STORY';
 export const FETCH_STORY = 'FETCH_STORY';
 export const FETCH_AUTHOR = 'FETCH_AUTHOR';
+export const FETCH_AUTHOR_BASIC = 'FETCH_AUTHOR_BASIC';
+export const UPDATE_STORY_COMMENTS = 'UPDATE_STORY_COMMENTS';
 
 
 

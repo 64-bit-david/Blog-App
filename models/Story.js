@@ -18,6 +18,10 @@ const postSchema = new Schema({
   _user: {
     type: Schema.Types.ObjectId, ref: 'User',
     required: true,
+  },
+  comments: {
+    type: Object,
+
   }
 }, { timestamps: true });
 

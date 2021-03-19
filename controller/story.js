@@ -1,4 +1,5 @@
 const Story = require('../models/Story');
+const User = require('../models/User');
 
 exports.getStories = async (req, res, next) => {
   try {
@@ -42,13 +43,19 @@ exports.addStory = async (req, res, next) => {
       content,
       _user: req.user._id
     });
+    const user = await User.findOne(req.user._id);
     const response = await story.save();
     if (!response) {
       const error = new Error('Creating story failed');
       error.statusCode = 500;
       throw error;
     }
-
+    if (!user.stories) {
+      user.stories = { _id: story._id };
+    } else {
+      user.stories.push({ _id: story._id });
+    }
+    await user.save();
     res.status(200).json({ msg: 'Story Created', story: response });
   } catch (err) {
     next(err);
@@ -80,6 +87,26 @@ exports.editStory = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+}
+
+exports.postStoryComment = async (req, res, next) => {
+  const storyId = req.params.storyId;
+  const userId = req.user._id;
+  let username;
+  const commentId = Date.now()
+  req.user.username ? username = req.user.username : username = req.user.name;
+  const commentText = req.body.commentText;
+
+  const commentObj = { username, userId, commentText, id: commentId };
+
+  const updatedStory = await Story.findOneAndUpdate(
+    { _id: storyId }, { "$push": { comments: commentObj } })
+
+
+  // await updatedStory.save();
+
+
+  res.status(200).json({ msg: 'comment added', comment: commentObj, story: updatedStory });
 }
 
 exports.deleteStory = async (req, res, next) => {

@@ -5,6 +5,7 @@ import Stories from './Stories';
 import AddStory from './AddStory';
 import UserProfile from './UserProfile';
 import Story from './Story';
+import Author from './Author';
 
 
 
@@ -20,6 +21,8 @@ const App = () => {
           <Route path="/add-story" component={AddStory} />
           <Route path="/your-profile" component={UserProfile} />
           <Route path="/stories/:storyId" component={Story} />
+          <Route path="/author/:authorId" component={Author} />
+
         </div>
       </BrowserRouter>
     </div>

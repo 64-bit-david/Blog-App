@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_STORIES, FETCH_USER, POST_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR } from './types';
+import { FETCH_STORIES, FETCH_USER, POST_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS } from './types';
 
 export const fetchStories = () => async (dispatch) => {
   const res = await axios.get('/api/stories');
@@ -24,20 +24,31 @@ export const updateUser = (username) => async dispatch => {
   const res = await axios.put('/api/update-account', {
     username
   });
-
   dispatch({ type: UPDATE_USER, payload: res.data.user })
 }
 
 
 export const fetchStory = (storyId) => async dispatch => {
   const res = await axios.get(`/api/stories/${storyId}`);
-  dispatch({ type: FETCH_STORY, payload: res.data.post })
+  dispatch({ type: FETCH_STORY, payload: res.data.story })
 }
 
-//for getting author of a post/story
+//for getting author (with stories populated )of a post/story
 export const fetchAuthor = (userId) => async dispatch => {
   const res = await axios.get(`/account/${userId}`);
   dispatch({ type: FETCH_AUTHOR, payload: res.data });
 }
 
+export const fetchAuthorBasic = (userId) => async dispatch => {
+  const res = await axios.get(`/account/basic/${userId}`);
+  dispatch({ type: FETCH_AUTHOR_BASIC, payload: res.data });
+}
+
+export const updateStoryComments = (storyId, commentInput) => async dispatch => {
+  const res = await axios.post(`/api/stories/comments/${storyId}`, {
+    commentText: commentInput
+  });
+
+  dispatch({ type: UPDATE_STORY_COMMENTS, payload: res.data.comment });
+}
 
