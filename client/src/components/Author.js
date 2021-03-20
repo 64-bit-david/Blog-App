@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React, { useEffect } from 'react';
 import { fetchAuthor } from '../actions';
 
-const Author = ({ author, fetchAuthor, match }) => {
+const Author = ({ author, fetchAuthor, match, auth }) => {
 
   useEffect(() => {
     fetchAuthor(match.params.authorId);
@@ -17,6 +17,16 @@ const Author = ({ author, fetchAuthor, match }) => {
       return author.name;
     }
     return null;
+  }
+
+
+  const authorOrUser = () => {
+    if (auth && author) {
+      if (author._id === auth._id) {
+        return 'Your Stories'
+      }
+      else return authorName();
+    }
   }
 
   const renderAuthorInfo = () => {
@@ -55,7 +65,7 @@ const Author = ({ author, fetchAuthor, match }) => {
 
     <div className="author-page-container">
       {renderAuthorInfo()}
-      <h4>{authorName()}'s stories</h4>
+      <h4>{authorOrUser()}</h4>
       <div className="stories-grid author-stories-grid">
         {renderAuthorStories()}
       </div>
@@ -63,8 +73,8 @@ const Author = ({ author, fetchAuthor, match }) => {
   )
 };
 
-const mapStateToProps = ({ author }) => {
-  return { author }
+const mapStateToProps = ({ author, auth }) => {
+  return { author, auth }
 };
 
 export default connect(mapStateToProps, { fetchAuthor })(Author);

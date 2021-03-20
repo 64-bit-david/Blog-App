@@ -12,7 +12,7 @@ router.get(
   }));
 
 router.get("/auth/google/redirect", passport.authenticate("google", { failureRedirect: "/auth/failed" }), (req, res) => {
-  res.redirect('/');
+  res.redirect('/author/' + req.user._id);
 });
 
 

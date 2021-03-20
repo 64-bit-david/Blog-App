@@ -12,6 +12,7 @@ require('./services/passport');
 const storyRoutes = require('./routes/story');
 const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
+const snippetRoutes = require('./routes/snippets');
 
 const MONGODB_URI = keys.mongoURI;
 
@@ -44,6 +45,7 @@ app.use(passport.session());
 app.use(storyRoutes);
 app.use(authRoutes);
 app.use(usersRoutes);
+app.use(snippetRoutes);
 
 
 app.use((error, req, res, next) => {
@@ -60,4 +62,10 @@ mongoose.connect(MONGODB_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
-  }).then(app.listen(PORT))
+  }).then(result => {
+    const server = app.listen(PORT);
+    const io = require('socket.io')(server);
+    io.on('connection', socket => {
+      console.log('client connected');
+    })
+  }).catch(err => console.log(err))

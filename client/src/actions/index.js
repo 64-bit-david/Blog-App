@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_STORIES, FETCH_USER, POST_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS } from './types';
+import { FETCH_STORIES, FETCH_USER, POST_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS } from './types';
 
 export const fetchStories = () => async (dispatch) => {
   const res = await axios.get('/api/stories');
@@ -52,3 +52,14 @@ export const updateStoryComments = (storyId, commentInput) => async dispatch => 
   dispatch({ type: UPDATE_STORY_COMMENTS, payload: res.data.comment });
 }
 
+export const fetchSnippet = () => async dispatch => {
+  const res = await axios.get('/api/snippets');
+  dispatch({ type: FETCH_SNIPPETS, payload: res.data.snippets })
+}
+
+export const postSnippet = (snippetText) => async dispatch => {
+  const res = await axios.post('/api/post-snippet', {
+    snippetText
+  });
+  dispatch({ type: POST_SNIPPET, payload: res.data.response });
+}
