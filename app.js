@@ -64,8 +64,6 @@ mongoose.connect(MONGODB_URI,
     useUnifiedTopology: true
   }).then(result => {
     const server = app.listen(PORT);
-    const io = require('socket.io')(server);
-    io.on('connection', socket => {
-      console.log('client connected');
-    })
+    const io = require('./socket').init(server);
+    io.on('connection')
   }).catch(err => console.log(err))

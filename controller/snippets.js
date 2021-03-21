@@ -1,4 +1,5 @@
 const Snippet = require('../models/Snippet');
+const io = require('../socket');
 
 exports.createSnippet = async (req, res, next) => {
   const user = req.user;
@@ -16,6 +17,9 @@ exports.createSnippet = async (req, res, next) => {
   });
 
   const response = await snippet.save();
+  io.getIO().emit('snippets', {
+    action: 'create', snippet
+  })
 
   res.status(200).json({ msg: 'Posted Snippet', response });
 }

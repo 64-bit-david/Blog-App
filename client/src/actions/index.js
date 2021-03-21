@@ -61,8 +61,15 @@ export const postSnippet = (snippetText) => async dispatch => {
   const res = await axios.post('/api/post-snippet', {
     snippetText
   });
-
+  //websocket updates state so below not needed, causes duplication for user
   //server responds with full user obj, but we need user to only hold the id so overide
-  res.data.response._user = res.data.response._user._id;
-  dispatch({ type: POST_SNIPPET, payload: res.data.response });
+  // res.data.response._user = res.data.response._user._id;
+  // dispatch({ type: POST_SNIPPET, payload: res.data.response });
+}
+
+
+
+export const addSnippet = (snippet) => {
+  console.log('snippet socket test')
+  return { type: POST_SNIPPET, payload: snippet }
 }

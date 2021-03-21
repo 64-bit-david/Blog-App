@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { postSnippet, fetchSnippet } from '../actions';
+import { postSnippet, fetchSnippet, addSnippet } from '../actions';
+import openSocket from 'socket.io-client';
 
-const Snippets = ({ postSnippet, fetchSnippet, snippets }) => {
+const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet }) => {
 
   const [snippetInput, setSnippetInput] = useState('');
 
   useEffect(() => {
     fetchSnippet();
+    const socket = openSocket('http://localhost:5000');
+    socket.on('snippets', data => {
+      if (data.action === 'create') {
+        addSnippet(data.snippet);
+      }
+    })
   }, []);
+
+
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -57,6 +66,6 @@ const mapStateToProps = ({ snippets }) => {
   return { snippets };
 }
 
-export default connect(mapStateToProps, { postSnippet, fetchSnippet })(Snippets);
+export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet })(Snippets);
 
 
