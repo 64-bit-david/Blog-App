@@ -61,5 +61,8 @@ export const postSnippet = (snippetText) => async dispatch => {
   const res = await axios.post('/api/post-snippet', {
     snippetText
   });
+
+  //server responds with full user obj, but we need user to only hold the id so overide
+  res.data.response._user = res.data.response._user._id;
   dispatch({ type: POST_SNIPPET, payload: res.data.response });
 }

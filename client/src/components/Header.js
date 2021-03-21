@@ -15,7 +15,7 @@ const Header = ({ fetchUser, auth }) => {
       return (
         <div>
           <Link to="/add-story" className=" btn sign-in-btn">Add a Story</Link>
-          <Link to="/your-profile" className=" btn sign-in-btn">Your Profile</Link>
+          <Link to={`/your-profile`} className=" btn sign-in-btn">Your Profile</Link>
           <a href="/api/logout" className="btn sign-in-btn">Log Out</a>
         </div>
       );

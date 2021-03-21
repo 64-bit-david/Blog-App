@@ -1,12 +1,17 @@
 import { connect } from 'react-redux';
-import React, { useEffect } from 'react';
-import { fetchAuthor } from '../actions';
+import React, { useEffect, useState } from 'react';
+import { fetchAuthor, updateUser } from '../actions';
 
-const Author = ({ author, fetchAuthor, match, auth }) => {
+const Author = ({ author, fetchAuthor, match, }) => {
 
   useEffect(() => {
     fetchAuthor(match.params.authorId);
   }, []);
+
+
+
+
+
 
 
   const authorName = () => {
@@ -19,15 +24,20 @@ const Author = ({ author, fetchAuthor, match, auth }) => {
     return null;
   }
 
-
-  const authorOrUser = () => {
-    if (auth && author) {
-      if (author._id === auth._id) {
-        return 'Your Stories'
+  const authorDescription = () => {
+    if (author) {
+      if (author.description) {
+        return author.description
       }
-      else return authorName();
     }
+    return null;
   }
+
+
+
+
+
+
 
   const renderAuthorInfo = () => {
     if (!author) {
@@ -61,11 +71,16 @@ const Author = ({ author, fetchAuthor, match, auth }) => {
 
 
 
+
+
+
   return (
 
     <div className="author-page-container">
+
       {renderAuthorInfo()}
-      <h4>{authorOrUser()}</h4>
+
+      {/* {renderAuthorInfo()} */}
       <div className="stories-grid author-stories-grid">
         {renderAuthorStories()}
       </div>
@@ -77,4 +92,5 @@ const mapStateToProps = ({ author, auth }) => {
   return { author, auth }
 };
 
-export default connect(mapStateToProps, { fetchAuthor })(Author);
+export default connect(mapStateToProps, { fetchAuthor, updateUser })(Author);
+

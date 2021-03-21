@@ -1,54 +1,174 @@
-import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../actions';
+import React, { useEffect, useState } from 'react';
+import { fetchAuthor, fetchUser, updateUser } from '../actions';
 
-const UserProfile = ({ updateUser, auth }) => {
+const Author = ({ author, fetchAuthor, match, auth, updateUser }) => {
+
+
 
   const [input, setInput] = useState('');
 
+  const [showChangeUsername, setShowChangeUserName] = useState(false);
+  const [changeContainer, setChangeContainer] = useState(false);
+  const [showChangeAfterSubmit, setShowChangeAfterSubmit] = useState(false);
 
-  const onSubmit = (e) => {
+  useEffect(() => {
+    if (!auth) {
+      fetchUser();
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!author || (author._id !== auth._id)) {
+      fetchAuthor(auth._id);
+    }
+  }, [auth])
+
+
+  const postUsernameChange = (e) => {
     e.preventDefault();
     updateUser(input);
+    setInput('');
   }
 
-  //if user has username render this
-  const renderUserName = () => {
-    return <h1> Your username is {auth.username}</h1>
+
+
+
+  const authorName = () => {
+    if (auth) {
+      if (auth.username) {
+        return auth.username
+      }
+      return auth.name;
+    }
+    return null;
   }
 
-  const renderInput = () => {
-    return (
+  const authorDescription = () => {
+    if (auth) {
+      if (auth.description) {
+        return auth.description
+      }
+      else {
+        return "You don't have a description yet"
+      }
+    }
+    return null;
+  }
 
-      <div className="forms-container">
-        <form onSubmit={onSubmit}>
-          {auth.username ? renderUserName() : null}
 
-          <h1>Stories posted use the name attached to your Google Account. Click here to set a username instead</h1>
-          <div className="add-story-input-title add-story-item-container">
-            <label> Add a Username</label>
-            <input
-              name="title"
-              value={input}
-              onChange={(e => setInput(e.target.value))}
-            />
+  const renderAuthorStories = () => {
+    if (!author) {
+      return null
+    }
+    else {
+      return author.stories.map(story => {
+        return (
+          <div className="stories-grid-item" key={story._id}>
+            <h3>{story.title}</h3>
+            <p>{story.description}</p>
           </div>
-          <button className="add-story-item-container btn" type="submit">Submit</button>
-        </ form>
+        )
+      })
+    }
+  }
+
+
+  const renderCurrentUser = () => {
+    return (
+      <div className="author-data-container">
+        <h2>Your Profile</h2>
+        <div className="author-username-container">
+          <p>Your username:
+            <span>{authorName()}</span>
+          </p>
+          <button
+            className="btn author-btn"
+            onClick={() => {
+              setShowChangeUserName(true)
+              setChangeContainer(true)
+            }}
+          >Edit</button>
+
+        </div>
+        <div className="author-description-container">
+          <p>Your description:
+            <span>{authorDescription()}</span>
+          </p>
+          <button className="btn author-btn">Edit</button>
+
+        </div>
       </div>
     )
   }
 
+
+  const renderChangeUsername = () => {
+    return (
+
+      <div
+        className={
+          `update-info-container ${showChangeUsername && 'active'}`}>
+        <button
+          className="change-esc-btn btn"
+          onClick={() => {
+            setShowChangeUserName(false)
+            setChangeContainer(false)
+          }}
+        >X</button>
+        <form onSubmit={postUsernameChange}>
+          <label>Change Username: </label>
+          <input
+            onChange={(e) => setInput(e.target.value)}
+            value={input}
+          />
+          <button onClick={() => {
+            setShowChangeUserName(false);
+            setShowChangeAfterSubmit(true);
+          }} className="btn author-btn">Submit</button>
+        </form>
+      </div>
+    )
+  }
+
+  const renderAfterChange = () => {
+    return (
+
+      <div className={`update-info-container ${showChangeAfterSubmit && 'active'}`}>
+        <button
+          className="change-esc-btn btn"
+          onClick={() => {
+            setChangeContainer(false)
+            setShowChangeAfterSubmit(false)
+          }}>X</button>
+        <p>Change success</p>
+      </div>
+    )
+  }
+
+
   return (
-    <div className="user-profile-container">
-      {renderInput()}
+
+    <div className="author-page-container">
+      <div className={
+        `change-details-bg-container ${changeContainer && 'active'} `}
+      >
+        {renderChangeUsername()}
+        {renderAfterChange()}
+
+      </div>
+      {renderCurrentUser()}
+      <h4>Your Stories</h4>
+      <div className="stories-grid author-stories-grid">
+        {renderAuthorStories()}
+      </div>
     </div>
   )
-}
+};
 
-const mapStateToProps = ({ auth }) => {
-  return { auth }
-}
+const mapStateToProps = ({ author, auth }) => {
+  return { author, auth }
+};
 
+export default connect(mapStateToProps, { fetchAuthor, updateUser })(Author);
 
-export default connect(mapStateToProps, { updateUser })(UserProfile)
