@@ -26,6 +26,6 @@ exports.createSnippet = async (req, res, next) => {
 }
 
 exports.getSnippets = async (req, res, next) => {
-  const snippets = await Snippet.find();
+  const snippets = await Snippet.find().sort({ _id: -1 });
   res.status(200).json({ msg: 'Snippets fetched', snippets });
 }

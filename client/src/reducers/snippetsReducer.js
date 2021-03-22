@@ -6,7 +6,8 @@ export default function func(state = [], action) {
     case FETCH_SNIPPETS:
       return action.payload;
     case POST_SNIPPET:
-      return [...state, action.payload]
+      console.log(action);
+      return [action.payload, ...state]
     default:
       return state;
   }

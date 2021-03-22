@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 exports.getStories = async (req, res, next) => {
   try {
-    const stories = await Story.find();
+    const stories = await Story.find().sort({ _id: -1 });
     if (!stories) {
       const error = new Error('fetching stories failed');
       error.statusCode = 500;

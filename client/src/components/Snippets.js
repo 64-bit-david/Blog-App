@@ -10,12 +10,18 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet }) => {
 
   useEffect(() => {
     fetchSnippet();
+
     const socket = openSocket('http://localhost:5000');
     socket.on('snippets', data => {
       if (data.action === 'create') {
         addSnippet(data.snippet);
       }
     })
+
+
+    return () => {
+      socket.off('snippets');
+    }
   }, []);
 
 

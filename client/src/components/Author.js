@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { fetchAuthor } from '../actions';
 
 const Author = ({ author, fetchAuthor, match, }) => {
@@ -7,12 +7,6 @@ const Author = ({ author, fetchAuthor, match, }) => {
   useEffect(() => {
     fetchAuthor(match.params.authorId);
   }, []);
-
-
-
-
-
-
 
   const authorName = () => {
     if (author) {
@@ -34,11 +28,6 @@ const Author = ({ author, fetchAuthor, match, }) => {
   }
 
 
-
-
-
-
-
   const renderAuthorInfo = () => {
     if (!author) {
       return null
@@ -47,6 +36,7 @@ const Author = ({ author, fetchAuthor, match, }) => {
       return (
         <div className="author-data-container">
           <h2>{authorName()}</h2>
+          <p>{authorDescription()}</p>
           <button className="btn">Donate</button>
         </div>
       )
@@ -57,7 +47,9 @@ const Author = ({ author, fetchAuthor, match, }) => {
     if (!author) {
       return null
     }
-    else {
+    else if (!author.stories) {
+      return null;
+    } else {
       return author.stories.map(story => {
         return (
           <div className="stories-grid-item" key={story._id}>
@@ -79,8 +71,6 @@ const Author = ({ author, fetchAuthor, match, }) => {
     <div className="author-page-container">
 
       {renderAuthorInfo()}
-
-      {/* {renderAuthorInfo()} */}
       <div className="stories-grid author-stories-grid">
         {renderAuthorStories()}
       </div>

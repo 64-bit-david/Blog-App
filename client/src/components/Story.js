@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchStory, fetchAuthorBasic } from '../actions';
+import { fetchStory, fetchAuthor } from '../actions';
 
 import StoryComments from './StoryComments';
 
-const Story = ({ match, story, fetchStory, fetchAuthorBasic, author }) => {
+const Story = ({ match, story, fetchStory, fetchAuthor, author }) => {
 
 
 
@@ -15,7 +15,7 @@ const Story = ({ match, story, fetchStory, fetchAuthorBasic, author }) => {
 
   useEffect(() => {
     if (story) {
-      fetchAuthorBasic(story._user);
+      fetchAuthor(story._user);
     }
   }, [story])
 
@@ -62,4 +62,4 @@ const Story = ({ match, story, fetchStory, fetchAuthorBasic, author }) => {
 const mapStateToProps = ({ story, author }) => {
   return { story, author }
 }
-export default connect(mapStateToProps, { fetchStory, fetchAuthorBasic })(Story)
+export default connect(mapStateToProps, { fetchStory, fetchAuthor })(Story)

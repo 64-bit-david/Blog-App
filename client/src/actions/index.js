@@ -78,6 +78,5 @@ export const postSnippet = (snippetText) => async dispatch => {
 
 
 export const addSnippet = (snippet) => {
-  console.log('snippet socket test')
   return { type: POST_SNIPPET, payload: snippet }
 }
