@@ -14,6 +14,9 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String,
+  },
   stories: [{ type: [Schema.Types.ObjectId], ref: "User" }]
 
   //comments?

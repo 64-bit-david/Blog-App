@@ -17,6 +17,7 @@ exports.createSnippet = async (req, res, next) => {
   });
 
   const response = await snippet.save();
+
   io.getIO().emit('snippets', {
     action: 'create', snippet
   })

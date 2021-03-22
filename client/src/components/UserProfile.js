@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { fetchAuthor, fetchUser, updateUser } from '../actions';
+import { fetchAuthor, fetchUser, updateUsername, updateUserDesc } from '../actions';
 
-const Author = ({ author, fetchAuthor, match, auth, updateUser }) => {
+const Author = ({ author, fetchAuthor, auth, updateUsername, updateUserDesc }) => {
 
 
 
   const [input, setInput] = useState('');
 
   const [showChangeUsername, setShowChangeUserName] = useState(false);
+  const [showChangeDesc, setShowChangeDesc] = useState(false);
+
   const [changeContainer, setChangeContainer] = useState(false);
   const [showChangeAfterSubmit, setShowChangeAfterSubmit] = useState(false);
 
@@ -19,20 +21,26 @@ const Author = ({ author, fetchAuthor, match, auth, updateUser }) => {
   }, [])
 
   useEffect(() => {
+
     if (!author || (author._id !== auth._id)) {
-      fetchAuthor(auth._id);
+      if (auth._id) {
+        fetchAuthor(auth._id);
+      }
     }
   }, [auth])
 
 
   const postUsernameChange = (e) => {
     e.preventDefault();
-    updateUser(input);
+    updateUsername(input);
     setInput('');
   }
 
-
-
+  const postDescChange = (e) => {
+    e.preventDefault();
+    updateUserDesc(input);
+    setInput('');
+  }
 
   const authorName = () => {
     if (auth) {
@@ -56,7 +64,6 @@ const Author = ({ author, fetchAuthor, match, auth, updateUser }) => {
     return null;
   }
 
-
   const renderAuthorStories = () => {
     if (!author) {
       return null
@@ -73,8 +80,7 @@ const Author = ({ author, fetchAuthor, match, auth, updateUser }) => {
     }
   }
 
-
-  const renderCurrentUser = () => {
+  const renderUserInfo = () => {
     return (
       <div className="author-data-container">
         <h2>Your Profile</h2>
@@ -95,17 +101,22 @@ const Author = ({ author, fetchAuthor, match, auth, updateUser }) => {
           <p>Your description:
             <span>{authorDescription()}</span>
           </p>
-          <button className="btn author-btn">Edit</button>
+          <button
+            className="btn author-btn"
+            onClick={() => {
+              setShowChangeDesc(true)
+              setChangeContainer(true)
+            }}>
+            {auth.description ? "Edit" : "Add"}
+          </button>
 
         </div>
       </div>
     )
   }
 
-
   const renderChangeUsername = () => {
     return (
-
       <div
         className={
           `update-info-container ${showChangeUsername && 'active'}`}>
@@ -131,9 +142,39 @@ const Author = ({ author, fetchAuthor, match, auth, updateUser }) => {
     )
   }
 
+
+  const renderChangeDesc = () => {
+    return (
+      <div
+        className={
+          `update-info-container ${showChangeDesc && 'active'}`}>
+        <button
+          className="change-esc-btn btn"
+          onClick={() => {
+            setShowChangeDesc(false)
+            setChangeContainer(false)
+          }}
+        >X</button>
+        <form onSubmit={postDescChange}>
+          <label>
+            {auth.description ? 'Edit your description' :
+              "Add a description to your profile"}
+          </label>
+          <input
+            onChange={(e) => setInput(e.target.value)}
+            value={input}
+          />
+          <button onClick={() => {
+            setShowChangeDesc(false);
+            setShowChangeAfterSubmit(true);
+          }} className="btn author-btn">Submit</button>
+        </form>
+      </div>
+    )
+  }
+
   const renderAfterChange = () => {
     return (
-
       <div className={`update-info-container ${showChangeAfterSubmit && 'active'}`}>
         <button
           className="change-esc-btn btn"
@@ -148,16 +189,16 @@ const Author = ({ author, fetchAuthor, match, auth, updateUser }) => {
 
 
   return (
-
     <div className="author-page-container">
       <div className={
         `change-details-bg-container ${changeContainer && 'active'} `}
       >
         {renderChangeUsername()}
+        {renderChangeDesc()}
         {renderAfterChange()}
 
       </div>
-      {renderCurrentUser()}
+      {renderUserInfo()}
       <h4>Your Stories</h4>
       <div className="stories-grid author-stories-grid">
         {renderAuthorStories()}
@@ -170,5 +211,5 @@ const mapStateToProps = ({ author, auth }) => {
   return { author, auth }
 };
 
-export default connect(mapStateToProps, { fetchAuthor, updateUser })(Author);
+export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc })(Author);
 

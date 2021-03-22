@@ -20,11 +20,19 @@ export const postStory = ({ title, description, content, creator }) => async dis
   dispatch({ type: POST_STORY, payload: res.data.story });
 }
 
-export const updateUser = (username) => async dispatch => {
-  const res = await axios.put('/api/update-account', {
+export const updateUsername = (username) => async dispatch => {
+  const res = await axios.put('/account/update-username', {
     username
   });
   dispatch({ type: UPDATE_USER, payload: res.data.user })
+}
+
+export const updateUserDesc = (description) => async dispatch => {
+  const res = await axios.put('/account/update-desc', {
+    description
+  })
+  dispatch({ type: UPDATE_USER, payload: res.data.user });
+
 }
 
 

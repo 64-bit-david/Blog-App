@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { fetchAuthor, updateUser } from '../actions';
+import { fetchAuthor } from '../actions';
 
 const Author = ({ author, fetchAuthor, match, }) => {
 
@@ -92,5 +92,5 @@ const mapStateToProps = ({ author, auth }) => {
   return { author, auth }
 };
 
-export default connect(mapStateToProps, { fetchAuthor, updateUser })(Author);
+export default connect(mapStateToProps, { fetchAuthor })(Author);
 
