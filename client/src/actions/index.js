@@ -1,8 +1,14 @@
 import axios from 'axios';
-import { FETCH_STORIES, FETCH_USER, POST_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS } from './types';
+import { FETCH_STORIES, FETCH_USER, POST_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, PAGINATE } from './types';
 
-export const fetchStories = () => async (dispatch) => {
-  const res = await axios.get('/api/stories');
+export const fetchStories = (page) => async (dispatch) => {
+  const res = await axios.get('/api/stories' + '/?page=' + page);
+  dispatch({ type: FETCH_STORIES, payload: res.data.stories });
+  dispatch({ type: PAGINATE, payload: res.data.pager })
+}
+
+export const fetchUserStories = (userId) => async (dispatch) => {
+  const res = await axios.get(`/api/account/stories/${userId}`);
   dispatch({ type: FETCH_STORIES, payload: res.data.stories });
 }
 

@@ -52,6 +52,30 @@ img {
   }
 }
 
+
+.paginate-container{
+  ul{
+  display: flex;
+  justify-content: center;
+  font-size: 3rem;
+
+  li{
+    margin-right: 1rem;
+
+    a{
+      text-decoration: none;
+      color: black;
+      &:hover{
+        text-decoration: underline;
+      }
+      &.active{
+        text-decoration: underline;
+      }
+    }
+  }
+}
+}
+
 @import 'header';
 @import 'stories';
 @import 'story';

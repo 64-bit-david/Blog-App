@@ -18,8 +18,9 @@ const App = () => {
         <Header />
         <div>
           <Route path="/" exact component={Stories} />
+          <Route path="/stories/:page" component={Stories} />
           <Route path="/add-story" component={AddStory} />
-          <Route path="/stories/:storyId" component={Story} />
+          <Route path="/story/:storyId" component={Story} />
           <Route path="/author/:authorId" exact component={Author} />
           <Route path="/your-profile" exact component={UserProfile} />
 

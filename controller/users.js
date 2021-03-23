@@ -13,7 +13,18 @@ exports.getUser = async (req, res, next) => {
     next(err);
     console.console.log(err);
   }
+};
+
+
+exports.getUserStories = async (req, res, next) => {
+  const userId = req.params.userId;
+  console.log(userId);
+  // const numOfStorys = await Story.find({ _user: userId }).countDocuments();
+  const stories = await Story.find({ _user: userId });
+  res.status(200).json({ msg: 'user stories fetched', stories });
+
 }
+
 
 exports.getUserBasic = async (req, res, next) => {
   const userId = req.params.userId;

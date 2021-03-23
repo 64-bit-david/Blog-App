@@ -20,6 +20,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsdom": "^16.5.1",
+    "jw-paginate": "^1.0.4",
     "marked": "^2.0.1",
     "mongoose": "^5.12.0",
     "passport": "^0.4.1",

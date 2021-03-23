@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get('/account/:userId', usersController.getUser);
 
+router.get('/api/account/stories/:userId', usersController.getUserStories);
+
 router.get('/account/basic/:userId', usersController.getUserBasic);
 
 router.put('/account/update-username', usersController.updateUsername);

@@ -3,7 +3,8 @@ import authorReducer from './authorReducer';
 import authReducer from './authReducer';
 import storiesReducer from './storiesReducer';
 import storyReducer from './storyReducer';
-import snippetReducer from './snippetsReducer'
+import snippetReducer from './snippetsReducer';
+import paginationReducer from './paginationReducer';
 
 
 export default combineReducers({
@@ -12,4 +13,5 @@ export default combineReducers({
   story: storyReducer,
   author: authorReducer,
   snippets: snippetReducer,
+  pager: paginationReducer,
 })

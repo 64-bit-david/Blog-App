@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import React, { useEffect } from 'react';
-import { fetchAuthor } from '../actions';
+import { fetchAuthor, fetchAuthorBasic, fetchUserStories } from '../actions';
 
-const Author = ({ author, fetchAuthor, match, }) => {
+const Author = ({ author, fetchAuthor, match, fetchUserStories, stories }) => {
 
   useEffect(() => {
-    fetchAuthor(match.params.authorId);
+    fetchUserStories(match.params.authorId);
+    fetchAuthorBasic(match.params.authorId);
   }, []);
 
   const authorName = () => {
@@ -47,10 +48,10 @@ const Author = ({ author, fetchAuthor, match, }) => {
     if (!author) {
       return null
     }
-    else if (!author.stories) {
+    else if (!stories) {
       return null;
     } else {
-      return author.stories.map(story => {
+      return stories.map(story => {
         return (
           <div className="stories-grid-item" key={story._id}>
             <h3>{story.title}</h3>
@@ -78,9 +79,9 @@ const Author = ({ author, fetchAuthor, match, }) => {
   )
 };
 
-const mapStateToProps = ({ author, auth }) => {
-  return { author, auth }
+const mapStateToProps = ({ author, auth, stories }) => {
+  return { author, auth, stories }
 };
 
-export default connect(mapStateToProps, { fetchAuthor })(Author);
+export default connect(mapStateToProps, { fetchAuthor, fetchUserStories })(Author);
 

@@ -1,19 +1,44 @@
 const Story = require('../models/Story');
 const User = require('../models/User');
 
+const STORIES_PER_PAGE = 4;
+
 exports.getStories = async (req, res, next) => {
+  const page = +req.query.page || 1;
+  let totalStories;
   try {
-    const stories = await Story.find().sort({ _id: -1 });
+    const numOfStories = await Story.find().countDocuments();
+    totalStories = numOfStories;
+    const stories = await Story.find()
+      .sort({ _id: -1 })
+      .skip((page - 1) * STORIES_PER_PAGE)
+      .limit(STORIES_PER_PAGE);
     if (!stories) {
       const error = new Error('fetching stories failed');
       error.statusCode = 500;
       throw error;
     }
-    res.status(200).json({ msg: 'Stories fetched', stories })
+
+    const pager = {
+      totalStories,
+      currentPage: page,
+      hasNextPage: STORIES_PER_PAGE * page < totalStories,
+      hasPreviousPage: page > 1,
+      nextPage: page + 1,
+      previousPage: page - 1,
+      lastPage: Math.ceil(totalStories / STORIES_PER_PAGE),
+    }
+
+    res.status(200).json({
+      msg: 'Stories fetched',
+      stories,
+      pager
+    })
   } catch (err) {
     next(err);
   }
 }
+
 
 exports.getStory = async (req, res, next) => {
   const storyId = req.params.storyId;
