@@ -29,3 +29,14 @@ exports.getSnippets = async (req, res, next) => {
   const snippets = await Snippet.find().sort({ _id: -1 });
   res.status(200).json({ msg: 'Snippets fetched', snippets });
 }
+
+exports.deleteSnippet = async (req, res, next) => {
+  const snippetId = req.params.snippetId;
+  try {
+    await Snippet.findByIdAndDelete(snippetId);
+    io.getIO().emit('snippets', { action: 'delete', snippet: snippetId })
+    res.status(200).json({ msg: "Snippet Deleted" });
+  } catch (err) {
+    next(err);
+  }
+}

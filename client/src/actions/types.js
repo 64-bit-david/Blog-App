@@ -10,6 +10,8 @@ export const UPDATE_STORY_COMMENTS = 'UPDATE_STORY_COMMENTS';
 export const POST_SNIPPET = 'POST_SNIPPET';
 export const FETCH_SNIPPETS = 'FETCH_SNIPPETS';
 export const PAGINATE = 'PAGINATE';
+export const DELETE_SNIPPET = 'DELETE_SNIPPET';
+export const EDIT_STORY = 'EDIT_STORY';
 
 
 

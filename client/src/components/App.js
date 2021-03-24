@@ -6,6 +6,7 @@ import AddStory from './AddStory';
 import UserProfile from './UserProfile';
 import Story from './Story';
 import Author from './Author';
+import EditStory from './EditStory';
 
 
 
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/" exact component={Stories} />
           <Route path="/stories/:page" component={Stories} />
           <Route path="/add-story" component={AddStory} />
+          <Route path="/edit-story/:storyId" component={EditStory} />
           <Route path="/story/:storyId" component={Story} />
           <Route path="/author/:authorId" exact component={Author} />
           <Route path="/author/:authorId/:page" component={Author} />

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { postSnippet, fetchSnippet, addSnippet } from '../actions';
+import { postSnippet, fetchSnippet, addSnippet, deleteSnippet } from '../actions';
 import openSocket from 'socket.io-client';
 
-const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet }) => {
+const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, deleteSnippet }) => {
 
   const [snippetInput, setSnippetInput] = useState('');
 
@@ -16,8 +16,10 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet }) => {
       if (data.action === 'create') {
         addSnippet(data.snippet);
       }
+      if (data.action === 'delete') {
+        fetchSnippet();
+      }
     })
-
 
     return () => {
       socket.off('snippets');
@@ -51,7 +53,10 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet }) => {
         <div key={snippet._id}>
           <p className="snippet-username">
             <Link to={`/author/${snippet._user}`}>{snippet.username}</Link></p>
-          <p className="snippet-text">{snippet.text}</p>
+          <p className="snippet-text">{snippet.text}
+            {snippet._user === auth._id ?
+              <button onClick={() => deleteSnippet(snippet._id)}>Delete</button> : null}
+          </p>
 
         </div>
       )
@@ -68,10 +73,10 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet }) => {
   )
 }
 
-const mapStateToProps = ({ snippets }) => {
-  return { snippets };
+const mapStateToProps = ({ snippets, auth }) => {
+  return { snippets, auth };
 }
 
-export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet })(Snippets);
+export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet, deleteSnippet })(Snippets);
 
 

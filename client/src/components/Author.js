@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchAuthor, fetchAuthorBasic, fetchUserStories } from '../actions';
 import paginationHelper from './paginationHelper';
 
-const Author = ({ author, fetchAuthor, match, fetchUserStories, stories, fetchAuthorBasic, pager }) => {
+const Author = ({ author, match, fetchUserStories, stories, fetchAuthorBasic, pager }) => {
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
 

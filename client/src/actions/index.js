@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { FETCH_STORIES, FETCH_USER, POST_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, PAGINATE } from './types';
+import { FETCH_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE } from './types';
+import _ from 'lodash.omit';
 
 export const fetchStories = (page) => async (dispatch) => {
   const res = await axios.get('/api/stories' + '/?page=' + page);
@@ -26,6 +27,13 @@ export const postStory = ({ title, description, content, creator }) => async dis
     title, description, content, creator
   })
   dispatch({ type: POST_STORY, payload: res.data.story });
+}
+
+export const editStory = ({ storyId, title, description, content }) => async dispatch => {
+  const res = await axios.put('/api/stories/' + storyId, {
+    title, description, content,
+  });
+  dispatch({ type: EDIT_STORY, payload: res.data.story });
 }
 
 export const updateUsername = (username) => async dispatch => {
@@ -74,13 +82,18 @@ export const fetchSnippet = () => async dispatch => {
 }
 
 export const postSnippet = (snippetText) => async dispatch => {
-  const res = await axios.post('/api/post-snippet', {
+  await axios.post('/api/post-snippet', {
     snippetText
   });
   //websocket updates state so below not needed, causes duplication for user
   //server responds with full user obj, but we need user to only hold the id so overide
   // res.data.response._user = res.data.response._user._id;
   // dispatch({ type: POST_SNIPPET, payload: res.data.response });
+};
+
+export const deleteSnippet = (snippetId) => async dispatch => {
+  await axios.delete('/api/snippet/' + snippetId);
+  dispatch({ type: DELETE_SNIPPET, payload: snippetId });
 }
 
 

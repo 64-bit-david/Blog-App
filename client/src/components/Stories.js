@@ -16,13 +16,13 @@ const Stories = ({ stories, fetchStories, pager, match }) => {
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
 
+
   useEffect(() => {
     setCurrentPage(match.params.page);
+
   })
 
   useEffect(() => {
-    // console.log(currentPage);
-
     if (pager.currentPage !== currentPage) {
       fetchStories(currentPage);
     }

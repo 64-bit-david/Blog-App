@@ -69,6 +69,7 @@ exports.addStory = async (req, res, next) => {
       content,
       _user: req.user._id
     });
+    console.log(story)
     const user = await User.findOne(req.user._id);
     const response = await story.save();
     if (!response) {
@@ -90,26 +91,39 @@ exports.addStory = async (req, res, next) => {
 
 exports.editStory = async (req, res, next) => {
   const storyId = req.params.storyId;
+
   const title = req.body.title;
+  const description = req.body.description;
   const content = req.body.content;
+
+  console.log(title, description, content);
+
 
   try {
     const story = await Story.findById(storyId);
+    const userId = req.user._id;
     if (!story) {
       const error = new Error('Story not found');
       error.statusCode = 404;
       throw error;
     }
     story.title = title;
+    story.description = description;
     story.content = content;
-    const updatedStory = await story.save();
-    if (!updatedStory) {
-      const error = new Error('Story not updated');
+    const user = await User.findById(userId);
+    const response = await story.save();
+    if (!response) {
+      const error = new Error('Creating story failed');
       error.statusCode = 500;
       throw error;
     }
-    res.status(200).json({ msg: "Story Updated", updatedStory })
-
+    if (!user.stories) {
+      user.stories = { _id: story._id };
+    } else {
+      user.stories.push({ _id: story._id });
+    }
+    await user.save();
+    res.status(200).json({ msg: 'Story Created', story: response });
   } catch (err) {
     next(err);
   }

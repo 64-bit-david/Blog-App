@@ -36,7 +36,6 @@ const postSchema = new Schema({
 }, { timestamps: true });
 
 postSchema.pre('validate', function (next) {
-
   this.sanitizedHtml = dompurify.sanitize(marked(this.content));
   next();
 })

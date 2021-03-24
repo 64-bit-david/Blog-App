@@ -5,7 +5,7 @@ import { fetchStory, fetchAuthor } from '../actions';
 
 import StoryComments from './StoryComments';
 
-const Story = ({ match, story, fetchStory, fetchAuthor, author }) => {
+const Story = ({ match, story, fetchStory, fetchAuthor, author, auth }) => {
 
 
 
@@ -34,6 +34,9 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author }) => {
       {author && story ?
         <div className="story-page-container">
           <h3>{story.title}</h3>
+          <Link className="btn" to={`/edit-story/${story._id}`}>Edit</Link>
+          <button className="btn">delete</button>
+
           <p>{story.creator}</p>
           <p className="story-page-desc">{story.description}</p>
           <div className="story-page-grid">
@@ -59,7 +62,7 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author }) => {
   )
 }
 
-const mapStateToProps = ({ story, author }) => {
-  return { story, author }
+const mapStateToProps = ({ story, author, auth }) => {
+  return { story, author, auth }
 }
 export default connect(mapStateToProps, { fetchStory, fetchAuthor })(Story)

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories } from '../actions';
 import paginationHelper from './paginationHelper';
 
-const Author = ({ stories, author, fetchAuthor, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager }) => {
+const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager }) => {
 
 
 
