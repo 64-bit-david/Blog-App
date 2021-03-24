@@ -14,7 +14,6 @@ const StoryComments = ({ story, updateStoryComments }) => {
     e.preventDefault();
     updateStoryComments(story._id, commentInput);
     setCommentInput('');
-
   }
 
   const renderStoryComments = () => {

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { fetchStories } from '../actions/index';
 import Snippets from './Snippets';
+import paginationHelper from './paginationHelper';
 
 
 
@@ -13,6 +14,7 @@ const Stories = ({ stories, fetchStories, pager, match }) => {
 
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
+
 
   useEffect(() => {
     setCurrentPage(match.params.page);
@@ -129,8 +131,7 @@ const Stories = ({ stories, fetchStories, pager, match }) => {
       <div className="stories-grid author-stories-grid">
         {renderGrid()}
       </div>
-      {paginationList()}
-
+      {paginationHelper(pager, currentPage, '/stories/')}
     </div>
   )
 }

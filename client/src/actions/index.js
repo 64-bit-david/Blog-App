@@ -7,9 +7,11 @@ export const fetchStories = (page) => async (dispatch) => {
   dispatch({ type: PAGINATE, payload: res.data.pager })
 }
 
-export const fetchUserStories = (userId) => async (dispatch) => {
-  const res = await axios.get(`/api/account/stories/${userId}`);
+export const fetchUserStories = (page, userId) => async (dispatch) => {
+  const res = await axios.get(`/api/account/stories/${userId}/?page=${page}`);
   dispatch({ type: FETCH_STORIES, payload: res.data.stories });
+  dispatch({ type: PAGINATE, payload: res.data.pager });
+
 }
 
 

@@ -1,7 +1,7 @@
 const Story = require('../models/Story');
 const User = require('../models/User');
 
-const STORIES_PER_PAGE = 4;
+const STORIES_PER_PAGE = 5;
 
 exports.getStories = async (req, res, next) => {
   const page = +req.query.page || 1;
