@@ -19,7 +19,6 @@ const Stories = ({ stories, fetchStories, pager, match }) => {
 
   useEffect(() => {
     setCurrentPage(match.params.page);
-
   })
 
   useEffect(() => {
@@ -65,64 +64,6 @@ const Stories = ({ stories, fetchStories, pager, match }) => {
       )
     })
   }
-
-  const paginationList = () => {
-    if (pager.currentPage) {
-      return (
-        <div className="paginate-container">
-          <ul>
-            {pager.currentPage !== 1 && pager.previousPage !== 1 ?
-              <li>
-                <Link
-                  to="/stories/1"
-                  className={`${currentPage == 1 && 'active'} `}
-                >1
-                </Link>
-              </li>
-              : null
-            }
-            {pager.hasPreviousPage ?
-              <li>
-                <Link to={`/stories/${pager.previousPage}`}>
-                  {pager.previousPage}
-                </Link>
-              </li>
-              : null
-            }
-            <li>
-              <Link to={`/stories/${pager.currentPage}`}
-                className="active">
-                {pager.currentPage}
-              </Link>
-            </li>
-            {pager.hasNextPage ?
-              <li>
-                <Link to={`/stories/${pager.nextPage}`}>
-                  {pager.nextPage}
-                </Link>
-              </li>
-              : null
-            }
-            {pager.lastPage !== pager.currentPage &&
-              pager.nextPage !== pager.lastPage &&
-              pager.lastPage !== 0 ?
-              <li>
-
-                <Link to={`/stories/${pager.lastPage}`}>
-                  {pager.lastPage}
-                </Link>
-              </li>
-              : null
-            }
-
-
-
-          </ul>
-        </div>
-      )
-    } else return;
-  }
-
 
 
   return (

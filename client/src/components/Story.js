@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchStory, fetchAuthor } from '../actions';
+import { fetchStory, fetchAuthor, deleteStory } from '../actions';
 
 import StoryComments from './StoryComments';
 
-const Story = ({ match, story, fetchStory, fetchAuthor, author, auth }) => {
+const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, auth, history }) => {
 
 
 
@@ -27,6 +27,14 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, auth }) => {
     return author.name
   }
 
+  const onDelete = async (storyId) => {
+    await deleteStory(storyId);
+    history.push('/your-profile')
+
+
+
+  }
+
 
 
   return (
@@ -35,7 +43,10 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, auth }) => {
         <div className="story-page-container">
           <h3>{story.title}</h3>
           <Link className="btn" to={`/edit-story/${story._id}`}>Edit</Link>
-          <button className="btn">delete</button>
+          <button
+            className="btn"
+            onClick={() => onDelete(story._id)}
+          >delete</button>
 
           <p>{story.creator}</p>
           <p className="story-page-desc">{story.description}</p>
@@ -50,7 +61,9 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, auth }) => {
                 <h4>Written By:
                    <Link to={`/author/${story._user}`}><span>{authorNameCheck(author)}</span></Link>
                 </h4>
-                <button className="btn donate-btn">Donate</button>
+                <button
+                  className="btn donate-btn"
+                >Donate</button>
               </div>
               <StoryComments />
             </div>
@@ -65,4 +78,4 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, auth }) => {
 const mapStateToProps = ({ story, author, auth }) => {
   return { story, author, auth }
 }
-export default connect(mapStateToProps, { fetchStory, fetchAuthor })(Story)
+export default connect(mapStateToProps, { fetchStory, fetchAuthor, deleteStory })(Story)

@@ -7,6 +7,7 @@ import UserProfile from './UserProfile';
 import Story from './Story';
 import Author from './Author';
 import EditStory from './EditStory';
+import AllSnippets from './AllSnippets';
 
 
 
@@ -27,6 +28,10 @@ const App = () => {
           <Route path="/author/:authorId/:page" component={Author} />
           <Route path="/your-profile/:page" exact component={UserProfile} />
           <Route path="/your-profile" exact component={UserProfile} />
+          <Route path="/snippets" exact component={AllSnippets} />
+          <Route path="/snippets/:page" exact component={AllSnippets} />
+
+
 
 
         </div>

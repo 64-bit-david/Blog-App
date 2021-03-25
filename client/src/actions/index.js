@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE } from './types';
+import { FETCH_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY } from './types';
 import _ from 'lodash.omit';
 
 export const fetchStories = (page) => async (dispatch) => {
@@ -14,7 +14,6 @@ export const fetchUserStories = (page, userId) => async (dispatch) => {
   dispatch({ type: PAGINATE, payload: res.data.pager });
 
 }
-
 
 //For getting current logged in user
 export const fetchUser = () => async dispatch => {
@@ -36,6 +35,11 @@ export const editStory = ({ storyId, title, description, content }) => async dis
   dispatch({ type: EDIT_STORY, payload: res.data.story });
 }
 
+export const deleteStory = (storyId) => async dispatch => {
+  await axios.delete(`/api/stories/${storyId}`);
+  dispatch({ type: DELETE_STORY, payload: storyId });
+}
+
 export const updateUsername = (username) => async dispatch => {
   const res = await axios.put('/account/update-username', {
     username
@@ -48,14 +52,13 @@ export const updateUserDesc = (description) => async dispatch => {
     description
   })
   dispatch({ type: UPDATE_USER, payload: res.data.user });
-
 }
-
 
 export const fetchStory = (storyId) => async dispatch => {
   const res = await axios.get(`/api/stories/${storyId}`);
   dispatch({ type: FETCH_STORY, payload: res.data.story })
 }
+
 
 //for getting author (with stories populated )of a post/story
 export const fetchAuthor = (userId) => async dispatch => {
@@ -79,6 +82,13 @@ export const updateStoryComments = (storyId, commentInput) => async dispatch => 
 export const fetchSnippet = () => async dispatch => {
   const res = await axios.get('/api/snippets');
   dispatch({ type: FETCH_SNIPPETS, payload: res.data.snippets })
+}
+
+export const fetchAllSnippets = (page) => async dispatch => {
+  const res = await axios.get('/api/all-snippets' + '/?page=' + page);
+  dispatch({ type: FETCH_SNIPPETS, payload: res.data.snippets });
+  dispatch({ type: PAGINATE, payload: res.data.pager });
+
 }
 
 export const postSnippet = (snippetText) => async dispatch => {

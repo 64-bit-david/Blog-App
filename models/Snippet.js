@@ -15,7 +15,9 @@ const snippetSchema = new Schema({
   username: {
     type: String,
     required: true,
-  }
-}, { timestamps: true })
+  },
+  createdAt: { type: Date, expires: '10m', default: Date.now }
+});
+
 
 module.exports = mongoose.model('Snippet', snippetSchema);

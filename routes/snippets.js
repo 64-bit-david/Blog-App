@@ -6,7 +6,10 @@ const router = express.Router();
 
 router.get('/api/snippets', snippetController.getSnippets);
 
+router.get('/api/all-snippets', snippetController.getAllSnippets);
+
 router.post('/api/post-snippet', snippetController.createSnippet);
+
 
 router.delete('/api/snippet/:snippetId', snippetController.deleteSnippet);
 
