@@ -8,11 +8,13 @@ import Story from './Story';
 import Author from './Author';
 import EditStory from './EditStory';
 import AllSnippets from './AllSnippets';
+import Payment from './Payment';
+
+
 
 
 
 const App = () => {
-
 
   return (
     <div>
@@ -28,11 +30,9 @@ const App = () => {
           <Route path="/author/:authorId/:page" component={Author} />
           <Route path="/your-profile/:page" exact component={UserProfile} />
           <Route path="/your-profile" exact component={UserProfile} />
-          <Route path="/snippets" exact component={AllSnippets} />
           <Route path="/snippets/:page" exact component={AllSnippets} />
-
-
-
+          <Route path="/payment/" exact component={Payment} />
+          <Route path="/payment/:userId" exact component={Payment} />
 
         </div>
       </BrowserRouter>

@@ -8,9 +8,9 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
 
   const [snippetInput, setSnippetInput] = useState('');
 
+  //fetchsnippets, and open a socket the listens for created snippets
   useEffect(() => {
     fetchSnippet();
-
     const socket = openSocket('http://localhost:5000');
     socket.on('snippets', data => {
       if (data.action === 'create') {
@@ -20,7 +20,6 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
         fetchSnippet();
       }
     })
-
     return () => {
       socket.off('snippets');
     }
@@ -47,8 +46,17 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
     )
   }
 
+  //renders snippets
+  //When user adds a snippet, we slice the array to ensure it stays same length
+  //ensure it matches the limits set in back end
   const renderSnippets = () => {
-    return snippets.map(snippet => {
+    let arrayToMap;
+    if (snippets.length > 10) {
+      arrayToMap = snippets.slice(0, 10);
+    } else {
+      arrayToMap = snippets;
+    }
+    return arrayToMap.map(snippet => {
       return (
         <div key={snippet._id}>
           <p className="snippet-username">
@@ -69,7 +77,7 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
       <p>A live feed of user updates</p>
       { rendersnippetInput()}
       {renderSnippets()}
-      <Link to="/snippets">See all snippets</Link>
+      <Link to="/snippets/1">See all snippets</Link>
     </div>
   )
 }

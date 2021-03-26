@@ -61,9 +61,10 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
                 <h4>Written By:
                    <Link to={`/author/${story._user}`}><span>{authorNameCheck(author)}</span></Link>
                 </h4>
-                <button
+                <Link
+                  to={`/payment/${author._id}`}
                   className="btn donate-btn"
-                >Donate</button>
+                >Donate</Link>
               </div>
               <StoryComments />
             </div>
