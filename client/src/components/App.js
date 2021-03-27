@@ -32,7 +32,8 @@ const App = () => {
           <Route path="/your-profile" exact component={UserProfile} />
           <Route path="/snippets/:page" exact component={AllSnippets} />
           <Route path="/payment/" exact component={Payment} />
-          <Route path="/payment/:userId" exact component={Payment} />
+          <Route path="/payment/:authorId" component={Payment} />
+
 
         </div>
       </BrowserRouter>

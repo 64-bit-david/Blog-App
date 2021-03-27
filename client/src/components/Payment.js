@@ -1,20 +1,32 @@
 import React, { useEffect, useState } from 'react';
-
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { loadStripe } from "@stripe/stripe-js";
+import { fetchAuthorBasic } from '../actions';
+
 
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 
-const ProductDisplay = ({ handleClick }) => (
-  <section>
-    <div className="product">
+const ProductDisplay = ({ handleClick, amount, setAmount, }) => (
 
-      <div className="description">
-        <h3>Stubborn Attachments</h3>
-        <h5>$20.00</h5>
-      </div>
-    </div>
+  <section className="payment-before">
+    <h3>Support the author with a donation!</h3>
+    <label>Select an Amount</label>
+    <select value={amount} onChange={(e) => setAmount(e.target.value)}>
+      <option value='1'>$1</option>
+      <option value='2'>$2</option>
+      <option value='3'>$3</option>
+      <option value='4'>$4</option>
+      <option value='5'>$5</option>
+      <option value='6'>$6</option>
+      <option value='7'>$7</option>
+      <option value='8'>$8</option>
+      <option value='9'>$9</option>
+      <option value='10'>$10</option>
+    </select>
     <button type="button" id="checkout-button" role="link" onClick={handleClick}>
       Checkout
     </button>
@@ -23,36 +35,65 @@ const ProductDisplay = ({ handleClick }) => (
 
 
 const Message = ({ message }) => (
-  <section>
+  <section className="payment-after">
     <p>{message}</p>
+    <Link to="/">Back to HomePage</Link>
   </section>
 )
 
-const Payment = () => {
+const Payment = ({ author, match, fetchAuthorBasic }) => {
 
+  const authorNameCheck = () => {
+    if (author) {
+      if (author.username) {
+        return author.username
+      }
+      return author.name
+    } else {
+      return '';
+    }
+  }
+
+
+  const [amount, setAmount] = useState(1);
 
   const [message, setMessage] = useState("");
 
+
   useEffect(() => {
+    const authorName = 'to ' + authorNameCheck();
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
     if (query.get("success")) {
-      setMessage("Order placed! You will receive an email confirmation.");
+      setMessage(author ? `Your donation ${authorName} was successful 🙂` : 'LOADING');
     }
     if (query.get("canceled")) {
       setMessage(
-        "Order canceled -- continue to shop around and checkout when you're ready."
+        "Payment Canceled."
       );
     }
-  }, []);
+    if (!author) {
+      if (match.params.authorId) {
+        fetchAuthorBasic(match.params.authorId);
+      } else {
+        const authorId = query.get('authorId');
+        fetchAuthorBasic(authorId);
+      }
+    }
+  }, [author]);
+
 
 
   const handleSubmit = async (event) => {
     const stripe = await stripePromise;
-    const response = await fetch("/create-checkout-session", {
-      method: "POST",
-    });
-    const session = await response.json();
+    const authorId = author._id;
+    const response = await axios.post('/create-checkout-session', {
+      amount,
+      authorId
+    })
+
+
+    const session = await response.data;
     // When the customer clicks on the button, redirect them to Checkout.
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,
@@ -65,15 +106,15 @@ const Payment = () => {
   }
 
 
-
-
-
   return message ? (
     <Message message={message} />
   ) : (
-    <ProductDisplay handleClick={handleSubmit} />
+    <ProductDisplay handleClick={handleSubmit} setAmount={setAmount} amount={amount} />
   );
 }
 
+const mapStateToProps = ({ author }) => {
+  return { author }
+}
 
-export default Payment;
+export default connect(mapStateToProps, { fetchAuthorBasic })(Payment);

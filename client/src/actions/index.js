@@ -68,6 +68,7 @@ export const fetchAuthor = (userId) => async dispatch => {
 
 export const fetchAuthorBasic = (userId) => async dispatch => {
   const res = await axios.get(`/account/basic/${userId}`);
+  console.log(res.data);
   dispatch({ type: FETCH_AUTHOR_BASIC, payload: res.data });
 }
 

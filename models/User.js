@@ -17,7 +17,10 @@ const userSchema = new Schema({
   description: {
     type: String,
   },
-  stories: [{ type: [Schema.Types.ObjectId], ref: "User" }]
+  stories: [{ type: [Schema.Types.ObjectId], ref: "User" }],
+  donations: {
+    type: Number,
+  }
 
   //comments?
 },
