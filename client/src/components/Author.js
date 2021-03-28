@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 import { fetchAuthor, fetchAuthorBasic, fetchUserStories } from '../actions';
 import paginationHelper from './paginationHelper';
 
@@ -54,7 +55,15 @@ const Author = ({ author, match, fetchUserStories, stories, fetchAuthorBasic, pa
         <div className="author-data-container">
           <h2>{authorName()}</h2>
           <p>{authorDescription()}</p>
-          <button className="btn">Donate</button>
+          <Link
+            to={`/payment/${author._id}`}
+            className="btn donate-btn"
+          >Donate</Link>
+          <div className="author-donations-container">
+            {author.donationsRecieved ? <p>{authorName()} has received :  £{author.donationsRecieved} from other users!</p> : null}
+            {author.donationsSent ? <p>{authorName()} has dontated  £{author.donationsSent} to other authors!</p> : null}
+
+          </div>
         </div>
       )
     }

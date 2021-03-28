@@ -54,6 +54,28 @@ img {
 
 
 .paginate-container{
+  &.pg-comments{
+    li.comment-li{
+      margin: 0 !important;
+      padding: 0;
+      border: none !important;
+      button{
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+        background: none;
+        outline: transparent;
+        font-size: 2rem;
+        border: none;
+        &:hover{
+          text-decoration: underline;
+        }
+        &.active{
+          text-decoration: underline;
+        }
+      }
+    }
+  }
   ul{
   display: flex;
   justify-content: center;

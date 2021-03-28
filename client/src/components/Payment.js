@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { loadStripe } from "@stripe/stripe-js";
-import { fetchAuthorBasic } from '../actions';
+import { fetchAuthorBasic, postPayment } from '../actions';
 
 
 
@@ -41,7 +41,7 @@ const Message = ({ message }) => (
   </section>
 )
 
-const Payment = ({ author, match, fetchAuthorBasic }) => {
+const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
 
   const authorNameCheck = () => {
     if (author) {
@@ -60,12 +60,23 @@ const Payment = ({ author, match, fetchAuthorBasic }) => {
   const [message, setMessage] = useState("");
 
 
+
+
   useEffect(() => {
-    const authorName = 'to ' + authorNameCheck();
+    const authorName = authorNameCheck();
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
+    const amountPaid = query.get('amount') / 100;
+
     if (query.get("success")) {
-      setMessage(author ? `Your donation ${authorName} was successful 🙂` : 'LOADING');
+      setMessage(author ? `Your donation of £${amountPaid} to  ${authorName} was successful 🙂` : 'LOADING');
+
+
+      if (author && auth) {
+        const authorId = author._id;
+        const userId = auth._id;
+        postPayment(amountPaid, authorId, userId)
+      }
     }
     if (query.get("canceled")) {
       setMessage(
@@ -113,8 +124,8 @@ const Payment = ({ author, match, fetchAuthorBasic }) => {
   );
 }
 
-const mapStateToProps = ({ author }) => {
-  return { author }
+const mapStateToProps = ({ author, auth }) => {
+  return { author, auth }
 }
 
-export default connect(mapStateToProps, { fetchAuthorBasic })(Payment);
+export default connect(mapStateToProps, { fetchAuthorBasic, postPayment })(Payment);

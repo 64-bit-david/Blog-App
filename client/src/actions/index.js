@@ -89,7 +89,6 @@ export const fetchAllSnippets = (page) => async dispatch => {
   const res = await axios.get('/api/all-snippets' + '/?page=' + page);
   dispatch({ type: FETCH_SNIPPETS, payload: res.data.snippets });
   dispatch({ type: PAGINATE, payload: res.data.pager });
-
 }
 
 export const postSnippet = (snippetText) => async dispatch => {
@@ -108,7 +107,16 @@ export const deleteSnippet = (snippetId) => async dispatch => {
 }
 
 
-
 export const addSnippet = (snippet) => {
   return { type: POST_SNIPPET, payload: snippet }
+}
+
+export const postPayment = (amount, authorId, userId) => async dispatch => {
+  const res = await axios.post('/post-payment-data', {
+    amount,
+    authorId,
+    userId
+  });
+  console.log(res);
+
 }

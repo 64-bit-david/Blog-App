@@ -28,7 +28,6 @@ exports.getStories = async (req, res, next) => {
       previousPage: page - 1,
       lastPage: Math.ceil(totalStories / STORIES_PER_PAGE),
     }
-
     res.status(200).json({
       msg: 'Stories fetched',
       stories,
@@ -38,6 +37,7 @@ exports.getStories = async (req, res, next) => {
     next(err);
   }
 }
+
 
 
 exports.getStory = async (req, res, next) => {
@@ -60,8 +60,6 @@ exports.addStory = async (req, res, next) => {
   const description = req.body.description;
   const content = req.body.content;
   // const sanitizedHtml = req.body.content;
-
-
   try {
     const story = new Story({
       title,

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories } from '../actions';
 import paginationHelper from './paginationHelper';
 
-const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager }) => {
+const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, author }) => {
 
 
 
@@ -123,6 +123,11 @@ const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStorie
             }}>
             {auth.description ? "Edit" : "Add"}
           </button>
+
+        </div>
+        <div className="author-donations-container">
+          {auth.donationsRecieved ? <p>You have received :  £{auth.donationsRecieved} from other users!</p> : null}
+          {auth.donationsSent ? <p>You have dontated  £{auth.donationsSent} to other authors!</p> : null}
 
         </div>
       </div>

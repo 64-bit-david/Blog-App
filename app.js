@@ -13,6 +13,9 @@ const storyRoutes = require('./routes/story');
 const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
 const snippetRoutes = require('./routes/snippets');
+const paymentRoutes = require('./routes/payments');
+
+
 
 const MONGODB_URI = keys.mongoURI;
 
@@ -46,6 +49,7 @@ app.use(storyRoutes);
 app.use(authRoutes);
 app.use(usersRoutes);
 app.use(snippetRoutes);
+app.use(paymentRoutes);
 
 
 app.use((error, req, res, next) => {
