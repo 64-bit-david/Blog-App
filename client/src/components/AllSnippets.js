@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import openSocket from 'socket.io-client';
 
 import paginationHelper from './paginationHelper';
 import { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet } from '../actions';
 
+
+
 const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth, deleteSnippet, pager, match }) => {
 
-  const [snippetInput, setSnippetInput] = useState('');
 
+  const { register, handleSubmit, errors } = useForm();
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
 
   useEffect(() => {
     setCurrentPage(match.params.page);
-  });
+  }, [match.params.page]);
 
 
   useEffect(() => {
@@ -35,31 +38,34 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
       socket.off('snippets');
     }
 
-  }, []);
+  }, [fetchAllSnippets, addSnippet]);
 
   useEffect(() => {
     if (pager.currentPage !== currentPage) {
       fetchAllSnippets(currentPage);
     }
-  }, [currentPage])
+  }, [currentPage, fetchAllSnippets, pager.currentPage])
 
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    postSnippet(snippetInput);
-    setSnippetInput('');
+  const onSubmit = (data) => {
+    postSnippet(data.snippetText);
   }
 
   const rendersnippetInput = () => {
     if (currentPage < 2) {
       return (
-        <form onSubmit={onSubmit} >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <label>Post a snippet</label>
           <input
-            onChange={(e) => setSnippetInput(e.target.value)}
-            value={snippetInput}
+            ref={register({ required: true, maxLength: 100 })}
             name='snippetText'
           />
+          {errors.snippetText && errors.snippetText.type === 'required' && (
+            <p>Snippet text required!</p>
+          )}
+          {errors.snippetText && errors.snippetText.type === 'maxLength' && (
+            <p>Your snippet should be less than 100 characters</p>
+          )}
         </form>
       )
     }

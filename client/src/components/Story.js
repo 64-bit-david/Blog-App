@@ -14,7 +14,7 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
   }, [fetchStory]);
 
   useEffect(() => {
-    if (story) {
+    if (story._user) {
       fetchAuthor(story._user);
     }
   }, [story])
@@ -30,9 +30,6 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
   const onDelete = async (storyId) => {
     await deleteStory(storyId);
     history.push('/your-profile')
-
-
-
   }
 
 

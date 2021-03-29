@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { FETCH_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY } from './types';
-import _ from 'lodash.omit';
 
 export const fetchStories = (page) => async (dispatch) => {
-  const res = await axios.get('/api/stories' + '/?page=' + page);
+  const res = await axios.get('/api/stories/?page=' + page);
   dispatch({ type: FETCH_STORIES, payload: res.data.stories });
   dispatch({ type: PAGINATE, payload: res.data.pager })
 }
@@ -28,12 +27,13 @@ export const postStory = ({ title, description, content, creator }) => async dis
   dispatch({ type: POST_STORY, payload: res.data.story });
 }
 
-export const editStory = ({ storyId, title, description, content }) => async dispatch => {
-  const res = await axios.put('/api/stories/' + storyId, {
-    title, description, content,
-  });
-  dispatch({ type: EDIT_STORY, payload: res.data.story });
-}
+export const editStory = ({ storyId, title, description, content }) =>
+  async dispatch => {
+    const res = await axios.put('/api/stories/' + storyId, {
+      title, description, content,
+    });
+    dispatch({ type: EDIT_STORY, payload: res.data.story });
+  }
 
 export const deleteStory = (storyId) => async dispatch => {
   await axios.delete(`/api/stories/${storyId}`);
@@ -55,7 +55,10 @@ export const updateUserDesc = (description) => async dispatch => {
 }
 
 export const fetchStory = (storyId) => async dispatch => {
-  const res = await axios.get(`/api/stories/${storyId}`);
+  let res = await axios.get(`/api/stories/${storyId}`);
+  if (res.data.story.comments > 0) {
+    res.data.story.comments = res.data.story.comments.reverse();
+  }
   dispatch({ type: FETCH_STORY, payload: res.data.story })
 }
 
@@ -68,7 +71,6 @@ export const fetchAuthor = (userId) => async dispatch => {
 
 export const fetchAuthorBasic = (userId) => async dispatch => {
   const res = await axios.get(`/account/basic/${userId}`);
-  console.log(res.data);
   dispatch({ type: FETCH_AUTHOR_BASIC, payload: res.data });
 }
 
@@ -80,13 +82,17 @@ export const updateStoryComments = (storyId, commentInput) => async dispatch => 
   dispatch({ type: UPDATE_STORY_COMMENTS, payload: res.data.comment });
 }
 
+export const deleteStoryComment = (storyId, commentId) => async dispatch => {
+  await axios.delete(`/api/stories/comments/${storyId}/${commentId}`)
+}
+
 export const fetchSnippet = () => async dispatch => {
   const res = await axios.get('/api/snippets');
   dispatch({ type: FETCH_SNIPPETS, payload: res.data.snippets })
 }
 
 export const fetchAllSnippets = (page) => async dispatch => {
-  const res = await axios.get('/api/all-snippets' + '/?page=' + page);
+  const res = await axios.get('/api/all-snippets/?page=' + page);
   dispatch({ type: FETCH_SNIPPETS, payload: res.data.snippets });
   dispatch({ type: PAGINATE, payload: res.data.pager });
 }
@@ -112,11 +118,10 @@ export const addSnippet = (snippet) => {
 }
 
 export const postPayment = (amount, authorId, userId) => async dispatch => {
-  const res = await axios.post('/post-payment-data', {
+  await axios.post('/post-payment-data', {
     amount,
     authorId,
     userId
   });
-  console.log(res);
 
 }

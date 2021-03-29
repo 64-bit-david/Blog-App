@@ -1,9 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const keys = require('../config/keys');
-const stripe = require('stripe')(keys.stripeSecretKey);
 
-const User = require('../models/User');
 
 
 
@@ -22,7 +19,11 @@ router.get("/auth/google/redirect", passport.authenticate("google", { failureRed
 
 
 router.get('/api/current_user', (req, res) => {
-  res.send(req.user);
+  try {
+    res.send(req.user)
+  } catch (err) {
+    console.log(err);
+  };
 });
 
 router.get('/auth/failed', (req, res) => {

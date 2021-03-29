@@ -19,6 +19,7 @@
     "dompurify": "^2.2.7",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-validator": "^6.10.0",
     "jsdom": "^16.5.1",
     "jw-paginate": "^1.0.4",
     "marked": "^2.0.1",

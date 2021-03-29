@@ -5,6 +5,7 @@ export default function func(state = {}, action) {
     case FETCH_USER:
       return action.payload || false;
     case UPDATE_USER:
+      console.log(action.payload);
       return action.payload
     default:
       return state;

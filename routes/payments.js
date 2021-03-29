@@ -45,7 +45,6 @@ router.post('/post-payment-data', async (req, res, next) => {
     } else {
       author.donationsRecieved = amountPaid;
     }
-    console.log('dont rec', author.donations);
 
     const user = await User.findById(userId);
     if (user.donationsSent) {
@@ -55,7 +54,6 @@ router.post('/post-payment-data', async (req, res, next) => {
     }
     await author.save();
     await user.save();
-    console.log(user.donationsSent, author.donationsRecieved);
   } catch (err) {
     console.log(err)
   }

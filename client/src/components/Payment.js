@@ -91,7 +91,7 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
         fetchAuthorBasic(authorId);
       }
     }
-  }, [author]);
+  }, [author, auth, authorNameCheck, fetchAuthorBasic, match.params.authorId, postPayment]);
 
 
 

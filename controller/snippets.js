@@ -1,11 +1,21 @@
 const Snippet = require('../models/Snippet');
 const io = require('../socket');
+const { validationResult } = require('express-validator');
+
 
 const SNIPPETS_PER_PAGE = 5;
 
 exports.createSnippet = async (req, res, next) => {
   const user = req.user;
   const userId = req.user._id;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.errors[0].msg);
+    const error = new Error(errors.errors[0].msg);
+    error.statusCode = 422;
+    throw error
+  }
 
   const snippetText = req.body.snippetText;
   let username;

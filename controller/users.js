@@ -13,7 +13,7 @@ exports.getUser = async (req, res, next) => {
     res.send(user);
   } catch (err) {
     next(err);
-    console.console.log(err);
+    console.log(err);
   }
 };
 
@@ -60,9 +60,18 @@ exports.updateUsername = async (req, res, next) => {
   const username = req.body.username;
   try {
     let user = await User.findById(userId);
+    if (!username) {
+      user.username = '';
+      const updatedUser = await user.save();
+      return res.status(201).json({ msg: 'Username reset', user: updatedUser });
+    }
+    let checkUsernameExists = await User.findOne({ 'username': username })
+    if (checkUsernameExists) {
+      return res.status(409).json({ msg: "Username taken, please choose another" });
+    }
     user.username = username;
     const updatedUser = await user.save();
-    res.status(201).json({ msg: "Profile updated", user: updatedUser });
+    res.status(201).json({ msg: "Username change success", user: updatedUser });
   } catch (err) {
     console.log(err)
     next(err);

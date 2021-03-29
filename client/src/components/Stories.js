@@ -56,8 +56,8 @@ const Stories = ({ stories, fetchStories, pager, match }) => {
             to={`/story/${story._id}`}
           >
             <h3>{story.title}</h3>
-            <p dangerouslySetInnerHTML={{ __html: `${story.sanitizedHtml}` }}
-              className="story-page-story">
+            <p className="story-page-story">
+              {story.description}
             </p>
           </Link>
         </div>

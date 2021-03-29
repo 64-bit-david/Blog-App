@@ -1,5 +1,7 @@
 const Story = require('../models/Story');
 const User = require('../models/User');
+const { validationResult } = require('express-validator');
+const { findOneAndUpdate } = require('../models/Story');
 
 const STORIES_PER_PAGE = 5;
 
@@ -59,7 +61,14 @@ exports.addStory = async (req, res, next) => {
   const title = req.body.title;
   const description = req.body.description;
   const content = req.body.content;
-  // const sanitizedHtml = req.body.content;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.errors[0].msg);
+    const error = new Error(errors.errors[0].msg);
+    error.statusCode = 422;
+    throw error
+  }
   try {
     const story = new Story({
       title,
@@ -67,7 +76,6 @@ exports.addStory = async (req, res, next) => {
       content,
       _user: req.user._id
     });
-    console.log(story)
     const user = await User.findOne(req.user._id);
     const response = await story.save();
     if (!response) {
@@ -90,12 +98,17 @@ exports.addStory = async (req, res, next) => {
 exports.editStory = async (req, res, next) => {
   const storyId = req.params.storyId;
 
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.errors[0].msg);
+    const error = new Error(errors.errors[0].msg);
+    error.statusCode = 422;
+    throw error
+  }
+
   const title = req.body.title;
   const description = req.body.description;
   const content = req.body.content;
-
-  console.log(title, description, content);
-
 
   try {
     const story = await Story.findById(storyId);
@@ -130,6 +143,16 @@ exports.editStory = async (req, res, next) => {
 exports.postStoryComment = async (req, res, next) => {
   const storyId = req.params.storyId;
   const userId = req.user._id;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.errors[0].msg);
+    const error = new Error(errors.errors[0].msg);
+    error.statusCode = 422;
+    throw error
+  }
+
+
   let username;
   const commentId = Date.now()
   req.user.username ? username = req.user.username : username = req.user.name;
@@ -150,6 +173,19 @@ exports.postStoryComment = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+}
+
+exports.deleteComment = async (req, res, next) => {
+  const storyId = req.params.storyId;
+  const commentId = req.params.commentId;
+  const story = await Story.findById(storyId);
+  story.comments = story.comments.filter(comment => comment.id != commentId);
+  await story.save();
+  res.status(200).json({ msg: 'Comment Deleted' });
+
+
+
+
 }
 
 exports.deleteStory = async (req, res, next) => {

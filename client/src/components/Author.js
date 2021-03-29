@@ -10,11 +10,11 @@ const Author = ({ author, match, fetchUserStories, stories, fetchAuthorBasic, pa
 
   useEffect(() => {
     setCurrentPage(match.params.page);
-  })
+  }, [match.params.page])
 
   useEffect(() => {
     fetchAuthorBasic(match.params.authorId);
-  }, []);
+  }, [fetchAuthorBasic, match.params.authorId]);
 
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const Author = ({ author, match, fetchUserStories, stories, fetchAuthorBasic, pa
     else {
       fetchUserStories(1, match.params.authorId);
     }
-  }, [currentPage]);
+  }, [currentPage, pager.currentPage, fetchUserStories, match.params.authorId]);
 
   const authorName = () => {
     if (author) {

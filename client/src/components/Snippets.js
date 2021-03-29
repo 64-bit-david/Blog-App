@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { postSnippet, fetchSnippet, addSnippet, deleteSnippet } from '../actions';
 import openSocket from 'socket.io-client';
+import { useForm } from 'react-hook-form';
+import { postSnippet, fetchSnippet, addSnippet, deleteSnippet } from '../actions';
 
 const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, deleteSnippet }) => {
 
-  const [snippetInput, setSnippetInput] = useState('');
+
+  const { register, handleSubmit, errors } = useForm();
 
   //fetchsnippets, and open a socket the listens for created snippets
   useEffect(() => {
@@ -23,25 +25,28 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
     return () => {
       socket.off('snippets');
     }
-  }, []);
+  }, [addSnippet, fetchSnippet]);
 
 
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    postSnippet(snippetInput);
-    setSnippetInput('');
+  const onSubmit = (data) => {
+    postSnippet(data.snippetText);
   }
 
   const rendersnippetInput = () => {
     return (
-      <form onSubmit={onSubmit} >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label>Post a snippet</label>
         <input
-          onChange={(e) => setSnippetInput(e.target.value)}
-          value={snippetInput}
           name='snippetText'
+          ref={register({ required: true, maxLength: 100 })}
         />
+        {errors.snippetText && errors.snippetText.type === 'required' && (
+          <p>Snippet text required!</p>
+        )}
+        {errors.snippetText && errors.snippetText.type === 'maxLength' && (
+          <p>Your snippet should be less than 100 characters</p>
+        )}
       </form>
     )
   }

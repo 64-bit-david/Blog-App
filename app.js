@@ -56,7 +56,8 @@ app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
   const message = error.message;
-  res.status(status).json({ message });
+  const data = error.data;
+  res.status(status).json({ message: message, data: data });
 })
 
 const PORT = process.env.PORT || 5000;
@@ -65,7 +66,8 @@ const PORT = process.env.PORT || 5000;
 mongoose.connect(MONGODB_URI,
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   }).then(result => {
     const server = app.listen(PORT);
     const io = require('./socket').init(server);

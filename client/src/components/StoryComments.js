@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { updateStoryComments } from '../actions';
+import { updateStoryComments, deleteStoryComment, fetchStory } from '../actions';
 
 
 
 
-const StoryComments = ({ story, updateStoryComments }) => {
+const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, fetchStory }) => {
 
   const [commentInput, setCommentInput] = useState('');
-  const [commentPage, setCommentPage] = useState(5);
+  const [commentPage, setCommentPage] = useState(1);
+  const [commentsArray, setCommentsArray] = useState(null);
   const commentsToShow = 5;
+
 
 
   const onSubmit = async (e) => {
@@ -19,14 +21,22 @@ const StoryComments = ({ story, updateStoryComments }) => {
     setCommentInput('');
   }
 
-  const commentPaginatedArray = () => {
-    if (story.comments) {
-      const numOfComments = story.comments.length;
-      const commentsToSkip = commentsToShow * (commentPage - 1);
-      const arrayToRender = story.comments.slice(commentsToSkip, commentsToSkip + commentsToShow);
-      return arrayToRender;
+  useEffect(() => {
+    const createCommentPgArray = () => {
+      if (story.comments) {
+        const commentsToSkip = commentsToShow * (commentPage - 1);
+        const arrayToRender = story.comments.slice(commentsToSkip, commentsToSkip + commentsToShow);
+        setCommentsArray(arrayToRender)
+      }
     }
-  }
+    createCommentPgArray();
+
+    return function cleanUp() {
+      setCommentsArray(null);
+    }
+  }, [story, commentPage, deleteStoryComment])
+
+
 
   const commentPager = () => {
     let pager = {};
@@ -95,18 +105,28 @@ const StoryComments = ({ story, updateStoryComments }) => {
   }
 
   const renderStoryComments = () => {
-    const paginatedArray = commentPaginatedArray();
-    console.log(paginatedArray);
-    return paginatedArray.map(comment => {
-      return (
-        <li key={comment.id}>
-          <span className="user-comment">
-            <Link to={`/author/${comment.userId}`}>{comment.username}</Link>
-          </span>
-          {comment.commentText}
-        </li>
-      )
-    })
+    if (commentsArray) {
+      if (commentsArray.length > 0) {
+        return commentsArray.map(comment => {
+          return (
+            <li key={comment.id}>
+              <span className="user-comment">
+                <Link to={`/author/${comment.userId}`}>{comment.username}</Link>
+              </span>
+              {comment.commentText}
+              {comment.userId === auth._id ?
+                <button
+                  onClick={() => {
+                    deleteStoryComment(story._id, comment.id)
+                    fetchStory(story._id)
+                  }
+                  }
+                >Delete</button> : null}
+            </li>
+          )
+        })
+      }
+    }
   }
 
   return (
@@ -127,8 +147,8 @@ const StoryComments = ({ story, updateStoryComments }) => {
   )
 }
 
-const mapStateToProps = ({ story }) => {
-  return { story }
+const mapStateToProps = ({ story, auth }) => {
+  return { story, auth }
 }
 
-export default connect(mapStateToProps, { updateStoryComments })(StoryComments)
+export default connect(mapStateToProps, { updateStoryComments, deleteStoryComment, fetchStory })(StoryComments)
