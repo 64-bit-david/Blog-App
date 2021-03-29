@@ -13,7 +13,7 @@ router.get('/api/stories/:storyId', storyController.getStory);
 
 router.post('/api/stories/comments/:storyId',
   body('commentText', 'comments have a max length of 150 characters')
-    .isLength({ max: 150 })
+    .isLength({ max: 200 })
   , storyController.postStoryComment);
 
 router.post('/api/create-story', isAuth,

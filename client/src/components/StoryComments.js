@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { updateStoryComments, deleteStoryComment, fetchStory } from '../actions';
 
 
@@ -8,18 +9,20 @@ import { updateStoryComments, deleteStoryComment, fetchStory } from '../actions'
 
 const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, fetchStory }) => {
 
-  const [commentInput, setCommentInput] = useState('');
+  const { register, handleSubmit, errors, reset } = useForm();
+
   const [commentPage, setCommentPage] = useState(1);
   const [commentsArray, setCommentsArray] = useState(null);
   const commentsToShow = 5;
 
 
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    updateStoryComments(story._id, commentInput);
-    setCommentInput('');
+  const onSubmit = async (data) => {
+    updateStoryComments(story._id, data.commentText);
+    reset();
   }
+
+
 
   useEffect(() => {
     const createCommentPgArray = () => {
@@ -132,11 +135,18 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
   return (
     <div className="comments-container">
       <h5>Here's what others are saying</h5>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label>Add a Comment</label>
         <input
-          value={commentInput}
-          onChange={(e) => setCommentInput(e.target.value)} />
+          name='commentText'
+          ref={register({ required: true, maxLength: 100 })}
+        />
+        {errors.commentText && errors.commentText.type === 'required' && (
+          <p>Snippet text required!</p>
+        )}
+        {errors.commentText && errors.commentText.type === 'maxLength' && (
+          <p>Your snippet should be less than 100 characters</p>
+        )}
         <button type="submit">Submit</button>
       </form>
       <ul>

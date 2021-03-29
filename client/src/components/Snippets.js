@@ -8,7 +8,7 @@ import { postSnippet, fetchSnippet, addSnippet, deleteSnippet } from '../actions
 const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, deleteSnippet }) => {
 
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, reset } = useForm();
 
   //fetchsnippets, and open a socket the listens for created snippets
   useEffect(() => {
@@ -31,6 +31,7 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
 
   const onSubmit = (data) => {
     postSnippet(data.snippetText);
+    reset();
   }
 
   const rendersnippetInput = () => {
