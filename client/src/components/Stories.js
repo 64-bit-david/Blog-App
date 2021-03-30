@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { fetchStories } from '../actions/index';
+import { fetchStories, cleanUp } from '../actions/index';
 import Snippets from './Snippets';
 import paginationHelper from './paginationHelper';
 
 
 
 
-const Stories = ({ stories, fetchStories, pager, match }) => {
+const Stories = ({ stories, fetchStories, pager, match, cleanUp }) => {
 
 
 
@@ -29,6 +29,13 @@ const Stories = ({ stories, fetchStories, pager, match }) => {
       fetchStories(1)
     }
   }, [fetchStories, pager.currentPage, currentPage]);
+
+
+  useEffect(() => {
+    return function cleanup() {
+      cleanUp();
+    }
+  })
 
 
   //creates a new array with the object from the liveFeed function inserted at index 1
@@ -82,4 +89,4 @@ const mapStateToProps = ({ stories, pager }) => {
   return { stories, pager }
 }
 
-export default connect(mapStateToProps, { fetchStories })(Stories);
+export default connect(mapStateToProps, { fetchStories, cleanUp })(Stories);

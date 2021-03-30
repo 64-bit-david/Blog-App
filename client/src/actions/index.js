@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY } from './types';
+import { FETCH_STORIES, FETCH_USER_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY, CLEAN_UP } from './types';
 
 export const fetchStories = (page) => async (dispatch) => {
   const res = await axios.get('/api/stories/?page=' + page);
@@ -9,7 +9,7 @@ export const fetchStories = (page) => async (dispatch) => {
 
 export const fetchUserStories = (page, userId) => async (dispatch) => {
   const res = await axios.get(`/api/account/stories/${userId}/?page=${page}`);
-  dispatch({ type: FETCH_STORIES, payload: res.data.stories });
+  dispatch({ type: FETCH_USER_STORIES, payload: res.data.stories });
   dispatch({ type: PAGINATE, payload: res.data.pager });
 
 }
@@ -124,5 +124,8 @@ export const postPayment = (amount, authorId, userId) => async dispatch => {
     authorId,
     userId
   });
+}
 
+export const cleanUp = () => {
+  return { type: CLEAN_UP }
 }

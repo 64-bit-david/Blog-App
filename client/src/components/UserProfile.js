@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories } from '../actions';
+import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, cleanUp } from '../actions';
 import paginationHelper from './paginationHelper';
 
-const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager }) => {
+const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, cleanUp }) => {
 
 
 
@@ -47,6 +47,13 @@ const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStorie
   }, [pager.currentPage, currentPage, auth, fetchUserStories]);
 
 
+  useEffect(() => {
+    return function cleanup() {
+      cleanUp();
+    }
+  }, [cleanUp])
+
+
   const postUsernameChange = (e) => {
     e.preventDefault();
     updateUsername(input);
@@ -82,11 +89,11 @@ const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStorie
   }
 
   const renderAuthorStories = () => {
-    if (!stories) {
-      return null
+    if (!userStories) {
+      return null;
     }
     else {
-      return stories.map(story => {
+      return userStories.map(story => {
         return (
           <div className="stories-grid-item" key={story._id}>
             <h3>{story.title}</h3>
@@ -230,9 +237,9 @@ const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStorie
   )
 };
 
-const mapStateToProps = ({ author, auth, stories, pager }) => {
-  return { author, auth, stories, pager }
+const mapStateToProps = ({ author, auth, userStories, pager }) => {
+  return { author, auth, pager, userStories }
 };
 
-export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories })(Author);
+export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, cleanUp })(Author);
 

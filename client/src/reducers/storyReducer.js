@@ -1,4 +1,4 @@
-import { FETCH_STORY, UPDATE_STORY_COMMENTS, EDIT_STORY } from '../actions/types';
+import { FETCH_STORY, UPDATE_STORY_COMMENTS, EDIT_STORY, CLEAN_UP } from '../actions/types';
 
 
 const updateStoryComments = (state, action) => {
@@ -20,6 +20,8 @@ export default function func(state = {}, action) {
       return action.payload;
     case UPDATE_STORY_COMMENTS:
       return updateStoryComments(state, action);
+    case CLEAN_UP:
+      return {}
     default:
       return state;
   }

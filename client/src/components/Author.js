@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { fetchAuthor, fetchAuthorBasic, fetchUserStories } from '../actions';
 import paginationHelper from './paginationHelper';
 
-const Author = ({ author, match, fetchUserStories, stories, fetchAuthorBasic, pager }) => {
+const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager }) => {
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
@@ -73,10 +73,10 @@ const Author = ({ author, match, fetchUserStories, stories, fetchAuthorBasic, pa
     if (!author) {
       return null
     }
-    else if (!stories) {
+    else if (!userStories) {
       return null;
     } else {
-      return stories.map(story => {
+      return userStories.map(story => {
         return (
           <div className="stories-grid-item" key={story._id}>
             <h3>{story.title}</h3>
@@ -101,8 +101,8 @@ const Author = ({ author, match, fetchUserStories, stories, fetchAuthorBasic, pa
   )
 };
 
-const mapStateToProps = ({ author, auth, stories, pager }) => {
-  return { author, auth, stories, pager }
+const mapStateToProps = ({ author, auth, userStories, pager }) => {
+  return { author, auth, userStories, pager }
 };
 
 export default connect(mapStateToProps, { fetchAuthor, fetchAuthorBasic, fetchUserStories })(Author);

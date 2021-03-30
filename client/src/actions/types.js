@@ -13,6 +13,9 @@ export const FETCH_SNIPPETS = 'FETCH_SNIPPETS';
 export const PAGINATE = 'PAGINATE';
 export const DELETE_SNIPPET = 'DELETE_SNIPPET';
 export const EDIT_STORY = 'EDIT_STORY';
+export const CLEAN_UP = 'CLEAN_UP';
+export const FETCH_USER_STORIES = 'FETCH_USER_STORIES';
+
 
 
 
