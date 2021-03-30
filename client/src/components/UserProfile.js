@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories } from '../actions';
 import paginationHelper from './paginationHelper';
 
-const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, author }) => {
+const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager }) => {
 
 
 
@@ -15,25 +15,28 @@ const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStorie
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
 
+
+
+
   useEffect(() => {
     setCurrentPage(match.params.page);
-  })
+  }, [setCurrentPage, match.params.page]);
 
   useEffect(() => {
     if (!auth) {
       fetchUser();
     }
-  }, [])
-
-  useEffect(() => {
-    if (auth._id) {
-      fetchUserStories(currentPage || 1, auth._id);
-    }
   }, [auth])
 
+  // useEffect(() => {
+  //   if (auth._id) {
+  //     fetchUserStories(currentPage || 1, auth._id);
+  //   }
+  // }, [auth, currentPage, fetchUserStories])
+
   useEffect(() => {
     if (auth._id) {
-      if (pager.currentPage !== currentPage) {
+      if (pager.currentPage !== currentPage && currentPage) {
         fetchUserStories(currentPage, auth._id);
       }
       else {
@@ -41,7 +44,7 @@ const Author = ({ stories, auth, updateUsername, updateUserDesc, fetchUserStorie
       }
     }
 
-  }, [currentPage]);
+  }, [pager.currentPage, currentPage, auth, fetchUserStories]);
 
 
   const postUsernameChange = (e) => {

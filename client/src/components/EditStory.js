@@ -65,7 +65,7 @@ const EditStory = ({ auth, story, editStory, history, match }) => {
             <label> Edit description</label>
             <input
               name="description"
-              ref={register({ required: true, minLength: 2, maxLength: 200 })}
+              ref={register({ required: true, maxLength: 200 })}
 
             />
             {errors.description && errors.description.type === 'required' && (

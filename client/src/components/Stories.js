@@ -19,7 +19,7 @@ const Stories = ({ stories, fetchStories, pager, match }) => {
 
   useEffect(() => {
     setCurrentPage(match.params.page);
-  })
+  }, [setCurrentPage, match.params.page])
 
   useEffect(() => {
     if (pager.currentPage !== currentPage) {
@@ -28,7 +28,7 @@ const Stories = ({ stories, fetchStories, pager, match }) => {
     else {
       fetchStories(1)
     }
-  }, [currentPage]);
+  }, [fetchStories, pager.currentPage, currentPage]);
 
 
   //creates a new array with the object from the liveFeed function inserted at index 1

@@ -42,7 +42,6 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
 
 
   const commentPager = () => {
-    let pager = {};
     if (story.comments) {
       const numOfComments = story.comments.length
       const numOfButtons = Math.ceil(story.comments.length / commentsToShow);

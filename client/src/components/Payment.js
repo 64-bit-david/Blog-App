@@ -43,16 +43,6 @@ const Message = ({ message }) => (
 
 const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
 
-  const authorNameCheck = () => {
-    if (author) {
-      if (author.username) {
-        return author.username
-      }
-      return author.name
-    } else {
-      return '';
-    }
-  }
 
 
   const [amount, setAmount] = useState(1);
@@ -63,6 +53,17 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
 
 
   useEffect(() => {
+    const authorNameCheck = () => {
+      if (author) {
+        if (author.username) {
+          return author.username
+        }
+        return author.name
+      } else {
+        return '';
+      }
+    }
+
     const authorName = authorNameCheck();
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
@@ -91,7 +92,7 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
         fetchAuthorBasic(authorId);
       }
     }
-  }, [author, auth, authorNameCheck, fetchAuthorBasic, match.params.authorId, postPayment]);
+  }, [author]);
 
 
 

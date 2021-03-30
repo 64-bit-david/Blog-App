@@ -11,13 +11,13 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 
   useEffect(() => {
     fetchStory(match.params.storyId);
-  }, [fetchStory]);
+  }, [fetchStory, match.params.storyId]);
 
   useEffect(() => {
     if (story._user) {
       fetchAuthor(story._user);
     }
-  }, [story])
+  }, [story, fetchAuthor])
 
 
   const authorNameCheck = (author) => {

@@ -11,7 +11,7 @@ router.get('/api/stories', storyController.getStories);
 
 router.get('/api/stories/:storyId', storyController.getStory);
 
-router.post('/api/stories/comments/:storyId',
+router.post('/api/stories/comments/:storyId', isAuth,
   body('commentText', 'comments have a max length of 150 characters')
     .isLength({ max: 200 })
   , storyController.postStoryComment);
@@ -38,7 +38,7 @@ router.put('/api/stories/:storyId', isAuth,
 
   , storyController.editStory);
 
-router.delete('/api/stories/comments/:storyId/:commentId', storyController.deleteComment);
+router.delete('/api/stories/comments/:storyId/:commentId', isAuth, storyController.deleteComment);
 router.delete('/api/stories/:storyId', isAuth, storyController.deleteStory);
 
 module.exports = router;

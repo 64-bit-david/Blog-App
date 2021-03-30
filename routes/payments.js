@@ -1,12 +1,13 @@
 const express = require('express');
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
+const isAuth = require('../middleware/isAuth');
 
 const User = require('../models/User');
 
 const router = express.Router();
 
-router.post('/create-checkout-session', async (req, res, next) => {
+router.post('/create-checkout-session', isAuth, async (req, res, next) => {
   const amount = req.body.amount * 100;
   const author = req.body.authorId;
   try {
@@ -34,10 +35,11 @@ router.post('/create-checkout-session', async (req, res, next) => {
   }
 });
 
-router.post('/post-payment-data', async (req, res, next) => {
+router.post('/post-payment-data', isAuth, async (req, res, next) => {
   const authorId = req.body.authorId;
   const userId = req.body.userId;
-  const amountPaid = req.body.amount / 100;
+  const amountPaid = req.body.amount;
+  console.log(amountPaid);
   try {
     const author = await User.findById(authorId);
     if (author.donationsRecieved) {
@@ -54,6 +56,7 @@ router.post('/post-payment-data', async (req, res, next) => {
     }
     await author.save();
     await user.save();
+    console.log('SUCCESS')
   } catch (err) {
     console.log(err)
   }
