@@ -74,9 +74,17 @@ exports.getAllSnippets = async (req, res, next) => {
 exports.deleteSnippet = async (req, res, next) => {
   const snippetId = req.params.snippetId;
   try {
-    await Snippet.findByIdAndDelete(snippetId);
-    io.getIO().emit('snippets', { action: 'delete', snippet: snippetId })
-    res.status(200).json({ msg: "Snippet Deleted" });
+    const snippet = await Snippet.findById(snippetId);
+
+    if (snippet._user.toString() !== req.user._id.toString()) {
+      const error = new Error("Cannot delete another user's snippet!");
+      error.statusCode = 401;
+      throw error;
+    } else {
+      await snippet.remove();
+      io.getIO().emit('snippets', { action: 'delete', snippet: snippetId })
+      res.status(200).json({ msg: "Snippet Deleted" });
+    }
   } catch (err) {
     next(err);
   }

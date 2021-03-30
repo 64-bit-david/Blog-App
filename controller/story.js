@@ -1,7 +1,6 @@
 const Story = require('../models/Story');
 const User = require('../models/User');
 const { validationResult } = require('express-validator');
-const { findOneAndUpdate } = require('../models/Story');
 
 const STORIES_PER_PAGE = 5;
 
@@ -118,6 +117,11 @@ exports.editStory = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
+    if (story._user !== req.user._id) {
+      const error = new Error("Cannot edit another user's story!");
+      error.statusCode = 401;
+      throw error;
+    }
     story.title = title;
     story.description = description;
     story.content = content;
@@ -177,11 +181,24 @@ exports.postStoryComment = async (req, res, next) => {
 
 exports.deleteComment = async (req, res, next) => {
   const storyId = req.params.storyId;
-  const commentId = req.params.commentId;
-  const story = await Story.findById(storyId);
-  story.comments = story.comments.filter(comment => comment.id != commentId);
-  await story.save();
-  res.status(200).json({ msg: 'Comment Deleted' });
+  const commentId = req.params.commentId.toString();
+  try {
+    const story = await Story.findById(storyId);
+
+    // story.comments = story.comments.filter(comment => comment.id != commentId);
+    commentIndex = story.comments.findIndex(comment => comment.id.toString() === commentId);
+    if (story.comments[commentIndex].userId.toString() !== req.user._id.toString()) {
+      const error = new Error("Cannot delete another user's comment!");
+      error.statusCode = 401;
+      throw error;
+    }
+    story.comments = story.comments.filter(comment => comment.id.toString() !== commentId);
+    console.log(story.comments);
+    await story.save();
+    res.status(200).json({ msg: 'Comment Deleted' });
+  } catch (err) {
+    next(err);
+  }
 
 
 
