@@ -40,4 +40,10 @@ postSchema.pre('validate', function (next) {
   next();
 })
 
+
+// postSchema.pre('save', function (next) {
+//   const error = new Error('Posting Story failed');
+//   error.statusCode = 500;
+//   return next(error);
+// })
 module.exports = mongoose.model('Post', postSchema);

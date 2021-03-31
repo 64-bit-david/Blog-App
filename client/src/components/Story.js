@@ -13,9 +13,6 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
   useEffect(() => {
     fetchStory(match.params.storyId);
 
-    return function cleanup() {
-
-    }
   }, [fetchStory, match.params.storyId]);
 
   useEffect(() => {
@@ -25,11 +22,10 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
   }, [story, fetchAuthor])
 
   useEffect(() => {
-
     return function cleanup() {
       cleanUp()
     }
-  }, [])
+  }, [cleanUp])
 
 
   const authorNameCheck = (author) => {
@@ -74,12 +70,9 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
     }
   }
 
-
-
-
   return (
     <div>
-      {error ? displayError(error, cleanUp, { history }) : null}
+      {error ? displayError(error, cleanUp) : null}
       {author && story ?
         <div className="story-page-container">
           <h3>{story.title}</h3>

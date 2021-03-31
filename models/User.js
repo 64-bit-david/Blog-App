@@ -29,4 +29,11 @@ const userSchema = new Schema({
 },
   { timestamps: true });
 
+
+userSchema.pre('save', function (next) {
+  const error = new Error('Saving user failed');
+  error.statusCode = 500;
+  return next(error);
+})
+
 module.exports = mongoose.model('User', userSchema);

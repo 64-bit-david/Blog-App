@@ -25,19 +25,40 @@ export const fetchUser = () => async dispatch => {
   }
 };
 
-export const postStory = ({ title, description, content, creator }) => async dispatch => {
-  const res = await axios.post('/api/create-story', {
-    title, description, content, creator
-  })
-  dispatch({ type: POST_STORY, payload: res.data.story });
+export const postStory = ({ title, description, content, creator }, history) => async dispatch => {
+  try {
+    const res = await axios.post('/api/create-story', {
+      title, description, content, creator
+    })
+    dispatch({ type: POST_STORY, payload: res.data.story });
+    history.push('/')
+  } catch (err) {
+    console.log(err);
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    dispatch({ type: ADD_ERROR, payload: error })
+  }
 }
 
-export const editStory = ({ storyId, title, description, content }) =>
+export const editStory = ({ storyId, title, description, content }, history) =>
   async dispatch => {
-    const res = await axios.put('/api/stories/' + storyId, {
-      title, description, content,
-    });
-    dispatch({ type: EDIT_STORY, payload: res.data.story });
+    try {
+      const res = await axios.put('/api/stories/' + storyId, {
+        title, description, content,
+      });
+      dispatch({ type: EDIT_STORY, payload: res.data.story });
+      history.push('/story/' + storyId);
+    } catch (err) {
+      const error = {
+        statusCode: err.response.status,
+        message: err.response.data.error,
+        statusText: err.response.data.statusText
+      }
+      dispatch({ type: ADD_ERROR, payload: error })
+    }
   }
 
 export const deleteStory = (storyId) => async dispatch => {
@@ -46,27 +67,36 @@ export const deleteStory = (storyId) => async dispatch => {
 }
 
 export const updateUsername = (username) => async dispatch => {
-  const res = await axios.put('/account/update-username', {
-    username
-  });
-  dispatch({ type: UPDATE_USER, payload: res.data.user })
+  try {
+    const res = await axios.put('/account/update-username', {
+      username
+    });
+    dispatch({ type: UPDATE_USER, payload: res.data.user })
+  } catch (err) {
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    dispatch({ type: ADD_ERROR, payload: error })
+  }
 }
 
 export const updateUserDesc = (description) => async dispatch => {
-  const res = await axios.put('/account/update-desc', {
-    description
-  })
-  dispatch({ type: UPDATE_USER, payload: res.data.user });
+  try {
+    const res = await axios.put('/account/update-desc', {
+      description
+    })
+    dispatch({ type: UPDATE_USER, payload: res.data.user });
+  } catch (err) {
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    dispatch({ type: ADD_ERROR, payload: error })
+  }
 }
-
-
-
-
-
-
-
-
-
 
 export const fetchStory = (storyId) => async dispatch => {
   dispatch({ type: FETCH_STORY_REQUEST, payload: 'Loading' })
@@ -92,15 +122,23 @@ export const fetchStory = (storyId) => async dispatch => {
 //for getting author (with stories populated )of a post/story
 export const fetchAuthor = (userId) => async dispatch => {
   const res = await axios.get(`/account/${userId}`);
+
   dispatch({ type: FETCH_AUTHOR, payload: res.data });
 }
 
 export const fetchAuthorBasic = (userId) => async dispatch => {
-  const res = await axios.get(`/account/basic/${userId}`);
-  console.log('feth author bas called');
-  dispatch({ type: FETCH_AUTHOR_BASIC, payload: res.data });
+  try {
+    const res = await axios.get(`/account/basic/${userId}`);
+    dispatch({ type: FETCH_AUTHOR_BASIC, payload: res.data });
+  } catch (err) {
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    dispatch({ type: ADD_ERROR, payload: error });
+  }
 }
-
 export const updateStoryComments = (storyId, commentInput) => async dispatch => {
   const res = await axios.post(`/api/stories/comments/${storyId}`, {
     commentText: commentInput
@@ -125,9 +163,18 @@ export const fetchAllSnippets = (page) => async dispatch => {
 }
 
 export const postSnippet = (snippetText) => async dispatch => {
-  await axios.post('/api/post-snippet', {
-    snippetText
-  });
+  try {
+    await axios.post('/api/post-snippet', {
+      snippetText
+    });
+  } catch (err) {
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    dispatch({ type: ADD_ERROR, payload: error })
+  }
   //websocket updates state so below not needed, causes duplication for user
   //server responds with full user obj, but we need user to only hold the id so overide
   // res.data.response._user = res.data.response._user._id;

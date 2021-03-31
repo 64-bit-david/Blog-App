@@ -30,12 +30,17 @@ exports.createSnippet = async (req, res, next) => {
     username: username
   });
 
-  const response = await snippet.save();
+  try {
+    const response = await snippet.save();
 
-  io.getIO().emit('snippets', {
-    action: 'create', snippet
-  })
-  res.status(200).json({ msg: 'Posted Snippet', response });
+    io.getIO().emit('snippets', {
+      action: 'create', snippet
+    })
+
+    res.status(200).json({ msg: 'Posted Snippet', response });
+  } catch (err) {
+    next(err);
+  }
 }
 
 //for front page

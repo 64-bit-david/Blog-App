@@ -4,6 +4,8 @@ const Story = require('../models/Story');
 const STORIES_PER_PAGE = 4;
 
 
+//delete this probably
+//might need it for auth?
 exports.getUser = async (req, res, next) => {
   const userId = req.params.userId;
   try {
@@ -13,7 +15,6 @@ exports.getUser = async (req, res, next) => {
     res.send(user);
   } catch (err) {
     next(err);
-    console.log(err);
   }
 };
 
@@ -50,9 +51,18 @@ exports.getUserStories = async (req, res, next) => {
 
 exports.getUserBasic = async (req, res, next) => {
   const userId = req.params.userId;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+    res.send(user);
 
-  const user = await User.findById(userId);
-  res.send(user);
+  } catch (err) {
+    next(err);
+  }
 }
 
 exports.updateUsername = async (req, res, next) => {
@@ -71,6 +81,11 @@ exports.updateUsername = async (req, res, next) => {
     }
     user.username = username;
     const updatedUser = await user.save();
+    if (!updatedUser) {
+      const error = new Error('Updating username failed');
+      error.statusCode = 500;
+      throw error;
+    }
     res.status(201).json({ msg: "Username change success", user: updatedUser });
   } catch (err) {
     console.log(err)
@@ -85,6 +100,11 @@ exports.updateDesc = async (req, res, next) => {
     let user = await User.findById(userId);
     user.description = desc;
     const updatedUser = await user.save();
+    if (!updatedUser) {
+      const error = new Error('Updating description failed');
+      error.statusCode = 500;
+      throw error;
+    }
     res.status(201).json({ msg: "Description updated", user: updatedUser });
   } catch (err) {
     console.log(err);

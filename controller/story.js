@@ -43,8 +43,8 @@ exports.getStories = async (req, res, next) => {
 
 
 exports.getStory = async (req, res, next) => {
-  // const storyId = req.params.storyId;
-  const storyId = "606451044a9030250c935110";
+  const storyId = req.params.storyId;
+  // const storyId = "606451044a9030250c935110";
 
   try {
     const story = await Story.findById(storyId);
@@ -81,6 +81,7 @@ exports.addStory = async (req, res, next) => {
       content,
       _user: req.user._id
     });
+
     const user = await User.findOne(req.user._id);
     const response = await story.save();
     if (!response) {
@@ -123,7 +124,9 @@ exports.editStory = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    if (story._user !== req.user._id) {
+    console.log(story._user);
+    console.log(req.user._id);
+    if (story._user.toString() !== req.user._id.toString()) {
       const error = new Error("Cannot edit another user's story!");
       error.statusCode = 401;
       throw error;

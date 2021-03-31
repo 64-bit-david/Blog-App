@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
-import { fetchAuthor, fetchAuthorBasic, fetchUserStories } from '../actions';
+import { fetchAuthorBasic, fetchUserStories, cleanUp } from '../actions';
 import paginationHelper from './paginationHelper';
+import displayError from './displayError';
 
-const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager }) => {
+const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager, error, cleanUp }) => {
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
@@ -13,7 +14,9 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
   }, [match.params.page])
 
   useEffect(() => {
-    fetchAuthorBasic(match.params.authorId);
+    if (!author) {
+      fetchAuthorBasic(match.params.authorId);
+    }
   }, [fetchAuthorBasic, match.params.authorId]);
 
 
@@ -87,23 +90,29 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
     }
   }
 
-  return (
-
-    <div className="author-page-container">
-
-      {renderAuthorInfo()}
-      <div className="stories-grid author-stories-grid">
-        {renderAuthorStories()}
+  const pageSuccess = () => {
+    return (
+      <div className="author-page-container">
+        {renderAuthorInfo()}
+        <div className="stories-grid author-stories-grid">
+          {renderAuthorStories()}
+        </div>
+        { paginationHelper(pager, currentPage, `/author/${match.params.authorId}/`)}
       </div>
-      {paginationHelper(pager, currentPage, `/author/${match.params.authorId}/`)}
+    )
+  }
+
+  return (
+    <div>
+      {error ? displayError(error, cleanUp) : pageSuccess()}
 
     </div>
   )
 };
 
-const mapStateToProps = ({ author, auth, userStories, pager }) => {
-  return { author, auth, userStories, pager }
+const mapStateToProps = ({ author, auth, userStories, pager, error }) => {
+  return { author, auth, userStories, pager, error }
 };
 
-export default connect(mapStateToProps, { fetchAuthor, fetchAuthorBasic, fetchUserStories })(Author);
+export default connect(mapStateToProps, { fetchAuthorBasic, fetchUserStories, cleanUp })(Author);
 

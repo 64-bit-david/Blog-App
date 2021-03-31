@@ -2,8 +2,9 @@ import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, cleanUp } from '../actions';
 import paginationHelper from './paginationHelper';
+import displayError from './displayError';
 
-const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, cleanUp }) => {
+const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, cleanUp, error }) => {
 
 
 
@@ -217,28 +218,39 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   }
 
 
-  return (
-    <div className="author-page-container">
-      <div className={
-        `change-details-bg-container ${changeContainer && 'active'} `}
-      >
-        {renderChangeUsername()}
-        {renderChangeDesc()}
-        {renderAfterChange()}
+  const pageSuccess = () => {
+    return (
+      <div className="author-page-container">
+        <div className={
+          `change-details-bg-container ${changeContainer && 'active'} `}
+        >
+          {renderChangeUsername()}
+          {renderChangeDesc()}
+          {renderAfterChange()}
 
+        </div>
+        {renderUserInfo()}
+        <h4>Your Stories</h4>
+        <div className="stories-grid author-stories-grid">
+          {renderAuthorStories()}
+        </div>
+        {paginationHelper(pager, currentPage, '/your-profile/')}
       </div>
-      {renderUserInfo()}
-      <h4>Your Stories</h4>
-      <div className="stories-grid author-stories-grid">
-        {renderAuthorStories()}
-      </div>
-      {paginationHelper(pager, currentPage, '/your-profile/')}
+    )
+
+  }
+
+  return (
+    <div>
+      {error ? displayError(error, cleanUp) : pageSuccess()}
     </div>
   )
+
+
 };
 
-const mapStateToProps = ({ author, auth, userStories, pager }) => {
-  return { author, auth, pager, userStories }
+const mapStateToProps = ({ author, auth, userStories, pager, error }) => {
+  return { author, auth, pager, userStories, error }
 };
 
 export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, cleanUp })(Author);

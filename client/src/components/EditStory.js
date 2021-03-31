@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { editStory, fetchStory } from '../actions';
+import { editStory, fetchStory, cleanUp } from '../actions';
+import displayError from './displayError';
 
 
-const EditStory = ({ auth, story, editStory, history, match }) => {
+const EditStory = ({ auth, story, editStory, history, match, error }) => {
 
   useEffect(() => {
     if (!story) {
@@ -33,12 +34,7 @@ const EditStory = ({ auth, story, editStory, history, match }) => {
     const description = data.description;
     const content = data.content;
     const postBody = { title, description, content, storyId };
-    editStory(postBody)
-      .then(() => {
-        history.push('/story/' + storyId);
-      }).catch((err) => {
-        console.log(err);
-      })
+    editStory(postBody, history);
   }
 
 
@@ -97,16 +93,25 @@ const EditStory = ({ auth, story, editStory, history, match }) => {
     )
   }
 
+  const pageSuccess = () => {
+    return (
+      <div className="add-story-container">
+        {forms()}
+      </div>
+    )
+
+  }
+
   return (
-    <div className="add-story-container">
-      {story ? forms() : null}
+    <div>
+      {error ? displayError(error, cleanUp) : pageSuccess()}
     </div>
   )
 }
 
-const mapStateToProps = ({ auth, story }) => {
-  return { auth, story }
+const mapStateToProps = ({ auth, story, error }) => {
+  return { auth, story, error }
 }
 
 
-export default connect(mapStateToProps, { editStory })(EditStory);
+export default connect(mapStateToProps, { editStory, cleanUp })(EditStory);

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import openSocket from 'socket.io-client';
 import { useForm } from 'react-hook-form';
-import { postSnippet, fetchSnippet, addSnippet, deleteSnippet } from '../actions';
+import { postSnippet, fetchSnippet, addSnippet, deleteSnippet, cleanUp } from '../actions';
+import displayError from './displayError';
 
 
 const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, deleteSnippet }) => {
@@ -78,14 +79,23 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
     })
   }
 
+  const pageSuccess = () => {
+    return (
+      <div className="snippets-container">
+        <h3>Snippets</h3>
+        <p>A live feed of user updates</p>
+        {rendersnippetInput()}
+        {renderSnippets()}
+        <Link to="/snippets/1">See all snippets</Link>
+      </div>
+    )
+  }
+
   return (
-    <div className="snippets-container">
-      <h3>Snippets</h3>
-      <p>A live feed of user updates</p>
-      { rendersnippetInput()}
-      {renderSnippets()}
-      <Link to="/snippets/1">See all snippets</Link>
+    <div>
+      {pageSuccess()}
     </div>
+
   )
 }
 
@@ -93,6 +103,6 @@ const mapStateToProps = ({ snippets, auth }) => {
   return { snippets, auth };
 }
 
-export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet, deleteSnippet })(Snippets);
+export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet, deleteSnippet, cleanUp })(Snippets);
 
 

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function (error, cleanup, { history }) {
+export default function (error, cleanup) {
   return (
     <div className="error-container">
       <p>Error:{error.statusCode}</p>
@@ -8,7 +8,7 @@ export default function (error, cleanup, { history }) {
       <Link
         className="btn"
         to="/"
-        onclick={() => {
+        onClick={() => {
           cleanup()
         }}>Back to Home</Link>
     </div>)

@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import displayError from './displayError';
 
 import { fetchStories, cleanUp } from '../actions/index';
 import Snippets from './Snippets';
 import paginationHelper from './paginationHelper';
 
 
-
-
-const Stories = ({ stories, fetchStories, pager, match, cleanUp }) => {
+const Stories = ({ stories, fetchStories, pager, match, cleanUp, error }) => {
 
 
 
@@ -35,7 +34,7 @@ const Stories = ({ stories, fetchStories, pager, match, cleanUp }) => {
     return function cleanup() {
       cleanUp();
     }
-  })
+  }, [])
 
 
   //creates a new array with the object from the liveFeed function inserted at index 1
@@ -74,19 +73,22 @@ const Stories = ({ stories, fetchStories, pager, match, cleanUp }) => {
 
 
   return (
-    <div className="stories-container">
-      <h1>Latest Stories</h1>
-      <div className="stories-grid author-stories-grid">
-        {renderGrid()}
+    <div>
+      {error ? displayError(error, cleanUp) : null}
+      <div className="stories-container">
+        <h1>Latest Stories</h1>
+        <div className="stories-grid author-stories-grid">
+          {renderGrid()}
+        </div>
+        {paginationHelper(pager, currentPage, '/stories/')}
       </div>
-      {paginationHelper(pager, currentPage, '/stories/')}
     </div>
   )
 }
 
 
-const mapStateToProps = ({ stories, pager }) => {
-  return { stories, pager }
+const mapStateToProps = ({ stories, pager, error }) => {
+  return { stories, pager, error }
 }
 
 export default connect(mapStateToProps, { fetchStories, cleanUp })(Stories);
