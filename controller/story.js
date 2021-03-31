@@ -30,9 +30,10 @@ exports.getStories = async (req, res, next) => {
       lastPage: Math.ceil(totalStories / STORIES_PER_PAGE),
     }
     res.status(200).json({
-      msg: 'Stories fetched',
+      messages: 'Stories fetched',
       stories,
-      pager
+      pager,
+
     })
   } catch (err) {
     next(err);
@@ -42,7 +43,9 @@ exports.getStories = async (req, res, next) => {
 
 
 exports.getStory = async (req, res, next) => {
-  const storyId = req.params.storyId;
+  // const storyId = req.params.storyId;
+  const storyId = "606451044a9030250c935110";
+
   try {
     const story = await Story.findById(storyId);
     if (!story) {
@@ -50,7 +53,10 @@ exports.getStory = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    res.status(200).json({ msg: 'Story fetched', story });
+    res.status(200).json({
+      msg: 'Story fetched',
+      story,
+    });
   } catch (err) {
     next(err);
   }

@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { FETCH_STORIES, FETCH_USER_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY, CLEAN_UP } from './types';
+import { FETCH_STORIES, FETCH_USER_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY, CLEAN_UP, FETCH_STORY_REQUEST, ADD_ERROR } from './types';
+
 
 export const fetchStories = (page) => async (dispatch) => {
   const res = await axios.get('/api/stories/?page=' + page);
@@ -16,8 +17,12 @@ export const fetchUserStories = (page, userId) => async (dispatch) => {
 
 //For getting current logged in user
 export const fetchUser = () => async dispatch => {
-  const res = await axios.get('/api/current_user');
-  dispatch({ type: FETCH_USER, payload: res.data });
+  try {
+    const res = await axios.get('/api/current_user');
+    dispatch({ type: FETCH_USER, payload: res.data });
+  }
+  catch (err) {
+  }
 };
 
 export const postStory = ({ title, description, content, creator }) => async dispatch => {
@@ -54,12 +59,33 @@ export const updateUserDesc = (description) => async dispatch => {
   dispatch({ type: UPDATE_USER, payload: res.data.user });
 }
 
+
+
+
+
+
+
+
+
+
 export const fetchStory = (storyId) => async dispatch => {
-  let res = await axios.get(`/api/stories/${storyId}`);
-  if (res.data.story.comments > 0) {
-    res.data.story.comments = res.data.story.comments.reverse();
+  dispatch({ type: FETCH_STORY_REQUEST, payload: 'Loading' })
+  try {
+    let res = await axios.get(`/api/stories/${storyId}`);
+    if (res.data.story.comments > 0) {
+      res.data.story.comments = res.data.story.comments.reverse();
+    }
+    dispatch({ type: FETCH_STORY, payload: res.data.story })
+  } catch (err) {
+    console.log(err.response);
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    console.log(error)
+    dispatch({ type: ADD_ERROR, payload: error })
   }
-  dispatch({ type: FETCH_STORY, payload: res.data.story })
 }
 
 

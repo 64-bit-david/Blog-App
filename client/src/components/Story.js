@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchStory, fetchAuthor, deleteStory, cleanUp } from '../actions';
+import displayError from './displayError';
 
 import StoryComments from './StoryComments';
 
-const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, auth, history, cleanUp }) => {
+const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, auth, history, cleanUp, error }) => {
 
 
 
@@ -78,6 +79,7 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 
   return (
     <div>
+      {error ? displayError(error, cleanUp, { history }) : null}
       {author && story ?
         <div className="story-page-container">
           <h3>{story.title}</h3>
@@ -107,7 +109,7 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
   )
 }
 
-const mapStateToProps = ({ story, author, auth }) => {
-  return { story, author, auth }
+const mapStateToProps = ({ story, author, auth, error }) => {
+  return { story, author, auth, error }
 }
 export default connect(mapStateToProps, { fetchStory, fetchAuthor, deleteStory, cleanUp })(Story)
