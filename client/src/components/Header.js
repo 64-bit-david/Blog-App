@@ -11,19 +11,22 @@ const Header = ({ fetchUser, auth }) => {
 
 
   const isLoggedIn = () => {
-    if (auth) {
+    if (!auth) {
       return (
-        <div>
-          <Link to="/add-story" className=" btn sign-in-btn">Add a Story</Link>
-          <Link to={`/your-profile`} className=" btn sign-in-btn">Your Profile</Link>
-          <a href="/api/logout" className="btn sign-in-btn">Log Out</a>
-        </div>
-      );
+        <a className="btn sign-in-btn" href="/auth/google">Log In With Google</a>
+      )
     }
     return (
-      <a className="btn sign-in-btn" href="/auth/google">Log In With Google</a>
-    )
+      <div>
+        <Link to="/add-story" className=" btn sign-in-btn">Add a Story</Link>
+        <Link to={`/your-profile`} className=" btn sign-in-btn">Your Profile</Link>
+        <a href="/api/logout" className="btn sign-in-btn">Log Out</a>
+      </div>
+    );
+
   }
+
+
 
 
   return (

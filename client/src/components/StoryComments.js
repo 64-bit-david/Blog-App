@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { updateStoryComments, deleteStoryComment, fetchStory } from '../actions';
+import { updateStoryComments, deleteStoryComment, fetchStory, cleanUp } from '../actions';
 
 
 
 
-const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, fetchStory }) => {
+const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, fetchStory, error, cleanUp }) => {
 
   const { register, handleSubmit, errors, reset } = useForm();
 
@@ -16,6 +16,9 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
   const commentsToShow = 5;
 
 
+  const deleteComment = (storyId, commentId) => {
+    deleteStoryComment(storyId, commentId)
+  }
 
   const onSubmit = async (data) => {
     updateStoryComments(story._id, data.commentText);
@@ -37,7 +40,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
     return function cleanUp() {
       setCommentsArray(null);
     }
-  }, [story, commentPage, deleteStoryComment])
+  }, [commentPage, story])
 
 
 
@@ -118,11 +121,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
               {comment.commentText}
               {comment.userId === auth._id ?
                 <button
-                  onClick={() => {
-                    deleteStoryComment(story._id, comment.id)
-                    fetchStory(story._id)
-                  }
-                  }
+                  onClick={() => deleteComment(story._id, comment.id)}
                 >Delete</button> : null}
             </li>
           )
@@ -156,8 +155,8 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
   )
 }
 
-const mapStateToProps = ({ story, auth }) => {
-  return { story, auth }
+const mapStateToProps = ({ story, auth, error }) => {
+  return { story, auth, error }
 }
 
-export default connect(mapStateToProps, { updateStoryComments, deleteStoryComment, fetchStory })(StoryComments)
+export default connect(mapStateToProps, { updateStoryComments, deleteStoryComment, fetchStory, cleanUp })(StoryComments)

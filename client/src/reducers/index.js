@@ -7,6 +7,7 @@ import snippetReducer from './snippetsReducer';
 import paginationReducer from './paginationReducer';
 import userStoriesReducer from './userStoriesReducer';
 import errorReducer from './errorReducer';
+import messageReducer from './messageReducer';
 
 
 export default combineReducers({
@@ -18,4 +19,5 @@ export default combineReducers({
   pager: paginationReducer,
   userStories: userStoriesReducer,
   error: errorReducer,
+  message: messageReducer,
 })

@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import openSocket from 'socket.io-client';
 
+import displayError from './displayError';
 import paginationHelper from './paginationHelper';
-import { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet } from '../actions';
+import { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, cleanUp } from '../actions';
 
 
 
-const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth, deleteSnippet, pager, match }) => {
+const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth, deleteSnippet, pager, match, error, cleanUp }) => {
 
 
   const { register, handleSubmit, errors } = useForm();
@@ -22,7 +23,6 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
 
 
   useEffect(() => {
-
     fetchAllSnippets(1)
     const socket = openSocket('http://localhost:5000');
     socket.on('snippets', data => {
@@ -95,22 +95,31 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     })
   }
 
-  return (
-    <div className="all-snippets-container">
-      <h3>Snippets</h3>
-      <p>A live feed of user updates</p>
-      { rendersnippetInput()}
-      {renderSnippets()}
-      {paginationHelper(pager, currentPage, '/snippets/')}
 
+  const pageSuccess = () => {
+    return (
+      <div className="all-snippets-container">
+        <h3>Snippets</h3>
+        <p>A live feed of user updates</p>
+        { rendersnippetInput()}
+        {renderSnippets()}
+        {paginationHelper(pager, currentPage, '/snippets/')}
+
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      {error ? displayError(error, cleanUp) : pageSuccess()}
     </div>
   )
 }
 
-const mapStateToProps = ({ snippets, auth, pager }) => {
-  return { snippets, auth, pager };
+const mapStateToProps = ({ snippets, auth, pager, error }) => {
+  return { snippets, auth, pager, error };
 }
 
-export default connect(mapStateToProps, { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet })(AllSnippets);
+export default connect(mapStateToProps, { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, displayError, cleanUp })(AllSnippets);
 
 

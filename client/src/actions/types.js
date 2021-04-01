@@ -17,6 +17,11 @@ export const EDIT_STORY = 'EDIT_STORY';
 export const CLEAN_UP = 'CLEAN_UP';
 export const FETCH_USER_STORIES = 'FETCH_USER_STORIES';
 export const ADD_ERROR = 'ADD_ERROR';
+export const DELETE_USER = 'DELETE_USER';
+export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+
 
 
 

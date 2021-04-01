@@ -1,8 +1,7 @@
-import { FETCH_STORY, UPDATE_STORY_COMMENTS, EDIT_STORY, CLEAN_UP, FETCH_STORY_REQUEST } from '../actions/types';
+import { FETCH_STORY, UPDATE_STORY_COMMENTS, EDIT_STORY, CLEAN_UP, FETCH_STORY_REQUEST, DELETE_COMMENT } from '../actions/types';
 
 
 const updateStoryComments = (state, action) => {
-  console.log(action.payload);
   const updatedState = { ...state };
   if (!updatedState.comments) {
     updatedState.comments = [action.payload];
@@ -10,6 +9,13 @@ const updateStoryComments = (state, action) => {
     updatedState.comments.unshift(action.payload);
   }
   return updatedState;
+}
+
+const deleteStoryComment = (state, action) => {
+  const updatedState = { ...state };
+  updatedState.comments = updatedState.comments.filter(comment => comment.id !== action.payload);
+  return updatedState;
+
 }
 
 export default function func(state = {}, action) {
@@ -22,6 +28,8 @@ export default function func(state = {}, action) {
       return action.payload;
     case UPDATE_STORY_COMMENTS:
       return updateStoryComments(state, action);
+    case DELETE_COMMENT:
+      return deleteStoryComment(state, action)
     case CLEAN_UP:
       return {}
     default:

@@ -84,7 +84,7 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
         "Payment Canceled."
       );
     }
-    if (!author) {
+    if (!author && !query.get("canceled")) {
       if (match.params.authorId) {
         fetchAuthorBasic(match.params.authorId);
       } else {

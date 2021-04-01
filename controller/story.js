@@ -175,7 +175,7 @@ exports.postStoryComment = async (req, res, next) => {
     const updatedStory = await Story.findOneAndUpdate(
       { _id: storyId }, { "$push": { comments: commentObj } })
     if (!updatedStory) {
-      const error = new Error('Could not find story');
+      const error = new Error('Could not update story');
       error.statusCode = 500;
       throw Error;
     }
@@ -194,7 +194,6 @@ exports.deleteComment = async (req, res, next) => {
   try {
     const story = await Story.findById(storyId);
 
-    // story.comments = story.comments.filter(comment => comment.id != commentId);
     commentIndex = story.comments.findIndex(comment => comment.id.toString() === commentId);
     if (story.comments[commentIndex].userId.toString() !== req.user._id.toString()) {
       const error = new Error("Cannot delete another user's comment!");

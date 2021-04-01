@@ -70,7 +70,7 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
           <p className="snippet-username">
             <Link to={`/author/${snippet._user}`}>{snippet.username}</Link></p>
           <p className="snippet-text">{snippet.text}
-            {snippet._user === auth._id ?
+            {snippet._user === auth?._id ?
               <button onClick={() => deleteSnippet(snippet._id)}>Delete</button> : null}
           </p>
 

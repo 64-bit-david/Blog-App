@@ -14,6 +14,8 @@ router.put('/account/update-username', usersController.updateUsername);
 
 router.put('/account/update-desc', usersController.updateDesc);
 
+router.delete('/account/:userId', usersController.deleteUser);
+
 
 
 

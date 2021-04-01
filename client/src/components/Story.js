@@ -70,9 +70,9 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
     }
   }
 
-  return (
-    <div>
-      {error ? displayError(error, cleanUp) : null}
+  const pageSuccess = () => {
+    return (<div>
+
       {author && story ?
         <div className="story-page-container">
           <h3>{story.title}</h3>
@@ -97,7 +97,15 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
           </div>
         </div>
         : null}
+    </div>
 
+
+    )
+  }
+
+  return (
+    <div>
+      {error ? displayError(error, cleanUp) : pageSuccess()}
     </div>
   )
 }

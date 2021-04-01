@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_STORIES, FETCH_USER_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY, CLEAN_UP, FETCH_STORY_REQUEST, ADD_ERROR } from './types';
+import { FETCH_STORIES, FETCH_USER_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY, CLEAN_UP, FETCH_STORY_REQUEST, ADD_ERROR, DELETE_USER, CLEAR_MESSAGE, ADD_MESSAGE, DELETE_COMMENT } from './types';
 
 
 export const fetchStories = (page) => async (dispatch) => {
@@ -31,6 +31,7 @@ export const postStory = ({ title, description, content, creator }, history) => 
       title, description, content, creator
     })
     dispatch({ type: POST_STORY, payload: res.data.story });
+    dispatch({ type: ADD_MESSAGE, payload: res.data.msg })
     history.push('/')
   } catch (err) {
     console.log(err);
@@ -107,7 +108,6 @@ export const fetchStory = (storyId) => async dispatch => {
     }
     dispatch({ type: FETCH_STORY, payload: res.data.story })
   } catch (err) {
-    console.log(err.response);
     const error = {
       statusCode: err.response.status,
       message: err.response.data.error,
@@ -140,27 +140,55 @@ export const fetchAuthorBasic = (userId) => async dispatch => {
   }
 }
 export const updateStoryComments = (storyId, commentInput) => async dispatch => {
-  const res = await axios.post(`/api/stories/comments/${storyId}`, {
-    commentText: commentInput
-  });
+  try {
+    const res = await axios.post(`/api/stories/comments/${storyId}`, {
+      commentText: commentInput
+    });
 
-  dispatch({ type: UPDATE_STORY_COMMENTS, payload: res.data.comment });
+    dispatch({ type: UPDATE_STORY_COMMENTS, payload: res.data.comment });
+  } catch (err) {
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    dispatch({ type: ADD_ERROR, payload: error });
+
+  }
 }
 
 export const deleteStoryComment = (storyId, commentId) => async dispatch => {
-  await axios.delete(`/api/stories/comments/${storyId}/${commentId}`)
+  try {
+    await axios.delete(`/api/stories/comments/${storyId}/${commentId}`)
+    dispatch({ type: DELETE_COMMENT, payload: commentId });
+  } catch (err) {
+    console.log(err);
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    dispatch({ type: ADD_ERROR, payload: error });
+
+  }
 }
+
+
 
 export const fetchSnippet = () => async dispatch => {
   const res = await axios.get('/api/snippets');
   dispatch({ type: FETCH_SNIPPETS, payload: res.data.snippets })
 }
 
+
+
 export const fetchAllSnippets = (page) => async dispatch => {
   const res = await axios.get('/api/all-snippets/?page=' + page);
   dispatch({ type: FETCH_SNIPPETS, payload: res.data.snippets });
   dispatch({ type: PAGINATE, payload: res.data.pager });
 }
+
+
 
 export const postSnippet = (snippetText) => async dispatch => {
   try {
@@ -181,15 +209,18 @@ export const postSnippet = (snippetText) => async dispatch => {
   // dispatch({ type: POST_SNIPPET, payload: res.data.response });
 };
 
+
 export const deleteSnippet = (snippetId) => async dispatch => {
   await axios.delete('/api/snippet/' + snippetId);
   dispatch({ type: DELETE_SNIPPET, payload: snippetId });
 }
 
 
+
 export const addSnippet = (snippet) => {
   return { type: POST_SNIPPET, payload: snippet }
 }
+
 
 export const postPayment = (amount, authorId, userId) => async dispatch => {
   await axios.post('/post-payment-data', {
@@ -197,6 +228,27 @@ export const postPayment = (amount, authorId, userId) => async dispatch => {
     authorId,
     userId
   });
+}
+
+export const deleteUser = (userId, history) => async dispatch => {
+  try {
+    const res = await axios.delete('/account/' + userId);
+
+    dispatch({ type: DELETE_USER, payload: res.data.msg });
+    history.push('/');
+  } catch (err) {
+    console.log(err);
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    dispatch({ type: ADD_ERROR, payload: error })
+  }
+}
+
+export const clearMessage = () => {
+  return { type: CLEAR_MESSAGE };
 }
 
 export const cleanUp = () => {

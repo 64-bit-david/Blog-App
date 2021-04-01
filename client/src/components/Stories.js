@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import displayError from './displayError';
 
-import { fetchStories, cleanUp } from '../actions/index';
+import { fetchStories, cleanUp, clearMessage } from '../actions/index';
 import Snippets from './Snippets';
 import paginationHelper from './paginationHelper';
 
 
-const Stories = ({ stories, fetchStories, pager, match, cleanUp, error }) => {
+const Stories = ({ stories, fetchStories, pager, match, cleanUp, error, message, clearMessage }) => {
 
 
 
@@ -71,10 +71,8 @@ const Stories = ({ stories, fetchStories, pager, match, cleanUp, error }) => {
     })
   }
 
-
-  return (
-    <div>
-      {error ? displayError(error, cleanUp) : null}
+  const pageSuccess = () => {
+    return (
       <div className="stories-container">
         <h1>Latest Stories</h1>
         <div className="stories-grid author-stories-grid">
@@ -82,13 +80,32 @@ const Stories = ({ stories, fetchStories, pager, match, cleanUp, error }) => {
         </div>
         {paginationHelper(pager, currentPage, '/stories/')}
       </div>
+    )
+  }
+
+  const renderMessages = () => {
+    if (message) {
+      return (
+        <div className="message-container">
+          <p>{message}</p>
+          <button onClick={() => clearMessage()}>Close</button>
+        </div>
+      )
+    }
+  }
+
+  return (
+    <div>
+      {renderMessages()}
+      {error ? displayError(error, cleanUp) : pageSuccess()}
+
     </div>
   )
 }
 
 
-const mapStateToProps = ({ stories, pager, error }) => {
-  return { stories, pager, error }
+const mapStateToProps = ({ stories, pager, error, message }) => {
+  return { stories, pager, error, message }
 }
 
-export default connect(mapStateToProps, { fetchStories, cleanUp })(Stories);
+export default connect(mapStateToProps, { fetchStories, cleanUp, clearMessage })(Stories);

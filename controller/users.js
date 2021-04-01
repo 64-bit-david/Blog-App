@@ -22,6 +22,7 @@ exports.getUser = async (req, res, next) => {
 exports.getUserStories = async (req, res, next) => {
   const page = +req.query.page || 1;
   const userId = req.params.userId;
+  console.log(userId);
   try {
     const totalStories = await Story.find({ _user: userId }).countDocuments();
     const stories = await Story.find({ _user: userId })
@@ -112,3 +113,24 @@ exports.updateDesc = async (req, res, next) => {
   }
 }
 
+exports.deleteUser = async (req, res, next) => {
+  const userId = req.params.userId;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      const error = new Error('Something went wrong');
+      error.statusCode = 500;
+      throw Error;
+    }
+    if (user._id.toString() !== req.user._id.toString()) {
+      const error = new Error('User deletion failed - the account requested to be deleted does not match the account making the request');
+      error.statusCode = 401;
+      throw error;
+    }
+    await User.findByIdAndDelete(userId);
+    res.status(201).json({ msg: 'Account Deleted' })
+  } catch (err) {
+    next(err)
+  }
+
+}

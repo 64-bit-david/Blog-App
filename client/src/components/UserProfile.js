@@ -1,18 +1,21 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, cleanUp } from '../actions';
+import { Link } from 'react-router-dom';
+import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, cleanUp, deleteUser } from '../actions';
 import paginationHelper from './paginationHelper';
 import displayError from './displayError';
 
-const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, cleanUp, error }) => {
+const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, cleanUp, error, deleteUser, history }) => {
 
 
 
   const [input, setInput] = useState('');
   const [showChangeUsername, setShowChangeUserName] = useState(false);
   const [showChangeDesc, setShowChangeDesc] = useState(false);
+  const [showDeleteUser, setShowDeleteUser] = useState(false);
   const [changeContainer, setChangeContainer] = useState(false);
   const [showChangeAfterSubmit, setShowChangeAfterSubmit] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
 
@@ -67,6 +70,10 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     setInput('');
   }
 
+  const postDeleteUser = () => {
+    deleteUser(auth._id, history);
+  }
+
   const authorName = () => {
     if (auth) {
       if (auth.username) {
@@ -106,99 +113,138 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   }
 
   const renderUserInfo = () => {
-    return (
-      <div className="author-data-container">
-        <h2>Your Profile</h2>
-        <div className="author-username-container">
-          <p>Your username:
+    if (auth) {
+      return (
+        <div className="author-data-container">
+          <h2>Your Profile</h2>
+          <div className="author-username-container">
+            <p>Your username:
             <span>{authorName()}</span>
-          </p>
-          <button
-            className="btn author-btn"
-            onClick={() => {
-              setShowChangeUserName(true)
-              setChangeContainer(true)
-            }}
-          >Edit</button>
+            </p>
+            <button
+              className="btn author-btn"
+              onClick={() => {
+                setShowChangeUserName(true)
+                setChangeContainer(true)
+              }}
+            >Edit</button>
 
-        </div>
-        <div className="author-description-container">
-          <p>Your description:
+          </div>
+          <div className="author-description-container">
+            <p>Your description:
             <span>{authorDescription()}</span>
-          </p>
-          <button
-            className="btn author-btn"
-            onClick={() => {
-              setShowChangeDesc(true)
-              setChangeContainer(true)
-            }}>
-            {auth.description ? "Edit" : "Add"}
-          </button>
+            </p>
+            <button
+              className="btn author-btn"
+              onClick={() => {
+                setShowChangeDesc(true)
+                setChangeContainer(true)
+              }}>
+              {auth.description ? "Edit" : "Add"}
+            </button>
 
-        </div>
-        <div className="author-donations-container">
-          {auth.donationsRecieved ? <p>You have received :  £{auth.donationsRecieved} from other users!</p> : null}
-          {auth.donationsSent ? <p>You have dontated  £{auth.donationsSent} to other authors!</p> : null}
+          </div>
+          <div className="author-username-container">
+            <p>Delete your profile</p>
+            <button
+              className="btn author-btn"
+              onClick={() => {
+                setShowDeleteUser(true)
+                setChangeContainer(true)
+              }}
+            >DELETE</button>
 
+          </div>
+
+          <div className="author-donations-container">
+            {auth.donationsRecieved ? <p>You have received :  £{auth.donationsRecieved} from other users!</p> : null}
+            {auth.donationsSent ? <p>You have dontated  £{auth.donationsSent} to other authors!</p> : null}
+
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 
   const renderChangeUsername = () => {
-    return (
-      <div
-        className={
-          `update-info-container ${showChangeUsername && 'active'}`}>
-        <button
-          className="change-esc-btn btn"
-          onClick={() => {
-            setShowChangeUserName(false)
-            setChangeContainer(false)
-          }}
-        >X</button>
-        <form onSubmit={postUsernameChange}>
-          <label>Change Username: </label>
-          <input
-            onChange={(e) => setInput(e.target.value)}
-            value={input}
-          />
-          <button onClick={() => {
-            setShowChangeUserName(false);
-            setShowChangeAfterSubmit(true);
-          }} className="btn author-btn">Submit</button>
-        </form>
-      </div>
-    )
+    if (auth) {
+      return (
+        <div
+          className={
+            `update-info-container ${showChangeUsername && 'active'}`}>
+          <button
+            className="change-esc-btn btn"
+            onClick={() => {
+              setShowChangeUserName(false)
+              setChangeContainer(false)
+            }}
+          >X</button>
+          <form onSubmit={postUsernameChange}>
+            <label>Change Username: </label>
+            <input
+              onChange={(e) => setInput(e.target.value)}
+              value={input}
+            />
+            <button onClick={() => {
+              setShowChangeUserName(false);
+              setShowChangeAfterSubmit(true);
+            }} className="btn author-btn">Submit</button>
+          </form>
+        </div>
+      )
+    }
   }
 
 
   const renderChangeDesc = () => {
+    if (auth) {
+
+      return (
+        <div
+          className={
+            `update-info-container ${showChangeDesc && 'active'}`}>
+          <button
+            className="change-esc-btn btn"
+            onClick={() => {
+              setShowChangeDesc(false)
+              setChangeContainer(false)
+            }}
+          >X</button>
+          <form onSubmit={postDescChange}>
+            <label>
+              {auth.description ? 'Edit your description' :
+                "Add a description to your profile"}
+            </label>
+            <input
+              onChange={(e) => setInput(e.target.value)}
+              value={input}
+            />
+            <button onClick={() => {
+              setShowChangeDesc(false);
+              setShowChangeAfterSubmit(true);
+            }} className="btn author-btn">Submit</button>
+          </form>
+        </div>
+      )
+    }
+  }
+
+  const renderDeleteUser = () => {
     return (
-      <div
-        className={
-          `update-info-container ${showChangeDesc && 'active'}`}>
+      <div className={
+        `update-info-container ${showDeleteUser && 'active'}`}>
         <button
           className="change-esc-btn btn"
           onClick={() => {
-            setShowChangeDesc(false)
-            setChangeContainer(false)
+            setShowDeleteUser(false);
+            setChangeContainer(false);
           }}
         >X</button>
-        <form onSubmit={postDescChange}>
-          <label>
-            {auth.description ? 'Edit your description' :
-              "Add a description to your profile"}
-          </label>
-          <input
-            onChange={(e) => setInput(e.target.value)}
-            value={input}
-          />
-          <button onClick={() => {
-            setShowChangeDesc(false);
-            setShowChangeAfterSubmit(true);
-          }} className="btn author-btn">Submit</button>
-        </form>
+        <p>Are you sure you want to delete your profile? All your data will be removed permenantly </p>
+        <button onClick={() => {
+          postDeleteUser();
+        }}>Delete</button>
+
       </div>
     )
   }
@@ -206,6 +252,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   const renderAfterChange = () => {
     return (
       <div className={`update-info-container ${showChangeAfterSubmit && 'active'}`}>
+
         <button
           className="change-esc-btn btn"
           onClick={() => {
@@ -218,6 +265,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   }
 
 
+
   const pageSuccess = () => {
     return (
       <div className="author-page-container">
@@ -226,6 +274,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
         >
           {renderChangeUsername()}
           {renderChangeDesc()}
+          {renderDeleteUser()}
           {renderAfterChange()}
 
         </div>
@@ -253,5 +302,5 @@ const mapStateToProps = ({ author, auth, userStories, pager, error }) => {
   return { author, auth, pager, userStories, error }
 };
 
-export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, cleanUp })(Author);
+export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, cleanUp, deleteUser })(Author);
 
