@@ -21,7 +21,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
   }, [setCurrentPage, match.params.page])
 
   useEffect(() => {
-    if (pager.currentPage !== currentPage) {
+    if (pager.currentPage !== currentPage && currentPage) {
       fetchStories(currentPage);
     }
     else {

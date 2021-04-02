@@ -56,9 +56,9 @@ router.post('/post-payment-data', isAuth, async (req, res, next) => {
     }
     await author.save();
     await user.save();
-    console.log('SUCCESS')
+    res.status(201).json({ msg: 'Payment posted', user })
   } catch (err) {
-    console.log(err)
+    next(err);
   }
 })
 

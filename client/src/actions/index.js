@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { FETCH_STORIES, FETCH_USER_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY, CLEAN_UP, FETCH_STORY_REQUEST, ADD_ERROR, DELETE_USER, CLEAR_MESSAGE, ADD_MESSAGE, DELETE_COMMENT } from './types';
+import { bindActionCreators } from 'redux';
+import { FETCH_STORIES, FETCH_USER_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, UPDATING_USERNAME, UPDATING_DESCRIPTION, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY, CLEAN_UP, FETCH_STORY_REQUEST, ADD_ERROR, DELETE_USER, CLEAR_MESSAGE, ADD_MESSAGE, DELETE_COMMENT, PAYMENT_SUCCESS } from './types';
 
 
 export const fetchStories = (page) => async (dispatch) => {
@@ -81,6 +82,7 @@ export const deleteStory = (storyId) => async dispatch => {
 }
 
 export const updateUsername = (username) => async dispatch => {
+  dispatch({ type: UPDATING_USERNAME, payload: 'Updating...' })
   try {
     const res = await axios.put('/account/update-username', {
       username
@@ -97,6 +99,7 @@ export const updateUsername = (username) => async dispatch => {
 }
 
 export const updateUserDesc = (description) => async dispatch => {
+  dispatch({ type: UPDATING_DESCRIPTION, payload: 'Updating...' })
   try {
     const res = await axios.put('/account/update-desc', {
       description
@@ -236,11 +239,23 @@ export const addSnippet = (snippet) => {
 
 
 export const postPayment = (amount, authorId, userId) => async dispatch => {
-  await axios.post('/post-payment-data', {
-    amount,
-    authorId,
-    userId
-  });
+  try {
+    const res = await axios.post('/post-payment-data', {
+      amount,
+      authorId,
+      userId
+    });
+    console.log(res.data)
+    dispatch({ type: PAYMENT_SUCCESS, payload: res.data.user })
+  } catch (err) {
+    console.log(err)
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    dispatch({ type: ADD_ERROR, payload: error })
+  }
 }
 
 export const deleteUser = (userId, history) => async dispatch => {
