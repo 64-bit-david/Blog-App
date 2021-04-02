@@ -264,6 +264,6 @@ export const clearMessage = () => {
   return { type: CLEAR_MESSAGE };
 }
 
-export const cleanUp = () => {
+export const clearError = () => {
   return { type: CLEAN_UP }
 }

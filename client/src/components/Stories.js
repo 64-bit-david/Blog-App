@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import displayError from './displayError';
 
-import { fetchStories, cleanUp, clearMessage } from '../actions/index';
+import { fetchStories, clearError, clearMessage } from '../actions/index';
 import Snippets from './Snippets';
 import paginationHelper from './paginationHelper';
 
 
-const Stories = ({ stories, fetchStories, pager, match, cleanUp, error, message, clearMessage }) => {
+const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, message, clearError }) => {
 
 
 
@@ -32,9 +32,15 @@ const Stories = ({ stories, fetchStories, pager, match, cleanUp, error, message,
 
   useEffect(() => {
     return function cleanup() {
-      cleanUp();
+      clearError();
     }
-  }, [])
+  }, [clearError])
+
+  useEffect(() => {
+    return function cleanup() {
+      clearMessage()
+    }
+  }, [clearMessage])
 
 
   //creates a new array with the object from the liveFeed function inserted at index 1
@@ -97,7 +103,7 @@ const Stories = ({ stories, fetchStories, pager, match, cleanUp, error, message,
   return (
     <div>
       {renderMessages()}
-      {error ? displayError(error, cleanUp) : pageSuccess()}
+      {error ? displayError(error, clearError) : pageSuccess()}
 
     </div>
   )
@@ -108,4 +114,4 @@ const mapStateToProps = ({ stories, pager, error, message }) => {
   return { stories, pager, error, message }
 }
 
-export default connect(mapStateToProps, { fetchStories, cleanUp, clearMessage })(Stories);
+export default connect(mapStateToProps, { fetchStories, clearError, clearMessage })(Stories);

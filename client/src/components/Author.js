@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
-import { fetchAuthorBasic, fetchUserStories, cleanUp } from '../actions';
+import { fetchAuthorBasic, fetchUserStories, clearError } from '../actions';
 import paginationHelper from './paginationHelper';
 import displayError from './displayError';
 
-const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager, error, cleanUp }) => {
+const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager, error, clearError }) => {
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
@@ -104,7 +104,7 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
 
   return (
     <div>
-      {error ? displayError(error, cleanUp) : pageSuccess()}
+      {error ? displayError(error, clearError) : pageSuccess()}
 
     </div>
   )
@@ -114,5 +114,5 @@ const mapStateToProps = ({ author, auth, userStories, pager, error }) => {
   return { author, auth, userStories, pager, error }
 };
 
-export default connect(mapStateToProps, { fetchAuthorBasic, fetchUserStories, cleanUp })(Author);
+export default connect(mapStateToProps, { fetchAuthorBasic, fetchUserStories, clearError })(Author);
 

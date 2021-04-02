@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { editStory, fetchStory, cleanUp } from '../actions';
+import { editStory, fetchStory, clearError } from '../actions';
 import displayError from './displayError';
 
 
@@ -104,7 +104,7 @@ const EditStory = ({ auth, story, editStory, history, match, error }) => {
 
   return (
     <div>
-      {error ? displayError(error, cleanUp) : pageSuccess()}
+      {error ? displayError(error, clearError) : pageSuccess()}
     </div>
   )
 }
@@ -114,4 +114,4 @@ const mapStateToProps = ({ auth, story, error }) => {
 }
 
 
-export default connect(mapStateToProps, { editStory, cleanUp })(EditStory);
+export default connect(mapStateToProps, { editStory, clearError })(EditStory);

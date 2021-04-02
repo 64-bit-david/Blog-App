@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { updateStoryComments, deleteStoryComment, fetchStory, cleanUp } from '../actions';
+import { updateStoryComments, deleteStoryComment, fetchStory, clearError } from '../actions';
 
 
 
 
-const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, fetchStory, error, cleanUp }) => {
+const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, fetchStory, error, clearError }) => {
 
   const { register, handleSubmit, errors, reset } = useForm();
 
@@ -37,7 +37,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
     }
     createCommentPgArray();
 
-    return function cleanUp() {
+    return function cleanup() {
       setCommentsArray(null);
     }
   }, [commentPage, story])
@@ -159,4 +159,4 @@ const mapStateToProps = ({ story, auth, error }) => {
   return { story, auth, error }
 }
 
-export default connect(mapStateToProps, { updateStoryComments, deleteStoryComment, fetchStory, cleanUp })(StoryComments)
+export default connect(mapStateToProps, { updateStoryComments, deleteStoryComment, fetchStory, clearError })(StoryComments)

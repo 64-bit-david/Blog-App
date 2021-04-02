@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, cleanUp, deleteUser, clearMessage } from '../actions';
+import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage } from '../actions';
 import paginationHelper from './paginationHelper';
 import displayError from './displayError';
 
-const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, cleanUp, error, deleteUser, history, clearMessage, message }) => {
+const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, clearError, error, deleteUser, history, clearMessage, message }) => {
 
 
   const { register, handleSubmit, errors } = useForm();
@@ -47,7 +47,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   // }, [auth, currentPage, fetchUserStories])
 
   useEffect(() => {
-    if (auth._id) {
+    if (auth?._id) {
       if (pager.currentPage !== currentPage && currentPage) {
         fetchUserStories(currentPage, auth._id);
       }
@@ -61,9 +61,9 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
 
   useEffect(() => {
     return function cleanup() {
-      cleanUp();
+      clearError();
     }
-  }, [cleanUp])
+  }, [clearError])
 
 
 
@@ -323,7 +323,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   return (
     <div>
       {renderMessages()}
-      {error ? displayError(error, cleanUp) : pageSuccess()}
+      {error ? displayError(error, clearError) : pageSuccess()}
     </div>
   )
 
@@ -334,5 +334,5 @@ const mapStateToProps = ({ author, auth, userStories, pager, error, message }) =
   return { author, auth, pager, userStories, error, message }
 };
 
-export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, cleanUp, deleteUser, clearMessage })(Author);
+export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage })(Author);
 

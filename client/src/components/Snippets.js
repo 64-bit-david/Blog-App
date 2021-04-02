@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import openSocket from 'socket.io-client';
 import { useForm } from 'react-hook-form';
-import { postSnippet, fetchSnippet, addSnippet, deleteSnippet, cleanUp } from '../actions';
+import { postSnippet, fetchSnippet, addSnippet, deleteSnippet, clearError } from '../actions';
 
 
 const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, deleteSnippet }) => {
@@ -102,6 +102,6 @@ const mapStateToProps = ({ snippets, auth }) => {
   return { snippets, auth };
 }
 
-export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet, deleteSnippet, cleanUp })(Snippets);
+export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet, deleteSnippet, clearError })(Snippets);
 
 

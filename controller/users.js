@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Story = require('../models/Story');
+const Snippet = require('../models/Snippet');
 
 const { validationResult } = require('express-validator');
 
@@ -81,6 +82,11 @@ exports.updateUsername = async (req, res, next) => {
       throw error
     }
     let user = await User.findById(userId);
+    if (user._id.toString() !== userId.toString()) {
+      const error = new Error('Authentication error');
+      error.statusCode = 403;
+      throw error;
+    }
     if (!username) {
       user.username = '';
       const updatedUser = await user.save();
@@ -90,7 +96,9 @@ exports.updateUsername = async (req, res, next) => {
     if (checkUsernameExists) {
       return res.status(409).json({ msg: "Username taken, please choose another" });
     }
+
     user.username = username;
+
     const updatedUser = await user.save();
     if (!updatedUser) {
       const error = new Error('Updating username failed');
@@ -107,10 +115,8 @@ exports.updateUsername = async (req, res, next) => {
 exports.updateDesc = async (req, res, next) => {
   const userId = req.user._id;
   const desc = req.body.description;
-  console.log(desc)
 
   try {
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors.errors[0].msg);
@@ -119,6 +125,12 @@ exports.updateDesc = async (req, res, next) => {
       throw error
     }
     let user = await User.findById(userId);
+    if (user._id.toString() !== userId.toString()) {
+      const error = new Error('Authentication error');
+      error.statusCode = 403;
+      throw error;
+    }
+
     user.description = desc;
     const updatedUser = await user.save();
     if (!updatedUser) {
@@ -143,14 +155,15 @@ exports.deleteUser = async (req, res, next) => {
       throw Error;
     }
     if (user._id.toString() !== req.user._id.toString()) {
-      const error = new Error('User deletion failed - the account requested to be deleted does not match the account making the request');
-      error.statusCode = 401;
+      const error = new Error('User deletion failed. Please try again');
+      error.statusCode = 403;
       throw error;
     }
     await User.findByIdAndDelete(userId);
+    await Story.deleteMany({ _user: userId });
+    await Snippet.deleteMany({ _user: userId });
     res.status(201).json({ msg: 'Account Deleted' })
   } catch (err) {
     next(err)
   }
-
 }

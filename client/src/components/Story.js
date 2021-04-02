@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchStory, fetchAuthor, deleteStory, cleanUp, clearMessage } from '../actions';
+import { fetchStory, fetchAuthor, deleteStory, clearError, clearMessage } from '../actions';
 import displayError from './displayError';
 
 import StoryComments from './StoryComments';
 
-const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, auth, history, cleanUp, error, message, clearMessage }) => {
+const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, auth, history, clearError, error, message, clearMessage }) => {
 
 
 
@@ -23,9 +23,15 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 
   useEffect(() => {
     return function cleanup() {
-      cleanUp()
+      clearError()
     }
-  }, [cleanUp])
+  }, [clearError])
+
+  useEffect(() => {
+    return function cleanup() {
+      clearMessage()
+    }
+  }, [clearMessage])
 
 
   const authorNameCheck = (author) => {
@@ -119,7 +125,7 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
   return (
     <div>
       {renderMessages()}
-      {error ? displayError(error, cleanUp) : pageSuccess()}
+      {error ? displayError(error, clearError) : pageSuccess()}
     </div>
   )
 }
@@ -127,4 +133,4 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 const mapStateToProps = ({ story, author, auth, error, message }) => {
   return { story, author, auth, error, message }
 }
-export default connect(mapStateToProps, { fetchStory, fetchAuthor, deleteStory, cleanUp, clearMessage })(Story)
+export default connect(mapStateToProps, { fetchStory, fetchAuthor, deleteStory, clearError, clearMessage })(Story)

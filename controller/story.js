@@ -1,6 +1,7 @@
 const Story = require('../models/Story');
 const User = require('../models/User');
 const { validationResult } = require('express-validator');
+const { v4: uuidv4 } = require('uuid');
 
 const STORIES_PER_PAGE = 5;
 
@@ -128,7 +129,7 @@ exports.editStory = async (req, res, next) => {
     console.log(req.user._id);
     if (story._user.toString() !== req.user._id.toString()) {
       const error = new Error("Cannot edit another user's story!");
-      error.statusCode = 401;
+      error.statusCode = 403;
       throw error;
     }
     story.title = title;
@@ -147,7 +148,7 @@ exports.editStory = async (req, res, next) => {
       user.stories.push({ _id: story._id });
     }
     await user.save();
-    res.status(200).json({ msg: 'Story Created', story: response });
+    res.status(200).json({ msg: 'Story Updated', story: response });
   } catch (err) {
     next(err);
   }
@@ -165,9 +166,8 @@ exports.postStoryComment = async (req, res, next) => {
     throw error
   }
 
-
   let username;
-  const commentId = Date.now()
+  const commentId = uuidv4();
   req.user.username ? username = req.user.username : username = req.user.name;
   const commentText = req.body.commentText;
   const commentObj = { username, userId, commentText, id: commentId };
@@ -207,10 +207,6 @@ exports.deleteComment = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-
-
-
-
 }
 
 exports.deleteStory = async (req, res, next) => {

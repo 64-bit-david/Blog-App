@@ -6,11 +6,11 @@ import openSocket from 'socket.io-client';
 
 import displayError from './displayError';
 import paginationHelper from './paginationHelper';
-import { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, cleanUp } from '../actions';
+import { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, clearError } from '../actions';
 
 
 
-const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth, deleteSnippet, pager, match, error, cleanUp }) => {
+const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth, deleteSnippet, pager, match, error, clearError }) => {
 
 
   const { register, handleSubmit, errors } = useForm();
@@ -111,7 +111,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
 
   return (
     <div>
-      {error ? displayError(error, cleanUp) : pageSuccess()}
+      {error ? displayError(error, clearError) : pageSuccess()}
     </div>
   )
 }
@@ -120,6 +120,6 @@ const mapStateToProps = ({ snippets, auth, pager, error }) => {
   return { snippets, auth, pager, error };
 }
 
-export default connect(mapStateToProps, { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, displayError, cleanUp })(AllSnippets);
+export default connect(mapStateToProps, { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, displayError, clearError })(AllSnippets);
 
 

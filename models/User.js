@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Story = require('./Story');
 
 const Schema = mongoose.Schema;
 
@@ -28,6 +29,7 @@ const userSchema = new Schema({
   //comments?
 },
   { timestamps: true });
+
 
 
 // userSchema.pre('save', function (next) {

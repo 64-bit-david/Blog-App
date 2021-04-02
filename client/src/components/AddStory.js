@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { postStory, cleanUp } from '../actions';
+import { postStory, clearError } from '../actions';
 import { useForm } from 'react-hook-form';
 import displayError from './displayError';
 
 
 
-const AddStory = ({ postStory, auth, history, error, cleanUp }) => {
+const AddStory = ({ postStory, auth, history, error, clearError }) => {
 
   const { register, handleSubmit, errors } = useForm();
 
@@ -93,7 +93,7 @@ const AddStory = ({ postStory, auth, history, error, cleanUp }) => {
 
   return (
     <div>
-      {error ? displayError(error, cleanUp) : pageSuccess()}
+      {error ? displayError(error, clearError) : pageSuccess()}
     </div>
   )
 }
@@ -102,4 +102,4 @@ const mapStateToProps = ({ auth, story, error }) => {
   return { auth, story, error }
 }
 
-export default connect(mapStateToProps, { postStory, cleanUp })(AddStory)
+export default connect(mapStateToProps, { postStory, clearError })(AddStory)
