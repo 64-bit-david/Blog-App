@@ -1,6 +1,9 @@
 const User = require('../models/User');
 const Story = require('../models/Story');
 
+const { validationResult } = require('express-validator');
+
+
 const STORIES_PER_PAGE = 4;
 
 
@@ -22,7 +25,6 @@ exports.getUser = async (req, res, next) => {
 exports.getUserStories = async (req, res, next) => {
   const page = +req.query.page || 1;
   const userId = req.params.userId;
-  console.log(userId);
   try {
     const totalStories = await Story.find({ _user: userId }).countDocuments();
     const stories = await Story.find({ _user: userId })
@@ -69,7 +71,15 @@ exports.getUserBasic = async (req, res, next) => {
 exports.updateUsername = async (req, res, next) => {
   const userId = req.user._id;
   const username = req.body.username;
+  const errors = validationResult(req);
   try {
+
+    if (!errors.isEmpty()) {
+      console.log(errors.errors[0].msg);
+      const error = new Error(errors.errors[0].msg);
+      error.statusCode = 422;
+      throw error
+    }
     let user = await User.findById(userId);
     if (!username) {
       user.username = '';
@@ -97,7 +107,17 @@ exports.updateUsername = async (req, res, next) => {
 exports.updateDesc = async (req, res, next) => {
   const userId = req.user._id;
   const desc = req.body.description;
+  console.log(desc)
+
   try {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors.errors[0].msg);
+      const error = new Error(errors.errors[0].msg);
+      error.statusCode = 422;
+      throw error
+    }
     let user = await User.findById(userId);
     user.description = desc;
     const updatedUser = await user.save();

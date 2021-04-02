@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import openSocket from 'socket.io-client';
 import { useForm } from 'react-hook-form';
 import { postSnippet, fetchSnippet, addSnippet, deleteSnippet, cleanUp } from '../actions';
-import displayError from './displayError';
 
 
 const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, deleteSnippet }) => {

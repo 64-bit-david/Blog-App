@@ -1,15 +1,23 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, cleanUp, deleteUser } from '../actions';
+import { useForm } from 'react-hook-form';
+import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, cleanUp, deleteUser, clearMessage } from '../actions';
 import paginationHelper from './paginationHelper';
 import displayError from './displayError';
 
-const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, cleanUp, error, deleteUser, history }) => {
+const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, cleanUp, error, deleteUser, history, clearMessage, message }) => {
 
 
+  const { register, handleSubmit, errors } = useForm();
 
-  const [input, setInput] = useState('');
+  const {
+    register: register2,
+    errors: errors2,
+    handleSubmit: handleSubmit2
+  } = useForm({});
+
+  // const [input, setInput] = useState('');
   const [showChangeUsername, setShowChangeUserName] = useState(false);
   const [showChangeDesc, setShowChangeDesc] = useState(false);
   const [showDeleteUser, setShowDeleteUser] = useState(false);
@@ -58,16 +66,18 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   }, [cleanUp])
 
 
-  const postUsernameChange = (e) => {
-    e.preventDefault();
-    updateUsername(input);
-    setInput('');
+
+
+  const postUsernameChange = (data) => {
+    updateUsername(data.username);
+    setShowChangeUserName(false);
+    setShowChangeAfterSubmit(true);
   }
 
-  const postDescChange = (e) => {
-    e.preventDefault();
-    updateUserDesc(input);
-    setInput('');
+  const postDescChange = (data) => {
+    updateUserDesc(data.description);
+    setShowChangeDesc(false);
+    setShowChangeAfterSubmit(true);
   }
 
   const postDeleteUser = () => {
@@ -179,16 +189,19 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
               setChangeContainer(false)
             }}
           >X</button>
-          <form onSubmit={postUsernameChange}>
+          <form onSubmit={handleSubmit(postUsernameChange)}>
             <label>Change Username: </label>
             <input
-              onChange={(e) => setInput(e.target.value)}
-              value={input}
+              name="username"
+              ref={register({ required: true, maxLength: 30 })}
             />
-            <button onClick={() => {
-              setShowChangeUserName(false);
-              setShowChangeAfterSubmit(true);
-            }} className="btn author-btn">Submit</button>
+            {errors.username && errors.username.type === 'required' && (
+              <p>Required</p>
+            )}
+            {errors.username && errors.username.type === 'maxLength' && (
+              <p>Username should not be longer than 30 characters</p>
+            )}
+            <button type="submit" className="btn author-btn">Submit</button>
           </form>
         </div>
       )
@@ -210,19 +223,25 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
               setChangeContainer(false)
             }}
           >X</button>
-          <form onSubmit={postDescChange}>
+          <form onSubmit={handleSubmit2(postDescChange)}>
             <label>
               {auth.description ? 'Edit your description' :
                 "Add a description to your profile"}
             </label>
             <input
-              onChange={(e) => setInput(e.target.value)}
-              value={input}
+              name="description"
+              ref={register2({ required: true, minLength: 5, maxLength: 100 })}
             />
-            <button onClick={() => {
-              setShowChangeDesc(false);
-              setShowChangeAfterSubmit(true);
-            }} className="btn author-btn">Submit</button>
+            {errors2.description && errors2.description.type === 'required' && (
+              <p>Required</p>
+            )}
+            {errors2.description && errors2.description.type === 'maxLength' && (
+              <p>Description should not be longer than 100 characters</p>
+            )}
+            {errors2.description && errors2.description.type === 'minLength' && (
+              <p>Descriptions must have at least 5 characters</p>
+            )}
+            <button type="submit" className="btn author-btn">Submit</button>
           </form>
         </div>
       )
@@ -289,8 +308,21 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
 
   }
 
+  const renderMessages = () => {
+    if (message) {
+      return (
+        <div className="message-container">
+          <p>{message}</p>
+          <button onClick={() => clearMessage()}>Close</button>
+        </div>
+      )
+    }
+  }
+
+
   return (
     <div>
+      {renderMessages()}
       {error ? displayError(error, cleanUp) : pageSuccess()}
     </div>
   )
@@ -298,9 +330,9 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
 
 };
 
-const mapStateToProps = ({ author, auth, userStories, pager, error }) => {
-  return { author, auth, pager, userStories, error }
+const mapStateToProps = ({ author, auth, userStories, pager, error, message }) => {
+  return { author, auth, pager, userStories, error, message }
 };
 
-export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, cleanUp, deleteUser })(Author);
+export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, cleanUp, deleteUser, clearMessage })(Author);
 

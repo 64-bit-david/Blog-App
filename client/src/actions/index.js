@@ -51,8 +51,10 @@ export const editStory = ({ storyId, title, description, content }, history) =>
         title, description, content,
       });
       dispatch({ type: EDIT_STORY, payload: res.data.story });
+      dispatch({ type: ADD_MESSAGE, payload: res.data.msg })
       history.push('/story/' + storyId);
     } catch (err) {
+      console.log(err)
       const error = {
         statusCode: err.response.status,
         message: err.response.data.error,
@@ -63,8 +65,19 @@ export const editStory = ({ storyId, title, description, content }, history) =>
   }
 
 export const deleteStory = (storyId) => async dispatch => {
-  await axios.delete(`/api/stories/${storyId}`);
-  dispatch({ type: DELETE_STORY, payload: storyId });
+  try {
+    await axios.delete(`/api/stories/${storyId}`);
+    dispatch({ type: DELETE_STORY, payload: storyId });
+    dispatch({ type: ADD_MESSAGE, payload: 'Story Deleted' })
+  } catch (err) {
+    console.log(err)
+    const error = {
+      statusCode: err.response.status,
+      message: err.response.data.error,
+      statusText: err.response.data.statusText
+    }
+    dispatch({ type: ADD_ERROR, payload: error })
+  }
 }
 
 export const updateUsername = (username) => async dispatch => {
