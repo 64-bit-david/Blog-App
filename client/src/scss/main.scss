@@ -1,8 +1,8 @@
 //variables, reusables
 
-$main-font:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 
+@import 'util/util-dir';
 
 
 //Rests
@@ -97,15 +97,15 @@ img {
   }
 }
 }
-
-@import 'header';
-@import 'stories';
-@import 'story';
-@import 'addStory';
-@import 'userProfile';
-@import 'author';
-@import 'snippets';
-@import 'payment';
+@import 'layout/header-dir';
+@import 'pages/pages-dir';
+// @import 'stories';
+// @import 'story';
+// @import 'addStory';
+// @import 'userProfile';
+// @import 'author';
+// @import 'snippets';
+// @import 'payment';
 
 
 

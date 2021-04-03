@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchUser } from '../actions';
 
 const Header = ({ fetchUser, auth }) => {
+
+  const [dropDown, setDropDown] = useState(false);
 
   useEffect(() => {
     fetchUser();
@@ -13,14 +15,38 @@ const Header = ({ fetchUser, auth }) => {
   const isLoggedIn = () => {
     if (!auth) {
       return (
-        <a className="btn sign-in-btn" href="/auth/google">Log In With Google</a>
+        <div className={`google-btn ${dropDown && 'active'}`}>
+          <a google-btn-link href="/auth/google"></a>
+          <div className="google-icon-wrapper">
+            <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
+          </div>
+          <p className="google-btn-text">
+            Sign In With Google
+          </p>
+          <a />
+
+        </div>
       )
     }
     return (
       <div>
-        <Link to="/add-story" className=" btn sign-in-btn">Add a Story</Link>
-        <Link to={`/your-profile`} className=" btn sign-in-btn">Your Profile</Link>
-        <a href="/api/logout" className="btn sign-in-btn">Log Out</a>
+        <div className={`header-right-menu ${dropDown && 'active'}`}>
+
+          <Link to="/add-story" className=" btn sign-in-btn">Add a Story</Link>
+          <Link to={`/your-profile`} className=" btn sign-in-btn">Your Profile</Link>
+          <a href="/api/logout" className="btn sign-in-btn">Log Out</a>
+        </div>
+        <div className={`burger ${dropDown && 'active'}`}>
+          <button
+            onClick={() => setDropDown(!dropDown)}
+            className="burger-btn"
+          >
+            <div className="burger-line"></div>
+            <div className="burger-line"></div>
+            <div className="burger-line"></div>
+
+          </button>
+        </div>
       </div>
     );
 

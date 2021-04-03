@@ -102,8 +102,8 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   return (
     <div>
-      {renderMessages()}
-      {error ? displayError(error, clearError) : pageSuccess()}
+      {/* {renderMessages()} */}
+      {/* {error ? displayError(error, clearError) : pageSuccess()} */}
 
     </div>
   )
