@@ -1,81 +1,154 @@
 .story-page-container{
-  margin: 6rem;
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
 
   h3{
-    font-size: 4rem;
-    margin: 0;
-    margin-bottom: 2rem;
+    font-size: 3rem;
+    font-weight: 400;
+    text-align: center;
+    border-bottom: 2px solid $color-5;
+    margin: 0 2rem;
   }
 
-  
-  p.story-page-desc{
+  .story-btns-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .btn{
+      margin: 2rem;
+    }
+
+    a{
+      text-align: center;
+      text-decoration: none;
+    }
+  }
+
+  .story-donate-btns-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem 0;
+
+    p{
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    a{
+      font-size: 1.8rem;
+      text-decoration: none;
+    }
+  }
+
+  .story-page-desc{
     font-size: 2rem;
     font-style: italic;
-    margin-bottom: 2rem;
-  }
-  p.story-page-story{
-    font-size: 1.9rem;
+    text-align: center;
+    margin: 0 2rem;
   }
 
+  .author-container{
+    text-align: center;
+    margin: 2rem 0;
+    font-size: 1.5rem;
+    a{
+      color: $font-color-1;
+      font-style: italic;
+    }
+  }
   .story-page-grid{
-    display: grid;
-    grid-template-columns: 4, 1fr;
-    
-
-
-  .story-page-main-item{
-    grid-column: 1/4;
-  }
-
-  .story-page-sub-item {
-    grid-column: 4/5;
-    width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    .author-container{
+    .story-page-main-item{
+      .story-page-story{
+        font-size: 1.7rem;
+        line-height: 1.5;
+        font-family: $font-2;
+        background-color: $color-3;
+        margin: 0 1rem;
+        padding: 1rem 1rem;
+        border-radius: 3px;
+        border: 2px solid $color-5;
+      }
+    }
+
+    .story-page-sub-item{
+      width: 95vw;
+
+    .comments-container{
       display: flex;
       flex-direction: column;
       align-items: center;
-      h4{
-        font-size: 2.9rem;
-        margin-bottom: 2rem;
-      }
-      .donate-btn{
-        margin-bottom: 5rem;
-      }
+      width: 100%;
+      background-color: $color-3;
+      margin: 3rem 0;
+      padding: 0 2rem;
+      border: 2px solid $color-5;
 
-    }
-
-    .comments-container{
       h5{
-        font-size: 2.2rem;
-        text-align: center;
-        text-decoration: underline;
-      }
-      li{
-        border: 1px solid black;
-        margin: 1rem;
         font-size: 2rem;
+        margin: 1rem 0;
+      }
+      form{
         display: flex;
         flex-direction: column;
-        span{
-          font-size: 1.9rem;
-          &.user-comment{
-            font-size: 1.5rem;
-          }
-          
+        align-items: center;
+        width: 100%;
+
+        label{
+          font-size: 1.3rem;
+          margin: .2rem 0;
+        }
+        .input-container{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+        }
+        input{
+          width: inherit;
+          height: 3.5rem;
+        }
+       
+        button{
+          margin: .5rem 0;
+          margin-left: .5rem;
         }
       }
+      ul{
+        width: 100%;
+        .comment-container{
+          border-bottom: 1px solid $color-5;
+          padding: .5rem;
+          display: flex;
+          justify-content: space-between;
 
-
-
+          .comment-left{
+            .comment-text{
+              word-break: break-word;
+              font-family: $font-2;
+              font-size: 1.7rem;
+            }
+            .comment-user a{
+              font-size: 1.6rem;
+              font-style: italic;
+              color: $font-color-1;
+            }
+          }
+          .comment-right{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      }
     }
   }
-
-
-  }
-
+}
 
 }

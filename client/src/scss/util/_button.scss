@@ -1,8 +1,51 @@
 
 
+.btn{
+  border-radius: 3px;
+  color: $font-color-1;
+  border: none;
+  cursor: pointer;
+  transition: all .15s ease-in;
+  background-color: none;
+  min-width: 6rem;
+
+  &:hover{
+    color: $color-3;
+  }
+}
 
 
+.green-btn{
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  background-color: $color-1;
+}
 
+
+.delete-btn{
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  background-color: $color-5;
+
+  &:focus{
+    outline: 1px solid $color-3;
+  }
+}
+
+.notification-btn{
+  margin: .5rem 0 .75rem 0;
+  font-size: 1.8rem;
+  padding: .5rem 1rem;
+  background-color: $color-1;
+  font-size: 1.3rem;
+}
+
+.dd-btn{
+  font-size: 2rem;
+  padding: 1rem;
+}
 
 
 

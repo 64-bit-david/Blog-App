@@ -114,15 +114,21 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
       if (commentsArray.length > 0) {
         return commentsArray.map(comment => {
           return (
-            <li key={comment.id}>
-              <span className="user-comment">
-                <Link to={`/author/${comment.userId}`}>{comment.username}</Link>
-              </span>
-              {comment.commentText}
-              {comment.userId === auth._id ?
-                <button
-                  onClick={() => deleteComment(story._id, comment.id)}
-                >Delete</button> : null}
+            <li key={comment.id} className="comment-container">
+              <div className="comment-left">
+                <p className="comment-text">{comment.commentText}</p>
+                <p className="comment-user">
+                  <Link to={`/author/${comment.userId}`}>{comment.username}</Link>
+                </p>
+              </div>
+              <div className="comment-right">
+                {comment.userId === auth._id ?
+                  <button
+                    onClick={() => deleteComment(story._id, comment.id)}
+                    className="btn delete-btn"
+                  >Delete</button> : null}
+              </div>
+
             </li>
           )
         })
@@ -132,20 +138,19 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
 
   return (
     <div className="comments-container">
-      <h5>Here's what others are saying</h5>
+      <h5>Comments</h5>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>Add a Comment</label>
-        <input
-          name='commentText'
-          ref={register({ required: true, maxLength: 100 })}
-        />
-        {errors.commentText && errors.commentText.type === 'required' && (
-          <p>Snippet text required!</p>
-        )}
+        <div className="input-container">
+          <input
+            name='commentText'
+            ref={register({ required: true, maxLength: 100 })}
+          />
+          <button type="submit" className="btn green-btn">Post</button>
+        </div>
         {errors.commentText && errors.commentText.type === 'maxLength' && (
-          <p>Your snippet should be less than 100 characters</p>
+          <p className="validation-warning">Comments have a max length of 100 characters</p>
         )}
-        <button type="submit">Submit</button>
       </form>
       <ul>
         {renderStoryComments()}

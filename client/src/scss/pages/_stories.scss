@@ -1,36 +1,176 @@
 
 .stories-container{
-  margin: 0 6rem;
+  margin: 0 1rem;
+ 
+  .header-container{
+    text-align: center;
   h1{
-    margin-bottom: 3rem;
-    font-size: 5rem;
+    font-size: 3rem;
+    display: inline-block;
+    text-align: center;
+    margin-top: 3rem;
+    border-bottom: 2px solid $color-5;
+  }
+  h2{
+    text-align: center;
+    font-size: 2.3rem;
+    text-align: center;
+    display: inline-block;
+    border-bottom: 2px solid $color-5;
   }
 }
+  p.p-welcome{
+    font-family: $font-2;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    letter-spacing: .25px;
+    margin: 3rem 0;
+    text-align: center;
+
+
+    span{
+      font-family: $font-3;
+    }
+  }
+ 
+
 .stories-grid{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  max-width: 100vw;
+  display:flex;
+  flex-direction: column;
   gap: 3rem;
 
 
-.stories-grid-item{
-  border: 1px solid black;
+
+.story-item-container{
+  a{
+    color: $font-color-1;
+    text-decoration: none;
+  }
+.story-item{
+  border: 2px solid $color-5;
+  border-radius: 3px;
   padding: 1rem 3rem;
+  background-color: $color-3;
+  position: relative;
   h3{
-    font-size: 4rem;
-    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    text-align: center;
+    border-bottom: 2px solid $color-5;
+    line-height: 1.2;
+    padding-bottom: .2rem;
   }
   p{
-    font-size: 1.9rem;
-    line-height: 1.6;
-  }
-  &:nth-child(1){
-    grid-column: 1/3;
-  }
-  &:nth-child(2){
-    grid-row: 1/3;
-    grid-column: 3/4;
+    &.story-page-author{
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin: .75rem 0;
+      letter-spacing: -.1px;
+      font-style: italic;
+      text-decoration: underline;
+    }
+    &.story-page-desc{
+      font-size: 1.9rem;
+      line-height: 1.5;
+      font-family: $font-2;
   }
 }
 
+
+  
+  &.featured-story{
+    padding: 0;
+    .featured-text{
+      font-size: 1.5rem;
+      font-weight: 600;
+      background-color: $color-2;
+      text-align: center;
+      border-radius: 1px;
+    }
+    .story-page-author, .story-page-desc, h3{
+      margin-left: 3rem;
+      margin-right: 3rem;
+      // margin-bottom: 1rem;
+    }
+    h3{
+      margin-top: 1rem;
+    }
+    .story-page-desc{
+      margin-bottom: 1rem;
+    }
+  }
+
+
+}
+
+.snippets-container{
+  border-color: $color-5;
+
+  .snippet-header-container{
+    text-align: center;
+
+    h3{
+    display: inline-block;
+    padding: 0 2rem;
+  }
+}
+  .snippets-sub-header{
+    font-size: 1.6rem;
+    font-weight: 400;
+    text-align: center;
+    margin: 1rem 0;
+  }
+  .snippet-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    label{
+      font-size: 1.3rem;
+      margin: .2rem 0;
+    }
+    .input-container{
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+  .snippet-btn-container{
+    margin: .5rem 0;
+    margin-left: .5rem;
+}
+
+  .snippets-home-input{
+    width: 100%;
+    height: 3.5rem;
+  }
+}
+  .snippet-container{
+    border-bottom: 1px solid $color-5;
+    padding: .5rem;
+    display: flex;
+    justify-content: space-between;
+    .snippet-left{
+      .snippet-username{
+        text-decoration: underline;
+      }
+      .snippet-text{
+        word-break: break-word;
+        font-family: $font-2;
+      }
+    }
+
+    .snippet-right{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .link-to-snippets{
+    text-align: center;
+    font-size: 1.8rem;
+    text-decoration: underline;
+    margin-top: 1.5rem;
+  }
+}
+}
+}
 }

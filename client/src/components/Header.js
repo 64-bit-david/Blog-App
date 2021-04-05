@@ -12,18 +12,20 @@ const Header = ({ fetchUser, auth }) => {
   }, [fetchUser])
 
 
+
+
   const isLoggedIn = () => {
     if (!auth) {
       return (
         <div className={`google-btn ${dropDown && 'active'}`}>
-          <a google-btn-link href="/auth/google"></a>
-          <div className="google-icon-wrapper">
-            <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
-          </div>
-          <p className="google-btn-text">
-            Sign In With Google
+          <a google-btn-link href="/auth/google">
+            <div className="google-icon-wrapper">
+              <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
+            </div>
+            <p className="google-btn-text">
+              Sign In With Google
           </p>
-          <a />
+          </a>
 
         </div>
       )
@@ -32,9 +34,23 @@ const Header = ({ fetchUser, auth }) => {
       <div>
         <div className={`header-right-menu ${dropDown && 'active'}`}>
 
-          <Link to="/add-story" className=" btn sign-in-btn">Add a Story</Link>
-          <Link to={`/your-profile`} className=" btn sign-in-btn">Your Profile</Link>
-          <a href="/api/logout" className="btn sign-in-btn">Log Out</a>
+          <Link
+            to="/add-story"
+            className=" btn dd-btn"
+            onClick={() => setDropDown(false)}>
+            Add a Story
+           </Link>
+          <Link
+            to={`/your-profile`}
+            className=" btn dd-btn"
+            onClick={() => setDropDown(false)}>
+            Your Profile
+            </Link>
+          <a href="/api/logout"
+            className="btn dd-btn"
+            onClick={() => setDropDown(false)}>
+            Log Out
+            </a>
         </div>
         <div className={`burger ${dropDown && 'active'}`}>
           <button

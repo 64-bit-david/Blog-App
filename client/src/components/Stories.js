@@ -43,44 +43,79 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
   }, [clearMessage])
 
 
-  //creates a new array with the object from the liveFeed function inserted at index 1
+  //creates a new array with a few extras inserted at the start of the stories array
   const storiesArrayWithFeed = () => {
     const emptyObj = {};
     const copyStories = [...stories];
+    copyStories.splice(0, 0, emptyObj);
     copyStories.splice(1, 0, emptyObj);
+    copyStories.splice(2, 0, emptyObj);
     return copyStories
   }
 
-  //renders the array of user stories into grid items, but inserts feed component into position 1 in index 
+  //renders the array of user stories into grid items, insert a featured story at the index 0, snippets component at index 1 and a title for latest stories at index 2
   const renderGrid = () => {
     const storiesWithFeed = storiesArrayWithFeed();
     return storiesWithFeed.map((story, index) => {
+      if (index === 0) {
+        return (
+          <div className={`story-item-container`} key={index}>
+            <Link
+              to={`/story/606ae0b59dbfba3cccf41568`}
+            >
+              <div className="story-item featured-story">
+                <h5 className="featured-text">Featured</h5>
+                <h3>Shall I compare thee to a summer's day?</h3>
+                <p className="story-page-author">Posted by: Somebody</p>
+                <p className="story-page-desc">
+                  A poem I wrote back in February
+              </p>
+              </div>
+            </Link>
+          </div>
+        )
+      }
       if (index === 1) {
         return (
-          <div className={`stories-grid-item story-item `} key={index}>
+          <div className={`story-item-container snippets-container`} key={index}>
             <Snippets />
           </div>
         )
       }
+      if (index === 2) {
+        return (
+          <div className="story-item-container header-container" key={index}>
+            <h2>Latest Stories</h2>
+          </div>
+        )
+      }
       return (
-        <div className={`stories-grid-item story-item`} key={index}>
+        <div className={`story-item-container`} key={index}>
           <Link
             to={`/story/${story._id}`}
           >
-            <h3>{story.title}</h3>
-            <p className="story-page-story">
-              {story.description}
-            </p>
+            <div className="story-item">
+              <h3>{story.title}</h3>
+              <p className="story-page-author">Posted by: {story.username}</p>
+              <p className="story-page-desc">
+                {story.description}
+              </p>
+            </div>
           </Link>
-        </div>
+
+        </div >
       )
     })
+
   }
 
   const pageSuccess = () => {
     return (
       <div className="stories-container">
-        <h1>Latest Stories</h1>
+        <div className="header-container">
+          <h1>Home</h1>
+        </div>
+        <p className="p-welcome">Welcome to <span>Writer's Desk</span>, a space for creative writers to share their work! Sign up and post your own stories and consider supporting other writers with a donation.</p>
         <div className="stories-grid author-stories-grid">
           {renderGrid()}
         </div>
@@ -93,8 +128,12 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
     if (message) {
       return (
         <div className="message-container">
-          <p>{message}</p>
-          <button onClick={() => clearMessage()}>Close</button>
+          <div className="message">
+            <p>{message}</p>
+            <button
+              className="btn notification-btn"
+              onClick={() => clearMessage()}>Close</button>
+          </div>
         </div>
       )
     }
@@ -102,8 +141,8 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   return (
     <div>
-      {/* {renderMessages()} */}
-      {/* {error ? displayError(error, clearError) : pageSuccess()} */}
+      {renderMessages()}
+      {error ? displayError(error, clearError) : pageSuccess()}
 
     </div>
   )

@@ -16,8 +16,7 @@ const snippetSchema = new Schema({
     type: String,
     required: true,
   },
-  createdAt: { type: Date, expires: '10m', default: Date.now }
-});
+}, { timestamps: true });
 
 
 // snippetSchema.pre('save', function (next) {

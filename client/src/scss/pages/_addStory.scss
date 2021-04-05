@@ -4,49 +4,54 @@
   align-items: center;
   
 .forms-container{
-  width: 80rem;
+  width: 100%;
 
   h2{
-    font-size: 4rem;
+    font-size: 3rem;
   }
   form{
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: inherit;
 
 
     label{
-      margin-right: 1rem;
-      font-size: 2.2rem;
+      font-size: 1.7rem;
+      font-family: $font-2;
+      margin-bottom: .5rem;
     }
 
     input, textarea{
       height: 3rem;
       border-radius: 0;
-      border: 2px solid grey;
-      width: 60rem;
-      font-family: $main-font;
+      font-family: $font-1;
       font-size: 1.8rem;
+      width: 100%;
+      border-width: 1px;
+      background-color: $font-3;
     }
 
     textarea {
-      height: 12rem;
+      height: 30rem;
     }
 
     .add-story-item-container{
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      margin: 1rem 0;
-      width: inherit;
+      margin-top: 2.5rem;
+      width: 95%;
     }
 
-    button.add-story-item-container{
-      width: initial;
-      align-self: flex-start;
-      cursor: pointer;
+    .form-btn-container{
+      margin-top: 2.5rem;
     }
+
+
+
+    
+  
   }
 }
 }

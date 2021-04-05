@@ -37,18 +37,22 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
 
   const rendersnippetInput = () => {
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="snippet-form" onSubmit={handleSubmit(onSubmit)}>
         <label>Post a snippet</label>
-        <input
-          name='snippetText'
-          ref={register({ required: true, maxLength: 100 })}
-        />
-        {errors.snippetText && errors.snippetText.type === 'required' && (
-          <p>Snippet text required!</p>
-        )}
+        <div className="input-container">
+          <input
+            name='snippetText'
+            ref={register({ required: true, maxLength: 100 })}
+            className="snippets-home-input"
+          />
+          <div className="snippet-btn-container">
+            <button className="btn green-btn" type='submit'>Post</button>
+          </div>
+        </div>
         {errors.snippetText && errors.snippetText.type === 'maxLength' && (
-          <p>Your snippet should be less than 100 characters</p>
+          <p className="validation-warning">Snippets have a max length of 100 characters</p>
         )}
+
       </form>
     )
   }
@@ -65,14 +69,18 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
     }
     return arrayToMap.map(snippet => {
       return (
-        <div key={snippet._id}>
-          <p className="snippet-username">
-            <Link to={`/author/${snippet._user}`}>{snippet.username}</Link></p>
-          <p className="snippet-text">{snippet.text}
+        <div key={snippet._id} className="snippet-container">
+          <div className="snippet-left">
+            <p className="snippet-text">{snippet.text}
+            </p>
+            <p className="snippet-username">
+              <Link to={`/author/${snippet._user}`}>{snippet.username}</Link>
+            </p>
+          </div>
+          <div className="snippet-right">
             {snippet._user === auth?._id ?
-              <button onClick={() => deleteSnippet(snippet._id)}>Delete</button> : null}
-          </p>
-
+              <button className="btn delete-btn" onClick={() => deleteSnippet(snippet._id)}>Delete</button> : null}
+          </div>
         </div>
       )
     })
@@ -80,12 +88,16 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
 
   const pageSuccess = () => {
     return (
-      <div className="snippets-container">
-        <h3>Snippets</h3>
-        <p>A live feed of user updates</p>
+      <div className="snippets-container story-item">
+        <div className="snippet-header-container">
+          <h3>Snippets</h3>
+        </div>
+        <p className="snippets-sub-header">Let other writers know what you're up to, add a short snippet to the live feed.</p>
         {rendersnippetInput()}
         {renderSnippets()}
-        <Link to="/snippets/1">See all snippets</Link>
+        <div className="link-to-snippets">
+          <Link to="/snippets/1">See all snippets</Link>
+        </div>
       </div>
     )
   }

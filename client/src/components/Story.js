@@ -53,9 +53,9 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
       if (story._user === auth._id) {
         return (
           <div className="story-btns-container">
-            <Link className="btn" to={`/edit-story/${story._id}`}>Edit</Link>
+            <Link className="btn green-btn" to={`/edit-story/${story._id}`}>Edit</Link>
             <button
-              className="btn"
+              className="btn delete-btn"
               onClick={() => onDelete(story._id)}
             >delete</button>
           </div>
@@ -63,11 +63,11 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
       }
       else {
         return (
-          <div className="story-btns-container">
+          <div className="story-donate-btns-container">
             <p>Like the story?</p>
             <Link
               to={`/payment/${author._id}`}
-              className="btn donate-btn"
+              className="btn green-btn"
             >Donate
             </Link>
           </div>
@@ -86,6 +86,14 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
             {renderEditOrDonate()}
             <p>{story.creator}</p>
             <p className="story-page-desc">{story.description}</p>
+            <div className="author-container">
+              <p>Written By:
+                   <Link to={`/author/${story._user}`}>
+                  <span> {authorNameCheck(author)}</span>
+                </Link>
+              </p>
+
+            </div>
             <div className="story-page-grid">
               <div className="story-page-main-item grid-item">
                 <p dangerouslySetInnerHTML={{ __html: `${story.sanitizedHtml}` }}
@@ -93,12 +101,7 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
                 </p>
               </div>
               <div className="story-page-sub-item grid-item">
-                <div className="author-container">
-                  <h4>Written By:
-                   <Link to={`/author/${story._user}`}><span>{authorNameCheck(author)}</span></Link>
-                  </h4>
 
-                </div>
                 <StoryComments />
               </div>
             </div>

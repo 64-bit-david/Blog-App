@@ -1,5 +1,5 @@
-//variables, reusables
-
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
 
 
 @import 'util/util-dir';
@@ -9,7 +9,7 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%;
-  font-family: $main-font;
+  font-family: $font-1;
 }
 
 *, *:before, *:after {
@@ -20,6 +20,10 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
   margin: 0;
   padding: 0;
   font-weight: normal;
+}
+
+body{
+  background-color: $color-4;
 }
 
 ol, ul {
@@ -38,66 +42,7 @@ img {
 
 
 
-.btn{
-  border-radius: 0;
-  border: none;
-  padding: 1rem 1.5rem;
-  font-size: 2rem;
-  cursor: pointer;
-  transition: all .15s ease-in;
-
-  &:hover{
-    background-color: black;
-    color: white;
-  }
-}
-
-
-.paginate-container{
-  &.pg-comments{
-    li.comment-li{
-      margin: 0 !important;
-      padding: 0;
-      border: none !important;
-      button{
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
-        background: none;
-        outline: transparent;
-        font-size: 2rem;
-        border: none;
-        &:hover{
-          text-decoration: underline;
-        }
-        &.active{
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-  ul{
-  display: flex;
-  justify-content: center;
-  font-size: 3rem;
-
-  li{
-    margin-right: 1rem;
-
-    a{
-      text-decoration: none;
-      color: black;
-      &:hover{
-        text-decoration: underline;
-      }
-      &.active{
-        text-decoration: underline;
-      }
-    }
-  }
-}
-}
-@import 'layout/header-dir';
+@import 'layout/layout-dir';
 @import 'pages/pages-dir';
 // @import 'stories';
 // @import 'story';

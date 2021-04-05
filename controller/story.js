@@ -76,14 +76,16 @@ exports.addStory = async (req, res, next) => {
     throw error
   }
   try {
+    const user = await User.findOne(req.user._id);
+    const username = user.username ? user.username : user.name;
     const story = new Story({
       title,
       description,
       content,
+      username,
       _user: req.user._id
     });
 
-    const user = await User.findOne(req.user._id);
     const response = await story.save();
     if (!response) {
       const error = new Error('Creating story failed');
