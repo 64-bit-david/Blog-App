@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchUser } from '../actions';
+import { fetchUser, logout } from '../actions';
 
-const Header = ({ fetchUser, auth }) => {
+const Header = ({ fetchUser, auth, logout }) => {
 
   const [dropDown, setDropDown] = useState(false);
 
@@ -48,7 +48,10 @@ const Header = ({ fetchUser, auth }) => {
             </Link>
           <a href="/api/logout"
             className="btn dd-btn"
-            onClick={() => setDropDown(false)}>
+            onClick={() => {
+              setDropDown(false)
+              logout();
+            }}>
             Log Out
             </a>
         </div>
@@ -60,10 +63,9 @@ const Header = ({ fetchUser, auth }) => {
             <div className="burger-line"></div>
             <div className="burger-line"></div>
             <div className="burger-line"></div>
-
           </button>
         </div>
-      </div>
+      </div >
     );
 
   }
@@ -92,4 +94,4 @@ const mapStateToProps = ({ auth }) => {
   return { auth }
 }
 
-export default connect(mapStateToProps, { fetchUser })(Header)
+export default connect(mapStateToProps, { fetchUser, logout })(Header)

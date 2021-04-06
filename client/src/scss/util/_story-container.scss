@@ -1,0 +1,61 @@
+
+.story-item-container{
+  a{
+    color: $font-color-1;
+    text-decoration: none;
+  }
+.story-item{
+  border: 2px solid $color-5;
+  border-radius: 3px;
+  padding: 1rem 3rem;
+  background-color: $color-3;
+  position: relative;
+  h3{
+    font-size: 2.5rem;
+    text-align: center;
+    border-bottom: 2px solid $color-5;
+    line-height: 1.2;
+    padding-bottom: .2rem;
+  }
+  p{
+    &.story-page-author{
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin: .75rem 0;
+      letter-spacing: -.1px;
+      font-style: italic;
+      text-decoration: underline;
+    }
+    &.story-page-desc{
+      font-size: 1.9rem;
+      line-height: 1.5;
+      font-family: $font-2;
+  }
+}
+
+
+  
+  &.featured-story{
+    padding: 0;
+    .featured-text{
+      font-size: 1.5rem;
+      font-weight: 600;
+      background-color: $color-2;
+      text-align: center;
+      border-radius: 1px;
+    }
+    .story-page-author, .story-page-desc, h3{
+      margin-left: 3rem;
+      margin-right: 3rem;
+      // margin-bottom: 1rem;
+    }
+    h3{
+      margin-top: 1rem;
+    }
+    .story-page-desc{
+      margin-bottom: 1rem;
+    }
+  }
+
+}
+}

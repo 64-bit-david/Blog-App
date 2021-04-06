@@ -24,6 +24,8 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
 
 body{
   background-color: $color-4;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 ol, ul {

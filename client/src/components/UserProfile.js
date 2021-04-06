@@ -71,13 +71,11 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   const postUsernameChange = (data) => {
     updateUsername(data.username);
     setShowChangeUserName(false);
-    setShowChangeAfterSubmit(true);
   }
 
   const postDescChange = (data) => {
     updateUserDesc(data.description);
     setShowChangeDesc(false);
-    setShowChangeAfterSubmit(true);
   }
 
   const postDeleteUser = () => {
@@ -113,10 +111,20 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     else {
       return userStories.map(story => {
         return (
-          <div className="stories-grid-item" key={story._id}>
-            <h3>{story.title}</h3>
-            <p>{story.description}</p>
-          </div>
+          <div className={`story-item-container`} key={story._id}>
+            <Link
+              to={`/story/${story._id}`}
+            >
+              <div className="story-item">
+                <h3>{story.title}</h3>
+                <p className="story-page-author">Posted by: {story.username}</p>
+                <p className="story-page-desc">
+                  {story.description}
+                </p>
+              </div>
+            </Link>
+
+          </div >
         )
       })
     }
@@ -126,38 +134,52 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     if (auth) {
       return (
         <div className="author-data-container">
-          <h2>Your Profile</h2>
-          <div className="author-username-container">
-            <p>Your username:
-            <span>{authorName()}</span>
-            </p>
+          <div className="header-container">
+            <h1>Your Profile</h1>
+          </div>
+          <div className="author-donations-container author-data-item">
+            {auth.donationsRecieved ? <p>Donations received:  £{auth.donationsRecieved}</p> : null}
+            {auth.donationsSent ? <p>You have donated: £{auth.donationsSent} </p> : null}
+          </div>
+
+          <div className="author-username-container author-data-item">
+            <p>{authorName()}</p>
             <button
-              className="btn author-btn"
+              className="btn green-btn"
               onClick={() => {
                 setShowChangeUserName(true)
                 setChangeContainer(true)
               }}
-            >Edit</button>
+            >Edit Username</button>
 
           </div>
-          <div className="author-description-container">
-            <p>Your description:
-            <span>{authorDescription()}</span>
+
+          {renderChangeUsername()}
+
+          <div className="author-description-container  author-data-item">
+            <p>
+              {authorDescription()}
             </p>
             <button
-              className="btn author-btn"
+              className="btn green-btn"
               onClick={() => {
                 setShowChangeDesc(true)
                 setChangeContainer(true)
               }}>
-              {auth.description ? "Edit" : "Add"}
+              {auth.description ? "Edit Description" : "Add Description"}
             </button>
-
           </div>
-          <div className="author-username-container">
+
+          {/* renders input prompt when user clicks edit btn  */}
+          {renderChangeDesc()}
+
+          <div
+            className={`author-delete-container
+                      author-data-item
+                      ${showDeleteUser && 'hide'}`}>
             <p>Delete your profile</p>
             <button
-              className="btn author-btn"
+              className="btn danger-btn"
               onClick={() => {
                 setShowDeleteUser(true)
                 setChangeContainer(true)
@@ -165,12 +187,9 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
             >DELETE</button>
 
           </div>
+          {renderDeleteUser()}
 
-          <div className="author-donations-container">
-            {auth.donationsRecieved ? <p>You have received :  £{auth.donationsRecieved} from other users!</p> : null}
-            {auth.donationsSent ? <p>You have dontated  £{auth.donationsSent} to other authors!</p> : null}
 
-          </div>
         </div>
       )
     }
@@ -181,7 +200,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
       return (
         <div
           className={
-            `update-info-container ${showChangeUsername && 'active'}`}>
+            `update-info-container author-data-item ${showChangeUsername && 'active'}`}>
           <button
             className="change-esc-btn btn"
             onClick={() => {
@@ -191,17 +210,19 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
           >X</button>
           <form onSubmit={handleSubmit(postUsernameChange)}>
             <label>Change Username: </label>
-            <input
-              name="username"
-              ref={register({ required: true, maxLength: 30 })}
-            />
+            <div className="input-container">
+              <input
+                name="username"
+                ref={register({ required: true, maxLength: 30 })}
+              />
+              <div className="submit-btn-container"><button type="submit" className="btn green-btn">Submit</button></div>
+            </div>
             {errors.username && errors.username.type === 'required' && (
-              <p>Required</p>
+              <p className="validation-warning">Required</p>
             )}
             {errors.username && errors.username.type === 'maxLength' && (
-              <p>Username should not be longer than 30 characters</p>
+              <p className="validation-warning">Username should not be longer than 30 characters</p>
             )}
-            <button type="submit" className="btn author-btn">Submit</button>
           </form>
         </div>
       )
@@ -215,7 +236,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
       return (
         <div
           className={
-            `update-info-container ${showChangeDesc && 'active'}`}>
+            `update-info-container author-data-item ${showChangeDesc && 'active'}`}>
           <button
             className="change-esc-btn btn"
             onClick={() => {
@@ -228,20 +249,25 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
               {auth.description ? 'Edit your description' :
                 "Add a description to your profile"}
             </label>
-            <input
-              name="description"
-              ref={register2({ required: true, minLength: 5, maxLength: 100 })}
-            />
+            <div className="input-container">
+              <input
+                name="description"
+                ref={register2({ required: true, minLength: 5, maxLength: 100 })}
+              />
+              <div className="submit-btn-container">
+                <button type="submit" className="btn green-btn">Submit</button>
+              </div>
+
+            </div>
             {errors2.description && errors2.description.type === 'required' && (
-              <p>Required</p>
+              <p className="validation-warning">Required</p>
             )}
             {errors2.description && errors2.description.type === 'maxLength' && (
-              <p>Description should not be longer than 100 characters</p>
+              <p className="validation-warning">Description should not be longer than 100 characters</p>
             )}
             {errors2.description && errors2.description.type === 'minLength' && (
-              <p>Descriptions must have at least 5 characters</p>
+              <p className="validation-warning">Descriptions must have at least 5 characters</p>
             )}
-            <button type="submit" className="btn author-btn">Submit</button>
           </form>
         </div>
       )
@@ -251,7 +277,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   const renderDeleteUser = () => {
     return (
       <div className={
-        `update-info-container ${showDeleteUser && 'active'}`}>
+        `update-info-container author-data-item ${showDeleteUser && 'active'}`}>
         <button
           className="change-esc-btn btn"
           onClick={() => {
@@ -259,26 +285,16 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
             setChangeContainer(false);
           }}
         >X</button>
-        <p>Are you sure you want to delete your profile? All your data will be removed permenantly </p>
-        <button onClick={() => {
-          postDeleteUser();
-        }}>Delete</button>
+        <p className="author-delete-text">Are you sure you want to delete your profile? All your data will be removed permenantly </p>
+        <div className="submit-btn-container">
+          <button
+            className="btn danger-btn"
+            onClick={() => {
+              postDeleteUser();
+            }}>Yes, Delete My Profile
+          </button>
+        </div>
 
-      </div>
-    )
-  }
-
-  const renderAfterChange = () => {
-    return (
-      <div className={`update-info-container ${showChangeAfterSubmit && 'active'}`}>
-
-        <button
-          className="change-esc-btn btn"
-          onClick={() => {
-            setChangeContainer(false)
-            setShowChangeAfterSubmit(false)
-          }}>X</button>
-        <p>Change success</p>
       </div>
     )
   }
@@ -291,14 +307,12 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
         <div className={
           `change-details-bg-container ${changeContainer && 'active'} `}
         >
-          {renderChangeUsername()}
-          {renderChangeDesc()}
-          {renderDeleteUser()}
-          {renderAfterChange()}
 
         </div>
         {renderUserInfo()}
-        <h4>Your Stories</h4>
+        <div className="header-container author-subheader">
+          <h2>Your Stories</h2>
+        </div>
         <div className="stories-grid author-stories-grid">
           {renderAuthorStories()}
         </div>

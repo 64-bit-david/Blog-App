@@ -28,9 +28,11 @@ const AddStory = ({ postStory, auth, history, error, clearError }) => {
     return (
       <div className="forms-container">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <h2 className="add-story-item-container">Submit Your Story!</h2>
+          <div className="header-container">
+            <h1>Submit Your Story!</h1>
+          </div>
           <div className="form-btn-container">
-            <button className="btn notification-btn">About Format</button>
+            <button type="button" className="btn notification-btn">How to format</button>
           </div>
           <div className="add-story-input-title add-story-item-container">
             <label> Add a Title</label>

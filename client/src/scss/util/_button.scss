@@ -47,6 +47,22 @@
   padding: 1rem;
 }
 
+.danger-btn{
+padding: 1rem;
+font-size: 1.3rem;
+font-weight: 600;
+background-color: $danger;
+}
+
+.change-esc-btn{
+  padding: .5rem;
+  border-radius: 3px;
+  font-size: 1.5rem;
+  min-width: 3rem;
+  font-weight: 600;
+  background-color: $color-5;
+  
+}
 
 
 

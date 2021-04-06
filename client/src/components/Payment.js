@@ -10,27 +10,38 @@ import { fetchAuthorBasic, postPayment } from '../actions';
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 
+
+
 const ProductDisplay = ({ handleClick, amount, setAmount, }) => (
 
-  <section className="payment-before">
-    <h3>Support the author with a donation!</h3>
+
+
+  <div className="payment-before">
+    <div className="header-container">
+      <h1>Support the author with a donation!</h1>
+    </div>
     <label>Select an Amount</label>
-    <select value={amount} onChange={(e) => setAmount(e.target.value)}>
-      <option value='1'>$1</option>
-      <option value='2'>$2</option>
-      <option value='3'>$3</option>
-      <option value='4'>$4</option>
-      <option value='5'>$5</option>
-      <option value='6'>$6</option>
-      <option value='7'>$7</option>
-      <option value='8'>$8</option>
-      <option value='9'>$9</option>
-      <option value='10'>$10</option>
+    <select
+      value={amount}
+      onChange={(e) => setAmount(e.target.value)}
+    >
+      <option value='1'>£1</option>
+      <option value='2'>£2</option>
+      <option value='3'>£3</option>
+      <option value='4'>£4</option>
+      <option value='5'>£5</option>
     </select>
-    <button type="button" id="checkout-button" role="link" onClick={handleClick}>
+    <button
+      type="button"
+      id="checkout-button"
+      role="link"
+      onClick={handleClick}
+      className="btn green-btn">
       Checkout
-    </button>
-  </section>
+      </button>
+  </div>
+
+
 );
 
 
@@ -70,7 +81,7 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
     const amountPaid = query.get('amount') / 100;
 
     if (query.get("success")) {
-      setMessage(author ? `Your donation of £${amountPaid} to  ${authorName} was successful 🙂` : 'LOADING');
+      setMessage(author ? `Your donation of £${amountPaid} to ${authorName} was successful 🙂` : 'LOADING');
 
 
       if (author && auth) {

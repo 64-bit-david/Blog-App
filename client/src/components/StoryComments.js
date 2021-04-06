@@ -30,6 +30,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
   useEffect(() => {
     const createCommentPgArray = () => {
       if (story.comments) {
+        story.comments.reverse();
         const commentsToSkip = commentsToShow * (commentPage - 1);
         const arrayToRender = story.comments.slice(commentsToSkip, commentsToSkip + commentsToShow);
         setCommentsArray(arrayToRender)
@@ -132,6 +133,13 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
             </li>
           )
         })
+      } else {
+        return (
+          <div className="no-comments-container">
+            <p>No comments yet!</p>
+          </div>
+
+        )
       }
     }
   }

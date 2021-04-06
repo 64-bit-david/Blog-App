@@ -80,6 +80,13 @@
     .story-page-sub-item{
       width: 95vw;
 
+   
+    .no-comments-container{
+      p{
+        font-size: 1.7rem;
+        text-align: center;
+      }
+    }
     .comments-container{
       display: flex;
       flex-direction: column;
@@ -89,6 +96,7 @@
       margin: 3rem 0;
       padding: 0 2rem;
       border: 2px solid $color-5;
+
 
       h5{
         font-size: 2rem;
@@ -127,7 +135,6 @@
           padding: .5rem;
           display: flex;
           justify-content: space-between;
-
           .comment-left{
             .comment-text{
               word-break: break-word;

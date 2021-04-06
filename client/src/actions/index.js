@@ -22,8 +22,13 @@ export const fetchUser = () => async dispatch => {
     dispatch({ type: FETCH_USER, payload: res.data });
   }
   catch (err) {
+    console.log(err);
   }
 };
+
+export const logout = () => async dispatch => {
+  await axios.get('/api/logout');
+}
 
 export const postStory = ({ title, description, content, creator }, history) => async dispatch => {
   try {

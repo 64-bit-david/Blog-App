@@ -10,7 +10,11 @@
   align-items: center;
   font-size: 1.9rem;
   p{
-    margin-bottom: 3rem;
+    margin: 3rem 2rem;
+    text-align: center;
+  }
+  a{
+    color: $font-color-1;
   }
 }
 
@@ -19,6 +23,19 @@
   flex-direction: column;
   align-items: center;
   font-size: 1.9rem;
+  margin: 0 3rem;
 
-
+  label{
+    margin-top: 2rem;
+  }
+  select{
+    width: 50%;
+    height: 3rem;
+    background-color: $color-3;
+    border: 2px solid $color-5;
+    border-radius: 3px;
+    font-family: $font-2;
+    font-size: 1.6rem;
+    margin: 1rem 0;
+  }
 }

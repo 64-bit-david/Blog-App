@@ -1,5 +1,6 @@
 export const FETCH_STORIES = 'FETCH_STORIES';
 export const FETCH_USER = 'FETCH_USER';
+export const LOG_OUT = 'LOG_OUT';
 export const POST_STORY = 'POST_STORY';
 export const UPDATE_USER = 'UPDATE_USER';
 export const UPDATING_USERNAME = 'UPDATING_USERNAME';

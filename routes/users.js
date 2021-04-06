@@ -21,7 +21,7 @@ router.put('/account/update-username', isAuth,
 
 router.put('/account/update-desc', isAuth,
   body('description', 'User Description should have a max limit of 30 characters')
-    .isLength({ max: 30 }),
+    .isLength({ max: 100 }),
   body('description', 'User description should have at least 5 characters')
     .isLength({ min: 5 }), usersController.updateDesc),
   router.delete('/account/:userId', isAuth, usersController.deleteUser);

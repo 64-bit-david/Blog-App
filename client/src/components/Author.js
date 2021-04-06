@@ -56,11 +56,13 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
     else {
       return (
         <div className="author-data-container">
-          <h2>{authorName()}</h2>
+          <div className="header-container">
+            <h1>{authorName()}</h1>
+          </div>
           <p>{authorDescription()}</p>
           <Link
             to={`/payment/${author._id}`}
-            className="btn donate-btn"
+            className="btn green-btn"
           >Donate</Link>
           <div className="author-donations-container">
             {author.donationsRecieved ? <p>{authorName()} has received :  £{author.donationsRecieved} from other users!</p> : null}
@@ -81,10 +83,20 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
     } else {
       return userStories.map(story => {
         return (
-          <div className="stories-grid-item" key={story._id}>
-            <h3>{story.title}</h3>
-            <p>{story.description}</p>
-          </div>
+          <div className={`story-item-container`} key={story._id}>
+            <Link
+              to={`/story/${story._id}`}
+            >
+              <div className="story-item">
+                <h3>{story.title}</h3>
+                <p className="story-page-author">Posted by: {story.username}</p>
+                <p className="story-page-desc">
+                  {story.description}
+                </p>
+              </div>
+            </Link>
+
+          </div >
         )
       })
     }
@@ -94,6 +106,9 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
     return (
       <div className="author-page-container">
         {renderAuthorInfo()}
+        <div className="header-container author-subheader">
+          <h2>{authorName()} 's stories</h2>
+        </div>
         <div className="stories-grid author-stories-grid">
           {renderAuthorStories()}
         </div>
