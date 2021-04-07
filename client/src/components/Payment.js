@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { loadStripe } from "@stripe/stripe-js";
-import { fetchAuthorBasic, postPayment } from '../actions';
+import { clearError, fetchAuthorBasic, postPayment } from '../actions';
 
 
 
@@ -12,8 +12,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 
 
-const ProductDisplay = ({ handleClick, amount, setAmount, }) => (
-
+const ProductDisplay = ({ handleClick, amount, setAmount }) => (
 
 
   <div className="payment-before">
@@ -46,13 +45,15 @@ const ProductDisplay = ({ handleClick, amount, setAmount, }) => (
 
 
 const Message = ({ message }) => (
+
   <section className="payment-after">
     <p>{message}</p>
     <Link to="/">Back to HomePage</Link>
   </section>
+
 )
 
-const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
+const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearError }) => {
 
 
 
@@ -60,6 +61,12 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
 
   const [message, setMessage] = useState("");
 
+
+  useEffect(() => {
+    return function cleanup() {
+      clearError()
+    }
+  }, [])
 
 
 
@@ -79,6 +86,7 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
     const amountPaid = query.get('amount') / 100;
+    const paymentId = query.get('paymentId');
 
     if (query.get("success")) {
       setMessage(author ? `Your donation of £${amountPaid} to ${authorName} was successful 🙂` : 'LOADING');
@@ -87,7 +95,7 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment }) => {
       if (author && auth) {
         const authorId = author._id;
         const userId = auth._id;
-        postPayment(amountPaid, authorId, userId)
+        postPayment(amountPaid, authorId, userId, paymentId);
       }
     }
     if (query.get("canceled")) {
@@ -140,4 +148,4 @@ const mapStateToProps = ({ author, auth }) => {
   return { author, auth }
 }
 
-export default connect(mapStateToProps, { fetchAuthorBasic, postPayment })(Payment);
+export default connect(mapStateToProps, { fetchAuthorBasic, postPayment, clearError })(Payment);

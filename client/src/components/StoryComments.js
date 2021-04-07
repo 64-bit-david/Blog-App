@@ -35,7 +35,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
         const arrayToRender = story.comments.slice(commentsToSkip, commentsToSkip + commentsToShow);
         setCommentsArray(arrayToRender)
       }
-      else {
+      else if (story.comments) {
         const commentsToSkip = commentsToShow * (commentPage - 1);
         const arrayToRender = story.comments.slice(commentsToSkip, commentsToSkip + commentsToShow);
         setCommentsArray(arrayToRender)

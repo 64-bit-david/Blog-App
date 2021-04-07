@@ -242,17 +242,16 @@ export const addSnippet = (snippet) => {
 }
 
 
-export const postPayment = (amount, authorId, userId) => async dispatch => {
+export const postPayment = (amount, authorId, userId, paymentId) => async dispatch => {
   try {
     const res = await axios.post('/post-payment-data', {
       amount,
       authorId,
-      userId
+      userId,
+      paymentId
     });
-    console.log(res.data)
     dispatch({ type: PAYMENT_SUCCESS, payload: res.data.user })
   } catch (err) {
-    console.log(err)
     const error = {
       statusCode: err.response.status,
       message: err.response.data.error,
