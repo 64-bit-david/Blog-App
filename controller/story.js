@@ -203,7 +203,6 @@ exports.deleteComment = async (req, res, next) => {
       throw error;
     }
     story.comments = story.comments.filter(comment => comment.id.toString() !== commentId);
-    console.log(story.comments);
     await story.save();
     res.status(200).json({ msg: 'Comment Deleted' });
   } catch (err) {

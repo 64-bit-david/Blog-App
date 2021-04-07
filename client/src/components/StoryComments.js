@@ -29,8 +29,13 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
 
   useEffect(() => {
     const createCommentPgArray = () => {
-      if (story.comments) {
+      if (story.comments && !commentsArray) {
         story.comments.reverse();
+        const commentsToSkip = commentsToShow * (commentPage - 1);
+        const arrayToRender = story.comments.slice(commentsToSkip, commentsToSkip + commentsToShow);
+        setCommentsArray(arrayToRender)
+      }
+      else {
         const commentsToSkip = commentsToShow * (commentPage - 1);
         const arrayToRender = story.comments.slice(commentsToSkip, commentsToSkip + commentsToShow);
         setCommentsArray(arrayToRender)
@@ -160,7 +165,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
           <p className="validation-warning">Comments have a max length of 100 characters</p>
         )}
       </form>
-      <ul>
+      <ul className="comments-list">
         {renderStoryComments()}
       </ul>
       {commentPager()}

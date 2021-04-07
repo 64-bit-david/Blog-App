@@ -83,7 +83,7 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
     } else {
       return userStories.map(story => {
         return (
-          <div className={`story-item-container`} key={story._id}>
+          <div className={`story-item-container author-story-container`} key={story._id}>
             <Link
               to={`/story/${story._id}`}
             >
@@ -106,7 +106,7 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
     return (
       <div className="author-page-container">
         {renderAuthorInfo()}
-        <div className="header-container author-subheader">
+        <div className="header-container sub-header-container">
           <h2>{authorName()} 's stories</h2>
         </div>
         <div className="stories-grid author-stories-grid">

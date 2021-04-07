@@ -133,7 +133,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   const renderUserInfo = () => {
     if (auth) {
       return (
-        <div className="author-data-container">
+        <div className="author-data-container user-data-container">
           <div className="header-container">
             <h1>Your Profile</h1>
           </div>
@@ -310,8 +310,8 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
 
         </div>
         {renderUserInfo()}
-        <div className="header-container author-subheader">
-          <h2>Your Stories</h2>
+        <div className="header-container sub-header-container">
+          <h2>Your stories</h2>
         </div>
         <div className="stories-grid author-stories-grid">
           {renderAuthorStories()}

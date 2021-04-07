@@ -6,7 +6,7 @@ const updateStoryComments = (state, action) => {
   if (!updatedState.comments) {
     updatedState.comments = [action.payload];
   } else {
-    updatedState.comments.push(action.payload);
+    updatedState.comments.unshift(action.payload);
   }
   return updatedState;
 }

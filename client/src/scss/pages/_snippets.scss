@@ -1,25 +1,121 @@
 .snippets-container{
-  p{
-  &.snippet-username{
-    font-size: 1.5rem;
-    font-style: italic;
+  border-color: $color-5;
+  &:hover{
+    transform: scale(1);
   }
-  &.snippet-text{
-    font-size: 2rem;
-  }
-}
-}
 
-.all-snippets-container{
+.snippet-header-container{
+  text-align: center;
+
+  h3{
+  display: inline-block;
+  padding: 0 2rem;
+}
+}
+.snippets-sub-header{
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-align: center;
+  margin: 1rem 0;
+}
+.snippet-form{
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 2rem;
-  .snippet-container{
-    border: 1px solid black;
+  label{
+    font-size: 1.3rem;
+    margin: .2rem 0;
+  }
+  .input-container{
     display: flex;
-    flex-direction: column;
-    padding: 2rem;
+    align-items: center;
+    width: 100%;
+  }
+.snippet-btn-container{
+  margin: .5rem 0;
+  margin-left: .5rem;
+}
+
+.snippets-home-input{
+  width: 100%;
+  height: 3.5rem;
+}
+}
+.snippet-container{
+  border-bottom: 1px solid $color-5;
+  padding: .5rem;
+  display: flex;
+  justify-content: space-between;
+  .snippet-left{
+    font-size: 1.6rem;
+    .snippet-username{
+      text-decoration: underline;
+    }
+    .snippet-text{
+      word-break: break-word;
+      font-family: $font-2;
+    }
+  }
+  .snippet-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+}
+
+&.all-snippets-container{
+ 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1rem;
+  @media(min-width: $md){
+  padding: 0 3rem;
+  }
+  .snippets-header{
+    margin-left: 0;
+  }
+  .snippets-list{
+    background-color: $color-3;
+    margin-top: 5rem;
+    padding: 1rem 2rem;
+    border: 2px solid $color-5;
+    border-radius: 3px; 
+    width: 75%;
+    @media(min-width: $lg){
+      width: 75rem;
+    }
+    @media(min-width: $xl){
+      width: 80rem;
+    }
 
   }
+  p{
+    font-size: 1.7rem;
+  }
+  a{
+    color: $font-color-1;
+    font-style: italic;
+  }
+  .snippet-form{
+  @media(min-width: $md){
+    width: 75%;
+  }
+  @media(min-width: $lg){
+    width: 60rem;
+  }
+  label{
+    font-size: 1.7rem;
+  }
+}
+}
+
+.link-to-snippets{
+  text-align: center;
+  font-size: 1.8rem;
+  text-decoration: underline;
+  margin-top: 1.5rem;
+}
 }

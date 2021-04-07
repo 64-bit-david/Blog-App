@@ -3,6 +3,7 @@
 .btn{
   border-radius: 3px;
   color: $font-color-1;
+  font-family: $font-1;
   border: none;
   cursor: pointer;
   transition: all .15s ease-in;
@@ -45,6 +46,9 @@
 .dd-btn{
   font-size: 2rem;
   padding: 1rem;
+  &:hover{
+    color: $font-color-1;
+  }
 }
 
 .danger-btn{

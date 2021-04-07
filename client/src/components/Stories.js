@@ -64,11 +64,12 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
               to={`/story/606ae0b59dbfba3cccf41568`}
             >
               <div className="story-item featured-story">
-                <h5 className="featured-text">Featured</h5>
+                <h5 className="featured-text">Featured Story</h5>
                 <h3>Shall I compare thee to a summer's day?</h3>
                 <p className="story-page-author">Posted by: Somebody</p>
                 <p className="story-page-desc">
-                  A poem I wrote back in February
+                  A poem I wrote back in February about better days to come! Kinda sombre in theme as well but don't let it get you down too much!
+                  A poem I wrote back in February about better days to come! Kinda sombre in theme as well but don't
               </p>
               </div>
             </Link>
@@ -84,7 +85,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
       }
       if (index === 2) {
         return (
-          <div className="story-item-container header-container" key={index}>
+          <div className="story-item-container sub-header-container" key={index}>
             <h2>Latest Stories</h2>
           </div>
         )

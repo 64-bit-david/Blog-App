@@ -2,6 +2,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (min-width: $sm) {
+    margin: 0 3rem;
+  }
+
+  @media(min-width: $md){
+    margin: 0 12rem;
+  }
+  @media(min-width: $xl){
+    margin: 0 35rem;
+    .header-container{
+      margin-left: 0;
+    }
+  }
+  @media (min-width: $xxl) {
+    max-width: 50rem;
+    margin: auto;
+  }
+
   
 .forms-container{
   width: 100%;
@@ -27,7 +45,7 @@
       font-family: $font-1;
       font-size: 1.8rem;
       width: 100%;
-      border-width: 1px;
+      border-width: 2px;
       background-color: $font-3;
     }
 

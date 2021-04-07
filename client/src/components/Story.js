@@ -12,14 +12,13 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 
   useEffect(() => {
     fetchStory(match.params.storyId);
-
   }, [fetchStory, match.params.storyId]);
 
   useEffect(() => {
-    if (story._user) {
+    if (story._user && !author) {
       fetchAuthor(story._user);
     }
-  }, [story, fetchAuthor])
+  }, [story, fetchAuthor, author])
 
   useEffect(() => {
     return function cleanup() {
@@ -82,7 +81,9 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 
         {author && story ?
           <div className="story-page-container">
-            <h3>{story.title}</h3>
+            <div className="header-container">
+              <h1>{story.title}</h1>
+            </div>
             {renderEditOrDonate()}
             <p>{story.creator}</p>
             <p className="story-page-desc">{story.description}</p>
@@ -117,8 +118,12 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
     if (message) {
       return (
         <div className="message-container">
-          <p>{message}</p>
-          <button onClick={() => clearMessage()}>Close</button>
+          <div className="message">
+            <p>{message}</p>
+            <button
+              className="btn notification-btn"
+              onClick={() => clearMessage()}>Close</button>
+          </div>
         </div>
       )
     }

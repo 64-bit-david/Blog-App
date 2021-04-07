@@ -6,20 +6,39 @@
     text-align: center;
     margin-top: 3rem;
     border-bottom: 2px solid $color-5;
-    font-family: $font-3;    
+    font-family: $font-3; 
+    
+  }
+  @media (min-width: $xl) {
+    text-align: center;
   }
 
+  @media (min-width: $xl) {
+    margin-left: 12rem;
+    margin-top: 4rem;
+    text-align: left;
+    h1{
+      font-size: 4rem;
+    }
+  }
+
+  &.author-subheader{
+    margin-bottom: 3rem;
+  }
+}
+
+.sub-header-container{
+  text-align: center;
   h2{
-    text-align: center;
     font-size: 2.3rem;
     text-align: center;
     display: inline-block;
     border-bottom: 2px solid $color-5;
     font-family: $font-3;
   }
-
-  &.author-subheader{
-    margin-bottom: 3rem;
+  @media (min-width: $xl) {
+    margin: auto;
+    margin-left: 3rem;
+    text-align: left;
   }
-
 }

@@ -52,23 +52,25 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
   }
 
   const rendersnippetInput = () => {
-    if (currentPage < 2) {
-      return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label>Post a snippet</label>
+    return (
+      <form className="snippet-form" onSubmit={handleSubmit(onSubmit)}>
+        <label>Post a snippet</label>
+        <div className="input-container">
           <input
-            ref={register({ required: true, maxLength: 100 })}
             name='snippetText'
+            ref={register({ required: true, maxLength: 100 })}
+            className="snippets-home-input"
           />
-          {errors.snippetText && errors.snippetText.type === 'required' && (
-            <p>Snippet text required!</p>
-          )}
-          {errors.snippetText && errors.snippetText.type === 'maxLength' && (
-            <p>Your snippet should be less than 100 characters</p>
-          )}
-        </form>
-      )
-    }
+          <div className="snippet-btn-container">
+            <button className="btn green-btn" type='submit'>Post</button>
+          </div>
+        </div>
+        {errors.snippetText && errors.snippetText.type === 'maxLength' && (
+          <p className="validation-warning">Snippets have a max length of 100 characters</p>
+        )}
+
+      </form>
+    )
   }
 
   //renders snippets component
@@ -84,12 +86,17 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     return arrayToMap.map(snippet => {
       return (
         <div key={snippet._id} className="snippet-container">
-          <p className="snippet-username">
-            <Link to={`/author/${snippet._user}`}>{snippet.username}</Link></p>
-          <p className="snippet-text">{snippet.text}
-          </p>
-          {snippet._user === auth._id ?
-            <button onClick={() => deleteSnippet(snippet._id)}>Delete</button> : null}
+          <div className="snippet-left">
+            <p className="snippet-text">{snippet.text}
+            </p>
+            <p className="snippet-username">
+              <Link to={`/author/${snippet._user}`}>{snippet.username}</Link>
+            </p>
+          </div>
+          <div className="snippet-right">
+            {snippet._user === auth?._id ?
+              <button className="btn delete-btn" onClick={() => deleteSnippet(snippet._id)}>Delete</button> : null}
+          </div>
         </div>
       )
     })
@@ -98,11 +105,15 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
 
   const pageSuccess = () => {
     return (
-      <div className="all-snippets-container">
-        <h3>Snippets</h3>
-        <p>A live feed of user updates</p>
+      <div className="all-snippets-container snippets-container">
+        <div className="header-container snippets-header">
+          <h1>Snippets</h1>
+        </div>
+        <p className="snippets-sub-header">Let other writers know what you're up to, add a short snippet to the live feed.</p>
         { rendersnippetInput()}
-        {renderSnippets()}
+        <div className="snippets-list">
+          {renderSnippets()}
+        </div>
         {paginationHelper(pager, currentPage, '/snippets/')}
 
       </div>
