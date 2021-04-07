@@ -1,0 +1,23 @@
+footer{
+  height: $nav-height;
+  background-color: $color-2;
+  border-top: 2px solid $color-5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .footer-container{
+    a{
+      color: $font-color-1;
+      font-size: 1.7rem;
+      font-family: $font-2;
+      padding: .5rem 2rem;
+      transition: all .1s ease-in;
+      text-decoration: none;
+
+      &:hover{
+        font-size: 1.75rem;
+        text-decoration: underline;
+      }
+    }
+  }
+}

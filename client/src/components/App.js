@@ -9,7 +9,7 @@ import Author from './Author';
 import EditStory from './EditStory';
 import AllSnippets from './AllSnippets';
 import Payment from './Payment';
-
+import Footer from './Footer';
 
 
 
@@ -17,10 +17,10 @@ import Payment from './Payment';
 const App = () => {
 
   return (
-    <div>
+    <div class="body-container">
       <BrowserRouter>
         <Header />
-        <div>
+        <main class="main">
           <Route path="/" exact component={Stories} />
           <Route path="/stories/:page" component={Stories} />
           <Route path="/add-story" component={AddStory} />
@@ -33,9 +33,8 @@ const App = () => {
           <Route path="/snippets/:page" exact component={AllSnippets} />
           <Route path="/payment/" exact component={Payment} />
           <Route path="/payment/:authorId" component={Payment} />
-
-
-        </div>
+        </main>
+        <Footer />
       </BrowserRouter>
     </div>
   )
