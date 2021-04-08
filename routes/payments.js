@@ -2,7 +2,7 @@ const express = require('express');
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 const isAuth = require('../middleware/isAuth');
-const PaymentId = require('../models/PaymentId')
+const PaymentId = require('../models/PaymentId');
 
 const User = require('../models/User');
 
@@ -29,8 +29,8 @@ router.post('/create-checkout-session', isAuth, async (req, res, next) => {
         },
       ],
       mode: 'payment',
-      success_url: `http://localhost:3000/payment?success=true&authorId=${author}&amount=${amount}&paymentId=${paymentId._id}`,
-      cancel_url: `http://localhost:3000/payment?canceled=true`,
+      success_url: `${keys.path}payment?success=true&authorId=${author}&amount=${amount}&paymentId=${paymentId._id}`,
+      cancel_url: `${keys.path}payment?canceled=true`,
     });
     res.json({ id: session.id });
   } catch (err) {

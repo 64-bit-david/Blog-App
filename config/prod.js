@@ -6,4 +6,5 @@ module.exports = {
   cookieKey: process.env.COOKIE_KEY,
   stripeSecretKey: process.env.STRIP_SECRET_KEY,
   stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  path: process.env.PATH
 }
