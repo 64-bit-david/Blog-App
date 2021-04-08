@@ -7,7 +7,7 @@ import { updateStoryComments, deleteStoryComment, fetchStory, clearError } from 
 
 
 
-const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, fetchStory, error, clearError }) => {
+const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment }) => {
 
   const { register, handleSubmit, errors, reset } = useForm();
 
@@ -138,14 +138,21 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, f
             </li>
           )
         })
-      } else {
+      }
+      else if (!commentsArray || commentsArray.length === 0) {
         return (
           <div className="no-comments-container">
             <p>No comments yet!</p>
           </div>
-
         )
       }
+    }
+    else {
+      return (
+        <div className="no-comments-container">
+          <p>No comments yet!</p>
+        </div>
+      )
     }
   }
 

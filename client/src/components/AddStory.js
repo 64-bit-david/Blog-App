@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { postStory, clearError } from '../actions';
 import { useForm } from 'react-hook-form';
@@ -8,9 +8,10 @@ import displayError from './displayError';
 
 const AddStory = ({ postStory, auth, history, error, clearError }) => {
 
+
+  const [howFormat, setHowFormat] = useState(false);
+
   const { register, handleSubmit, errors } = useForm();
-
-
 
   const onSubmit = (data) => {
     const creator = auth._id;
@@ -22,18 +23,33 @@ const AddStory = ({ postStory, auth, history, error, clearError }) => {
     postStory(postBody, history);
   }
 
+  const renderHowToFormat = () => {
+    if (howFormat) {
+      return (
+        <div className="how-to-format-container">
+          <p>Writer's Desk uses "marked" for formatting user stories. Most users only need to know that hitting the space button twice will format the text to a new line. <br />  For everything else however, check out the <span><a href="https://marked.js.org/">marked demo</a></span> for all formatting options</p>
+          <button
+            type="button"
+            className="btn change-esc-btn"
+            onClick={() => setHowFormat(false)}>X</button>
+        </div>
+      )
+    }
+  }
 
 
   const forms = () => {
     return (
       <div className="forms-container">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="header-container">
-            <h1>Submit Your Story!</h1>
-          </div>
+
           <div className="form-btn-container">
-            <button type="button" className="btn notification-btn">How to format</button>
+            <button
+              type="button"
+              className="btn htf-btn notification-btn"
+              onClick={() => setHowFormat(true)}>How to format</button>
           </div>
+          {renderHowToFormat()}
           <div className="add-story-input-title add-story-item-container">
             <label> Add a Title</label>
             <input
@@ -89,9 +105,13 @@ const AddStory = ({ postStory, auth, history, error, clearError }) => {
     )
   }
 
+
   const pageSuccess = () => {
     return (
       <div className="add-story-container">
+        <div className="header-container">
+          <h1>Submit Your Story!</h1>
+        </div>
         {forms()}
       </div>
     )

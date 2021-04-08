@@ -5,7 +5,7 @@ import { editStory, fetchStory, clearError } from '../actions';
 import displayError from './displayError';
 
 
-const EditStory = ({ auth, story, editStory, history, match, error }) => {
+const EditStory = ({ story, editStory, history, match, error }) => {
 
   useEffect(() => {
     if (!story) {

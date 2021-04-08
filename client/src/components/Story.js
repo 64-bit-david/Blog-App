@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchStory, fetchAuthor, deleteStory, clearError, clearMessage } from '../actions';
@@ -7,6 +7,8 @@ import displayError from './displayError';
 import StoryComments from './StoryComments';
 
 const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, auth, history, clearError, error, message, clearMessage }) => {
+
+  const [deletePrompt, setDeletePrompt] = useState(false)
 
 
 
@@ -46,17 +48,41 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
   }
 
 
+  const renderDeletePrompt = () => {
+    if (deletePrompt) {
+      return (
+        <div className="message-container">
+          <div className="message warning-message">
+            <p>Are you sure you want to delete your story?</p>
+            <button
+              className="btn danger-btn"
+              onClick={() => onDelete(story._id)}>
+              delete</button>
+            <button
+              className="btn change-esc-btn 
+              cancel-delete-story-btn"
+              onClick={() => setDeletePrompt(false)}
+            >X</button>
+          </div>
+
+        </div>
+      )
+    }
+  }
 
   const renderEditOrDonate = () => {
     if (story && auth) {
       if (story._user === auth._id) {
         return (
-          <div className="story-btns-container">
-            <Link className="btn green-btn" to={`/edit-story/${story._id}`}>Edit</Link>
-            <button
-              className="btn delete-btn"
-              onClick={() => onDelete(story._id)}
-            >delete</button>
+          <div class="story-edit-btns">
+            <div className="story-btns-container">
+              <Link className="btn green-btn" to={`/edit-story/${story._id}`}>edit</Link>
+              <button
+                className="btn delete-btn"
+                onClick={() => setDeletePrompt(true)}
+              >delete</button>
+            </div>
+            {renderDeletePrompt()}
           </div>
         )
       }
@@ -109,10 +135,9 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
           </div>
           : null}
       </div>
-
-
     )
   }
+
 
   const renderMessages = () => {
     if (message) {

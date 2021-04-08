@@ -5,7 +5,7 @@ const Snippet = require('../models/Snippet');
 const { validationResult } = require('express-validator');
 
 
-const STORIES_PER_PAGE = 4;
+const STORIES_PER_PAGE = 6;
 
 
 //delete this probably

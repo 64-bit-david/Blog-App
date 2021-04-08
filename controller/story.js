@@ -3,7 +3,7 @@ const User = require('../models/User');
 const { validationResult } = require('express-validator');
 const { v4: uuidv4 } = require('uuid');
 
-const STORIES_PER_PAGE = 5;
+const STORIES_PER_PAGE = 7;
 
 exports.getStories = async (req, res, next) => {
   const page = +req.query.page || 1;

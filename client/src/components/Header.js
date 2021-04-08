@@ -33,7 +33,6 @@ const Header = ({ fetchUser, auth, logout }) => {
     return (
       <div>
         <div className={`header-right-menu ${dropDown && 'active'}`}>
-
           <Link
             to="/add-story"
             className=" btn dd-btn"

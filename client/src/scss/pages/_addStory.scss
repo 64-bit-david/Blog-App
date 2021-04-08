@@ -1,5 +1,6 @@
 .add-story-container{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   @media (min-width: $sm) {
@@ -20,12 +21,31 @@
     margin: auto;
   }
 
+  .htf-btn{
+    font-size: 1.7rem;
+  }
+
   
 .forms-container{
   width: 100%;
 
-  h2{
-    font-size: 3rem;
+  .how-to-format-container{
+    font-size: 1.9rem;
+    font-family: $font-2;
+    text-align: center;
+    padding: 2rem;
+    padding-top: 3.5rem;
+    border: 2px solid $color-5;
+    border-radius: 3px;
+    background-color: $color-3;
+    margin-top: 2rem;
+    position: relative;
+
+    .change-esc-btn{
+      position: absolute;
+      top: -1px;
+      right: -1px;
+    }
   }
   form{
     display: flex;
@@ -41,7 +61,7 @@
 
     input, textarea{
       height: 3rem;
-      border-radius: 0;
+      border-radius: 3px;
       font-family: $font-1;
       font-size: 1.8rem;
       width: 100%;

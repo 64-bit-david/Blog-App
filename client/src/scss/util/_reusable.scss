@@ -4,7 +4,7 @@
     font-size: 3rem;
     display: inline-block;
     text-align: center;
-    margin-top: 3rem;
+    margin-top: 5rem;
     border-bottom: 2px solid $color-5;
     font-family: $font-3; 
     
@@ -14,9 +14,6 @@
   }
 
   @media (min-width: $xl) {
-    margin-left: 12rem;
-    margin-top: 4rem;
-    text-align: left;
     h1{
       font-size: 4rem;
     }
@@ -38,7 +35,5 @@
   }
   @media (min-width: $xl) {
     margin: auto;
-    margin-left: 3rem;
-    text-align: left;
   }
 }

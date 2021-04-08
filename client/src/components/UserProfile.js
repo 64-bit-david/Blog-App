@@ -9,20 +9,33 @@ import displayError from './displayError';
 const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, clearError, error, deleteUser, history, clearMessage, message }) => {
 
 
-  const { register, handleSubmit, errors } = useForm();
+  const preLoadForm = {
+    username: auth.username
+  }
+
+  const preLoadForm2 = {
+    description: auth.description
+  }
+
+  const { register, handleSubmit, errors } = useForm({
+    defaultValues: preLoadForm
+  });
 
   const {
     register: register2,
     errors: errors2,
     handleSubmit: handleSubmit2
-  } = useForm({});
+  } = useForm({ defaultValues: preLoadForm2 });
+
+
+
+
 
   // const [input, setInput] = useState('');
   const [showChangeUsername, setShowChangeUserName] = useState(false);
   const [showChangeDesc, setShowChangeDesc] = useState(false);
   const [showDeleteUser, setShowDeleteUser] = useState(false);
   const [changeContainer, setChangeContainer] = useState(false);
-  const [showChangeAfterSubmit, setShowChangeAfterSubmit] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
@@ -137,10 +150,12 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
           <div className="header-container">
             <h1>Your Profile</h1>
           </div>
-          <div className="author-donations-container author-data-item">
-            {auth.donationsRecieved ? <p>Donations received:  £{auth.donationsRecieved}</p> : null}
-            {auth.donationsSent ? <p>You have donated: £{auth.donationsSent} </p> : null}
-          </div>
+
+          {auth.donationsRecieved || auth.donationsSent ?
+            <div className="author-donations-container author-data-item">
+              {auth.donationsRecieved ? <p>Donations received:  £{auth.donationsRecieved}</p> : null}
+              {auth.donationsSent ? <p>You have donated: £{auth.donationsSent} </p> : null}
+            </div> : null}
 
           <div className="author-username-container author-data-item">
             <p>{authorName()}</p>
