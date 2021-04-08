@@ -14,11 +14,9 @@ const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
 const snippetRoutes = require('./routes/snippets');
 const paymentRoutes = require('./routes/payments');
-const { mongoURI } = require('./config/prod');
 
 
 
-const MONGODB_URI = keys.mongoURI;
 
 const app = express();
 
@@ -76,7 +74,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(MONGODB_URI,
+mongoose.connect(keys.mongoURI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
