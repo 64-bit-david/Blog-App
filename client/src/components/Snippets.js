@@ -14,7 +14,7 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
   //fetchsnippets, and open a socket the listens for created snippets
   useEffect(() => {
     fetchSnippet();
-    const socket = openSocket('http://localhost:5000');
+    const socket = openSocket(process.env.REACT_APP_STRIPE_PATH);
     socket.on('snippets', data => {
       if (data.action === 'create') {
         addSnippet(data.snippet);

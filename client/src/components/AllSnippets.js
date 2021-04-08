@@ -24,7 +24,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
 
   useEffect(() => {
     fetchAllSnippets(1)
-    const socket = openSocket(process.env.REACT_APP_STRIPE_URL);
+    const socket = openSocket(process.env.REACT_APP_STRIPE_PATH);
     socket.on('snippets', data => {
       if (data.action === 'create') {
         addSnippet(data.snippet);
