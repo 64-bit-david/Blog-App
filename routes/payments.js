@@ -29,8 +29,8 @@ router.post('/create-checkout-session', isAuth, async (req, res, next) => {
         },
       ],
       mode: 'payment',
-      success_url: `${keys.path}payment?success=true&authorId=${author}&amount=${amount}&paymentId=${paymentId._id}`,
-      cancel_url: `${keys.path}payment?canceled=true`,
+      success_url: `${keys.stripePath}payment?success=true&authorId=${author}&amount=${amount}&paymentId=${paymentId._id}`,
+      cancel_url: `${keys.stripePath}payment?canceled=true`,
     });
     res.json({ id: session.id });
   } catch (err) {
