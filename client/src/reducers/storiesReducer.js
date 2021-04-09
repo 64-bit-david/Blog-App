@@ -1,11 +1,17 @@
 import { CLEAR_STORIES, FETCH_STORIES, POST_STORY } from '../actions/types';
 
+const addStory = (state, action) => {
+  const newStoryArray = [action.payload, ...state];
+  newStoryArray.pop();
+  return newStoryArray
+}
+
 export default function func(state = [], action) {
   switch (action.type) {
     case FETCH_STORIES:
       return action.payload
     case POST_STORY:
-      return [...state, action.payload]
+      return addStory(state, action);
     case CLEAR_STORIES:
       return [];
     default:

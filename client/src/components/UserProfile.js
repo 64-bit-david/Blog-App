@@ -332,6 +332,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
           {renderAuthorStories()}
         </div>
         {/* {paginationHelper(pager, currentPage, '/your-profile/')} */}
+        <Pagination pager={pager} currentPage={currentPage} path='/your-profile/' />
       </div>
     )
 
