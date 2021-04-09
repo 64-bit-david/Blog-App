@@ -11,12 +11,12 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
 
   const { register, handleSubmit, errors, reset } = useForm();
 
+
   //fetchsnippets, and open a socket the listens for created snippets
   useEffect(() => {
     if (snippets.length < 1) {
       fetchSnippet();
       const socket = openSocket(process.env.REACT_APP_STRIPE_PATH);
-      console.log(process.env.REACT_APP_STRIPE_PATH);
 
       socket.on('snippets', data => {
         if (data.action === 'create') {

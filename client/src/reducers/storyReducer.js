@@ -18,7 +18,7 @@ const deleteStoryComment = (state, action) => {
 
 }
 
-export default function func(state = {}, action) {
+export default function func(state = null, action) {
   switch (action.type) {
     case FETCH_STORY_REQUEST:
       return action.payload;

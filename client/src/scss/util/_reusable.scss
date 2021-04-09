@@ -37,3 +37,14 @@
     margin: auto;
   }
 }
+
+
+
+.loader{
+  width: 100vw;
+  text-align: center;
+
+  &.loader-margin{
+    margin-top: 15rem;
+  }
+}

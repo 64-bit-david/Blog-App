@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Loader from "react-loader-spinner";
 import { fetchStory, fetchAuthor, deleteStory, clearError, clearMessage } from '../actions';
 import displayError from './displayError';
 
@@ -21,14 +22,14 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 
   useEffect(() => {
     if (story) {
-      if (story._user && !author) {
+      if (story._user) {
         fetchAuthor(story._user);
       }
     }
   }, [story, fetchAuthor, author])
 
   useEffect(() => {
-    if (story) setLoading(false);
+    if (story && author) setLoading(false);
   })
 
   useEffect(() => {
@@ -83,7 +84,7 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
     if (story && auth) {
       if (story._user === auth._id) {
         return (
-          <div class="story-edit-btns">
+          <div className="story-edit-btns">
             <div className="story-btns-container">
               <Link className="btn green-btn" to={`/edit-story/${story._id}`}>edit</Link>
               <button
@@ -112,7 +113,12 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 
   const pageSuccess = () => {
     if (loading) {
-      return <div className="loading"><p>Loading...</p></div>
+      return (
+        <div className="loader loader-margin">
+          <Loader type="ThreeDots" color="#ccd5ae" height={80}
+            timeout={5000}
+          />
+        </div>)
     }
     return (
       <div>

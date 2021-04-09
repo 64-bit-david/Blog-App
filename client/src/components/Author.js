@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import Loader from 'react-loader-spinner'
 import { fetchAuthorBasic, fetchUserStories, clearError } from '../actions';
 import Pagination from './Pagination';
 import displayError from './displayError';
@@ -111,7 +112,12 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
 
   const pageSuccess = () => {
     if (loading) {
-      return <div className="loading"><p>Loading...</p></div>
+      return (
+        <div className="loader loader-margin">
+          <Loader type="ThreeDots" color="#ccd5ae" height={80}
+            timeout={100000}
+          />
+        </div>)
     }
     return (
       <div className="author-page-container">

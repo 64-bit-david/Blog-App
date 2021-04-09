@@ -46,6 +46,7 @@
       font-size: 2.5rem;
       text-align: center;
       border-bottom: 2px solid $color-5;
+      word-break: break-word;
       line-height: 1.2;
       padding-bottom: .2rem;
       @media (min-width: $lg){
@@ -68,6 +69,8 @@
         font-size: 1.9rem;
         line-height: 1.5;
         font-family: $font-2;
+        word-break: break-word;
+
     }
   }
     

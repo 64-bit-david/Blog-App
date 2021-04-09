@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import displayError from './displayError';
+import Loader from "react-loader-spinner";
+
 
 import { fetchStories, clearError, clearMessage, clearStory } from '../actions/index';
 import Snippets from './Snippets';
@@ -42,7 +45,9 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   useEffect(() => {
     if (stories.length > 0) setLoading(false);
-  })
+    if (stories.length < 1) setLoading(true);
+  }, [stories])
+
 
   useEffect(() => {
     return function cleanup() {
@@ -59,7 +64,8 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
 
   const clearStoryCheck = (storyId, storeStoryId) => {
-    if (storyId !== storeStoryId) {
+
+    if (storeStoryId && storyId !== storeStoryId) {
       clearStory();
     }
   }
@@ -76,9 +82,6 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   //renders the array of user stories into grid items, insert a featured story at the index 0, snippets component at index 1 and a title for latest stories at index 2
   const renderGrid = () => {
-    if (loading) {
-      return <div className="loading"><p>Loading...</p></div>
-    }
     const storiesWithFeed = storiesArrayWithFeed();
     return storiesWithFeed.map((story, index) => {
       if (index === 0) {
@@ -110,7 +113,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
       if (index === 2) {
         return (
           <div className="story-item-container sub-header-container" key={index}>
-            <h2>Latest Stories</h2>
+            <h2>{!currentPage || currentPage == 1 ? "Latest Stories" : `Latest Stories - Page ${currentPage}`}</h2>
           </div>
         )
       }
@@ -118,7 +121,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
         <div className={`story-item-container`} key={index}>
           <Link
             to={`/story/${story._id}`}
-            onClick={() => clearStoryCheck(story._id, storeStory._id)}
+            onClick={() => clearStoryCheck(story._id, storeStory?._id)}
           >
             <div className="story-item">
               <h3>{story.title}</h3>
@@ -142,10 +145,16 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
           <h1>Home</h1>
         </div>
         <p className="p-welcome">Welcome to <span>Writer's Desk</span>, a space for creative writers to share their work! Sign up and post your own stories and consider supporting other writers with a donation.</p>
-        <div className="stories-grid author-stories-grid">
-          {renderGrid()}
-        </div>
-        {/* {paginationHelper(pager, currentPage, '/stories/')} */}
+        { loading ?
+          <div className="loader">
+            <Loader type="ThreeDots" color="#ccd5ae" height={80}
+              timeout={5000}
+            />
+          </div> :
+          <div className="stories-grid author-stories-grid">
+            {renderGrid()}
+          </div>
+        }
         <Pagination
           pager={pager}
           currentPage={currentPage}

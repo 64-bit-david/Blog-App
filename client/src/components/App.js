@@ -1,6 +1,7 @@
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import Header from './Header';
+import ScrollToTop from './ScrollToTop';
 import Stories from './Stories';
 import AddStory from './AddStory';
 import UserProfile from './UserProfile';
@@ -19,6 +20,8 @@ const App = () => {
   return (
     <div class="body-container">
       <BrowserRouter>
+        <ScrollToTop />
+
         <Header />
         <main class="main">
           <Route path="/" exact component={Stories} />

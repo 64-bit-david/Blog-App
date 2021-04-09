@@ -1,5 +1,7 @@
 import { CLEAR_STORIES, FETCH_STORIES, POST_STORY } from '../actions/types';
 
+
+//Adding new story will break pagination, so remove last item in array to keep it constant at 7? stories.
 const addStory = (state, action) => {
   const newStoryArray = [action.payload, ...state];
   newStoryArray.pop();
