@@ -10,17 +10,26 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 
   const [deletePrompt, setDeletePrompt] = useState(false)
 
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
-    fetchStory(match.params.storyId);
-  }, [fetchStory, match.params.storyId]);
+    if (!story) {
+      fetchStory(match.params.storyId);
+    }
+  }, [story, fetchStory, match.params.storyId]);
 
   useEffect(() => {
-    if (story._user && !author) {
-      fetchAuthor(story._user);
+    if (story) {
+      if (story._user && !author) {
+        fetchAuthor(story._user);
+      }
     }
   }, [story, fetchAuthor, author])
+
+  useEffect(() => {
+    if (story) setLoading(false);
+  })
 
   useEffect(() => {
     return function cleanup() {
@@ -102,9 +111,11 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
   }
 
   const pageSuccess = () => {
+    if (loading) {
+      return <div className="loading"><p>Loading...</p></div>
+    }
     return (
       <div>
-
         {author && story ?
           <div className="story-page-container">
             <div className="header-container">

@@ -1,7 +1,10 @@
 .snippets-container{
   border-color: $color-5;
-  &:hover{
+
+
+  &.story-item:hover {
     transform: scale(1);
+    border-color: $color-5;
   }
 
 .snippet-header-container{

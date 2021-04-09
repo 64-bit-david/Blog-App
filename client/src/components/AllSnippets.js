@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import openSocket from 'socket.io-client';
 
 import displayError from './displayError';
-import paginationHelper from './paginationHelper';
+import Pagination from './Pagination';
 import { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, clearError } from '../actions';
 
 
@@ -114,7 +114,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
         <div className="snippets-list">
           {renderSnippets()}
         </div>
-        {paginationHelper(pager, currentPage, '/snippets/')}
+        {/* {paginationHelper(pager, currentPage, '/snippets/')} */}
 
       </div>
     )

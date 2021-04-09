@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage } from '../actions';
-import paginationHelper from './paginationHelper';
+import Pagination from './Pagination';
 import displayError from './displayError';
 
 const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, clearError, error, deleteUser, history, clearMessage, message }) => {
@@ -331,7 +331,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
         <div className="stories-grid author-stories-grid">
           {renderAuthorStories()}
         </div>
-        {paginationHelper(pager, currentPage, '/your-profile/')}
+        {/* {paginationHelper(pager, currentPage, '/your-profile/')} */}
       </div>
     )
 

@@ -1,10 +1,11 @@
-import { ADD_ERROR, CLEAR_ERROR } from '../actions/types';
+import { CLEAN_UP, LOADING } from "../actions/types";
+
 
 export default function func(state = null, action) {
   switch (action.type) {
-    case ADD_ERROR:
+    case LOADING:
       return action.payload;
-    case CLEAR_ERROR:
+    case CLEAN_UP:
       return null;
     default:
       return state;

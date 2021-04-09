@@ -1,4 +1,4 @@
-import { FETCH_STORIES, POST_STORY } from '../actions/types';
+import { CLEAR_STORIES, FETCH_STORIES, POST_STORY } from '../actions/types';
 
 export default function func(state = [], action) {
   switch (action.type) {
@@ -6,6 +6,8 @@ export default function func(state = [], action) {
       return action.payload
     case POST_STORY:
       return [...state, action.payload]
+    case CLEAR_STORIES:
+      return [];
     default:
       return state;
   }

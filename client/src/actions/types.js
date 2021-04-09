@@ -26,6 +26,15 @@ export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const PAYMENT_SUCCESS = 'PAYMENT_SUCCESS';
 
+export const INIT_FETCH_STORIES = 'INIT_FETCH_STORIES';
+export const LOADING = 'LOADING';
+
+export const CLEAR_STORIES = "CLEAR_STORIES";
+export const CLEAR_ERROR = 'CLEAR_ERROR';
+export const CLEAR_AUTHOR = 'CLEAR_AUTHOR';
+export const CLEAR_STORY = 'CLEAR_STORY';
+
+
 
 
 

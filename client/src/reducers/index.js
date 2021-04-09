@@ -8,6 +8,7 @@ import paginationReducer from './paginationReducer';
 import userStoriesReducer from './userStoriesReducer';
 import errorReducer from './errorReducer';
 import messageReducer from './messageReducer';
+import loadingReducer from './loadingReducer';
 
 
 export default combineReducers({
@@ -20,4 +21,5 @@ export default combineReducers({
   userStories: userStoriesReducer,
   error: errorReducer,
   message: messageReducer,
+  loading: loadingReducer,
 })

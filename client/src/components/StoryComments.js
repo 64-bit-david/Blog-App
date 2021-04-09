@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { updateStoryComments, deleteStoryComment, fetchStory, clearError } from '../actions';
+import { updateStoryComments, deleteStoryComment, fetchStory, clearError, clearAuthor } from '../actions';
 
 
 
 
-const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment }) => {
+const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, clearAuthor }) => {
 
   const { register, handleSubmit, errors, reset } = useForm();
 
@@ -124,7 +124,10 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment })
               <div className="comment-left">
                 <p className="comment-text">{comment.commentText}</p>
                 <p className="comment-user">
-                  <Link to={`/author/${comment.userId}`}>{comment.username}</Link>
+                  <Link
+                    to={`/author/${comment.userId}`}
+                    onClick={() => clearAuthor()}
+                  >{comment.username}</Link>
                 </p>
               </div>
               <div className="comment-right">
@@ -184,4 +187,4 @@ const mapStateToProps = ({ story, auth, error }) => {
   return { story, auth, error }
 }
 
-export default connect(mapStateToProps, { updateStoryComments, deleteStoryComment, fetchStory, clearError })(StoryComments)
+export default connect(mapStateToProps, { updateStoryComments, deleteStoryComment, fetchStory, clearError, clearAuthor })(StoryComments)

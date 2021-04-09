@@ -21,6 +21,7 @@
   font-size: 1.3rem;
   font-weight: 600;
   background-color: $color-1;
+  text-transform: lowercase;
 }
 
 
@@ -29,6 +30,7 @@
   font-size: 1.3rem;
   font-weight: 600;
   background-color: $color-5;
+  text-transform: lowercase;
 
   &:focus{
     outline: 1px solid $color-3;
@@ -41,6 +43,7 @@
   padding: .5rem 1rem;
   background-color: $color-1;
   font-size: 1.3rem;
+  text-transform: lowercase;
 }
 
 .dd-btn{
@@ -56,6 +59,7 @@ padding: 1rem;
 font-size: 1.3rem;
 font-weight: 600;
 background-color: $danger;
+text-transform: lowercase;
 }
 
 .change-esc-btn{
@@ -71,53 +75,60 @@ background-color: $danger;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-.google-btn {
-  width: 138px;
-  height: 31px;
-  background-color: #4285f4;
+.google-button {
+  height: 40px;
+  border-width: 0;
+  background: white;
+  color: #737373;
+  border-radius: 5px;
+  white-space: nowrap;
+  box-shadow: 1px 1px 0px 1px rgba(0,0,0,0.05);
+  transition-property: background-color, box-shadow;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+  padding: 0;
   cursor: pointer;
-  border-radius: 2px;
-  box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
-
-  .google-icon-wrapper {
-    position: absolute;
-    margin-top: 1px;
-    margin-left: 1px;
-    width: 30px;
-    height: 30px;
-    border-radius: 1.5px;
-    background-color: #fff;
-  }
-  .google-icon {
-    position: absolute;
-    margin-top: 8px;
-    margin-left: 8px;
-    width: 13px;
-    height: 13px;
-  }
-  .google-btn-text {
-    float: right;
-    margin: 8px 8px 0 0;
-    color: #fff;
-    font-size: 10px;
-    letter-spacing: 0.2px;
-    font-family: "Roboto";
-  }
+  
+  &:focus,
   &:hover {
-    box-shadow: 0 0 6px #4285f4;
+    box-shadow: 1px 4px 5px 1px rgba(0,0,0,0.1);
   }
+  
   &:active {
-    background: #1669F2;
+    background-color: #e5e5e5;
+    box-shadow: none;
+    transition-duration: 10ms;
   }
 }
+    
+.google-button__icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 8px 0 8px 8px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+}
+
+.google-button__icon--plus {
+  width: 27px;
+}
+
+.google-button__text {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 24px;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'Roboto',arial,sans-serif;
+}
+
+
+
+
+
+
+
+
+
+

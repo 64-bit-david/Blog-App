@@ -3,32 +3,46 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import displayError from './displayError';
 
-import { fetchStories, clearError, clearMessage } from '../actions/index';
+import { fetchStories, clearError, clearMessage, clearStory } from '../actions/index';
 import Snippets from './Snippets';
-import paginationHelper from './paginationHelper';
+import Pagination from './Pagination';
 
 
-const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, message, clearError }) => {
+const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, message, clearError, storeStory, clearStory }) => {
 
 
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setCurrentPage(match.params.page);
+    setCurrentPage(match.params.page || 1);
   }, [setCurrentPage, match.params.page])
 
   useEffect(() => {
-    if (pager.currentPage !== currentPage && currentPage) {
-      fetchStories(currentPage);
-    }
-    else {
-      fetchStories(1)
-    }
-  }, [fetchStories, pager.currentPage, currentPage]);
 
+    if (stories.length < 1) {
+      fetchStories(currentPage || 1);
+    }
+
+
+
+
+  }, [fetchStories, currentPage, stories]);
+
+  // useEffect(() => {
+  //   if (pager.currentPage !== currentPage && currentPage) {
+  //     fetchStories(currentPage || 1);
+  //   }
+  //   if (stories.length > 0) setLoading(false);
+  // }, [fetchStories, pager.currentPage, currentPage]);
+
+
+
+  useEffect(() => {
+    if (stories.length > 0) setLoading(false);
+  })
 
   useEffect(() => {
     return function cleanup() {
@@ -43,6 +57,13 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
   }, [clearMessage])
 
 
+
+  const clearStoryCheck = (storyId, storeStoryId) => {
+    if (storyId !== storeStoryId) {
+      clearStory();
+    }
+  }
+
   //creates a new array with a few extras inserted at the start of the stories array
   const storiesArrayWithFeed = () => {
     const emptyObj = {};
@@ -55,6 +76,9 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   //renders the array of user stories into grid items, insert a featured story at the index 0, snippets component at index 1 and a title for latest stories at index 2
   const renderGrid = () => {
+    if (loading) {
+      return <div className="loading"><p>Loading...</p></div>
+    }
     const storiesWithFeed = storiesArrayWithFeed();
     return storiesWithFeed.map((story, index) => {
       if (index === 0) {
@@ -94,6 +118,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
         <div className={`story-item-container`} key={index}>
           <Link
             to={`/story/${story._id}`}
+            onClick={() => clearStoryCheck(story._id, storeStory._id)}
           >
             <div className="story-item">
               <h3>{story.title}</h3>
@@ -120,7 +145,12 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
         <div className="stories-grid author-stories-grid">
           {renderGrid()}
         </div>
-        {paginationHelper(pager, currentPage, '/stories/')}
+        {/* {paginationHelper(pager, currentPage, '/stories/')} */}
+        <Pagination
+          pager={pager}
+          currentPage={currentPage}
+          path={`/stories/`}
+        />
       </div>
     )
   }
@@ -150,8 +180,8 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 }
 
 
-const mapStateToProps = ({ stories, pager, error, message }) => {
-  return { stories, pager, error, message }
+const mapStateToProps = ({ stories, pager, error, message, loading, story: storeStory }) => {
+  return { stories, pager, error, message, loading, storeStory }
 }
 
-export default connect(mapStateToProps, { fetchStories, clearError, clearMessage })(Stories);
+export default connect(mapStateToProps, { fetchStories, clearError, clearMessage, clearStory })(Stories);

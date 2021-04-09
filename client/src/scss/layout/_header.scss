@@ -2,13 +2,14 @@
   nav {
     height: $nav-height;
     background-color: $color-2;
+    border-bottom: 2px solid $color-5;
+
     .header {
       padding: 0 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: inherit;
-      border-bottom: 2px solid $color-5;
+      height: 100%;
 
 
       @media (min-width: $sm) {
@@ -34,11 +35,15 @@
       }
 
       .header-left {
+        margin-top: .5rem;
         a{
     
         h2{
           font-size: 2rem;
           font-family: $font-3;
+          &:hover{
+            text-decoration: none;
+          }
           @media (min-width: $lg) {
             font-size: 3rem;
           }
@@ -83,7 +88,7 @@
             transform: translateX(0);
             top: 0;
             width: initial;
-            height: $nav-height - .2rem;
+            height: $nav-height - .5rem;
             transition: none;
 
             a{

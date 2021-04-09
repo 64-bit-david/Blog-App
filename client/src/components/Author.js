@@ -2,12 +2,15 @@ import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { fetchAuthorBasic, fetchUserStories, clearError } from '../actions';
-import paginationHelper from './paginationHelper';
+import Pagination from './Pagination';
 import displayError from './displayError';
 
 const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager, error, clearError }) => {
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
+
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     setCurrentPage(match.params.page);
@@ -28,6 +31,10 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
       fetchUserStories(1, match.params.authorId);
     }
   }, [currentPage, pager.currentPage, fetchUserStories, match.params.authorId]);
+
+  useEffect(() => {
+    if (author) setLoading(false);
+  })
 
   const authorName = () => {
     if (author) {
@@ -103,6 +110,9 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
   }
 
   const pageSuccess = () => {
+    if (loading) {
+      return <div className="loading"><p>Loading...</p></div>
+    }
     return (
       <div className="author-page-container">
         {renderAuthorInfo()}
@@ -112,7 +122,8 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
         <div className="stories-grid author-stories-grid">
           {renderAuthorStories()}
         </div>
-        { paginationHelper(pager, currentPage, `/author/${match.params.authorId}/`)}
+        {/* { paginationHelper(pager, currentPage, `/author/${match.params.authorId}/`)} */}
+        <Pagination pager={pager} currentPage={currentPage} path={`/author/${match.params.authorId}/`} />
       </div>
     )
   }

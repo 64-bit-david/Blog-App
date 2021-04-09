@@ -3,28 +3,30 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import openSocket from 'socket.io-client';
 import { useForm } from 'react-hook-form';
-import { postSnippet, fetchSnippet, addSnippet, deleteSnippet, clearError } from '../actions';
+import { postSnippet, fetchSnippet, addSnippet, deleteSnippet, clearError, clearAuthor } from '../actions';
 
 
-const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, deleteSnippet }) => {
+const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, deleteSnippet, clearAuthor }) => {
 
 
   const { register, handleSubmit, errors, reset } = useForm();
 
   //fetchsnippets, and open a socket the listens for created snippets
   useEffect(() => {
-    fetchSnippet();
-    const socket = openSocket(process.env.REACT_APP_STRIPE_PATH);
-    socket.on('snippets', data => {
-      if (data.action === 'create') {
-        addSnippet(data.snippet);
+    if (snippets.length < 1) {
+      fetchSnippet();
+      const socket = openSocket(process.env.REACT_APP_STRIPE_PATH);
+      socket.on('snippets', data => {
+        if (data.action === 'create') {
+          addSnippet(data.snippet);
+        }
+        if (data.action === 'delete') {
+          fetchSnippet();
+        }
+      })
+      return () => {
+        socket.off('snippets');
       }
-      if (data.action === 'delete') {
-        fetchSnippet();
-      }
-    })
-    return () => {
-      socket.off('snippets');
     }
   }, [addSnippet, fetchSnippet]);
 
@@ -74,7 +76,9 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
             <p className="snippet-text">{snippet.text}
             </p>
             <p className="snippet-username">
-              <Link to={`/author/${snippet._user}`}>{snippet.username}</Link>
+              <Link
+                to={`/author/${snippet._user}`}
+                onClick={() => clearAuthor()}>{snippet.username}</Link>
             </p>
           </div>
           <div className="snippet-right">
@@ -114,6 +118,6 @@ const mapStateToProps = ({ snippets, auth }) => {
   return { snippets, auth };
 }
 
-export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet, deleteSnippet, clearError })(Snippets);
+export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet, deleteSnippet, clearError, clearAuthor })(Snippets);
 
 
