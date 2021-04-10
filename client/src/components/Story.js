@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loader from "react-loader-spinner";
-import { fetchStory, fetchAuthor, deleteStory, clearError, clearMessage } from '../actions';
+import { fetchStory, fetchAuthor, deleteStory, clearError, clearMessage, dropNav } from '../actions';
 import displayError from './displayError';
 
 import StoryComments from './StoryComments';
 
-const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, auth, history, clearError, error, message, clearMessage }) => {
+const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, auth, history, clearError, error, message, clearMessage, dropNav }) => {
 
   const [deletePrompt, setDeletePrompt] = useState(false)
 
@@ -43,6 +43,12 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
       clearMessage()
     }
   }, [clearMessage])
+
+  useEffect(() => {
+    return function cleanup() {
+      dropNav(false);
+    }
+  }, [dropNav])
 
 
   const authorNameCheck = (author) => {
@@ -183,4 +189,4 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 const mapStateToProps = ({ story, author, auth, error, message }) => {
   return { story, author, auth, error, message }
 }
-export default connect(mapStateToProps, { fetchStory, fetchAuthor, deleteStory, clearError, clearMessage })(Story)
+export default connect(mapStateToProps, { fetchStory, fetchAuthor, deleteStory, clearError, clearMessage, dropNav })(Story)

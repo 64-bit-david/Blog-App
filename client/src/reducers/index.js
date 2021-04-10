@@ -9,6 +9,7 @@ import userStoriesReducer from './userStoriesReducer';
 import errorReducer from './errorReducer';
 import messageReducer from './messageReducer';
 import loadingReducer from './loadingReducer';
+import navDropReducer from './navDropReducer';
 
 
 export default combineReducers({
@@ -22,4 +23,5 @@ export default combineReducers({
   error: errorReducer,
   message: messageReducer,
   loading: loadingReducer,
+  navStatus: navDropReducer,
 })

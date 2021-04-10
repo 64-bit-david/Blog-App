@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchUser, logout } from '../actions';
+import { fetchUser, logout, dropNav } from '../actions';
 
-const Header = ({ fetchUser, auth, logout }) => {
+const Header = ({ fetchUser, auth, logout, navStatus, dropNav }) => {
 
   const [dropDown, setDropDown] = useState(false);
 
@@ -32,31 +32,34 @@ const Header = ({ fetchUser, auth, logout }) => {
     }
     return (
       <div>
-        <div className={`header-right-menu ${dropDown && 'active'}`}>
+        <div className={`header-right-menu ${navStatus && 'active'}`}>
           <Link
             to="/add-story"
             className=" btn dd-btn"
-            onClick={() => setDropDown(false)}>
+            onClick={() => dropNav(false)}
+          >
             Add a Story
            </Link>
           <Link
             to={`/your-profile`}
             className=" btn dd-btn"
-            onClick={() => setDropDown(false)}>
+            onClick={() => dropNav(false)}
+
+          >
             Your Profile
             </Link>
           <a href="/api/logout"
             className="btn dd-btn"
             onClick={() => {
-              setDropDown(false)
+              dropNav(false)
               logout();
             }}>
             Log Out
             </a>
         </div>
-        <div className={`burger ${dropDown && 'active'}`}>
+        <div className={`burger ${navStatus && 'active'}`}>
           <button
-            onClick={() => setDropDown(!dropDown)}
+            onClick={() => dropNav(!navStatus)}
             className="burger-btn"
           >
             <div className="burger-line"></div>
@@ -89,8 +92,8 @@ const Header = ({ fetchUser, auth, logout }) => {
   )
 }
 
-const mapStateToProps = ({ auth }) => {
-  return { auth }
+const mapStateToProps = ({ auth, navStatus }) => {
+  return { auth, navStatus }
 }
 
-export default connect(mapStateToProps, { fetchUser, logout })(Header)
+export default connect(mapStateToProps, { fetchUser, logout, dropNav })(Header)

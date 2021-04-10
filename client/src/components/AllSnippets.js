@@ -7,11 +7,11 @@ import Loader from 'react-loader-spinner'
 
 import displayError from './displayError';
 import Pagination from './Pagination';
-import { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, clearError, clearSnippets } from '../actions';
+import { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, clearError, clearSnippets, dropNav } from '../actions';
 
 
 
-const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth, deleteSnippet, pager, match, error, clearError, clearSnippets, history }) => {
+const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth, deleteSnippet, pager, match, error, clearError, clearSnippets, history, dropNav }) => {
 
 
   const { register, handleSubmit, errors, reset } = useForm();
@@ -23,6 +23,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     console.log(match.params.page, currentPage);
 
   }, [setCurrentPage, match.params.page, currentPage])
+
 
   useEffect(() => {
     const socket = openSocket(process.env.REACT_APP_STRIPE_PATH);
@@ -57,7 +58,13 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
   useEffect(() => {
     if (snippets.length > 1) setLoading(false);
     if (snippets.length < 1) setLoading(true);
-  }, [snippets])
+  }, [snippets]);
+
+  useEffect(() => {
+    return function cleanup() {
+      dropNav(false);
+    }
+  }, [dropNav])
 
   const onSubmit = (data) => {
     postSnippet(data.snippetText);
@@ -154,6 +161,6 @@ const mapStateToProps = ({ snippets, auth, pager, error }) => {
   return { snippets, auth, pager, error };
 }
 
-export default connect(mapStateToProps, { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, displayError, clearError, clearSnippets })(AllSnippets);
+export default connect(mapStateToProps, { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, displayError, clearError, clearSnippets, dropNav })(AllSnippets);
 
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { loadStripe } from "@stripe/stripe-js";
-import { clearError, fetchAuthorBasic, postPayment } from '../actions';
+import { clearError, fetchAuthorBasic, postPayment, dropNav } from '../actions';
 
 
 
@@ -53,7 +53,7 @@ const Message = ({ message }) => (
 
 )
 
-const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearError }) => {
+const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearError, dropNav }) => {
 
 
 
@@ -66,9 +66,14 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearErro
     return function cleanup() {
       clearError()
     }
-  }, [])
+  }, []);
 
 
+  useEffect(() => {
+    return function cleanup() {
+      dropNav(false);
+    }
+  }, [dropNav]);
 
   useEffect(() => {
     const authorNameCheck = () => {
@@ -123,7 +128,7 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearErro
       authorId
     })
 
-    console.log(response.data);
+
     const session = await response.data;
     // When the customer clicks on the button, redirect them to Checkout.
     const result = await stripe.redirectToCheckout({
@@ -148,4 +153,4 @@ const mapStateToProps = ({ author, auth }) => {
   return { author, auth }
 }
 
-export default connect(mapStateToProps, { fetchAuthorBasic, postPayment, clearError })(Payment);
+export default connect(mapStateToProps, { fetchAuthorBasic, postPayment, clearError, dropNav })(Payment);

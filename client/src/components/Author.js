@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner'
-import { fetchAuthorBasic, fetchUserStories, clearError, clearUserStories } from '../actions';
+import { fetchAuthorBasic, fetchUserStories, clearError, clearUserStories, dropNav } from '../actions';
 import Pagination from './Pagination';
 import displayError from './displayError';
 
-const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager, error, clearError, clearUserStories }) => {
+const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager, error, clearError, clearUserStories, dropNav }) => {
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
@@ -15,7 +15,6 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
 
   useEffect(() => {
     setCurrentPage(match.params.page || 1);
-    console.log(match.params.page, currentPage);
 
   }, [setCurrentPage, match.params.page, currentPage])
 
@@ -46,7 +45,13 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
     return function cleanup() {
       clearUserStories();
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    return function cleanup() {
+      dropNav(false);
+    }
+  }, [dropNav])
 
 
   const authorName = () => {
@@ -135,7 +140,8 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
       <div className="author-page-container">
         {renderAuthorInfo()}
         <div className="header-container sub-header-container">
-          <h2>{authorName()} 's stories</h2>
+          {/* <h2>{authorName()} 's stories</h2> */
+            <h2>{!currentPage || currentPage === 1 ? `${authorName()}'s Stories ` : `${authorName()}'s Stories - Page ${currentPage}`}</h2>}
         </div>
         <div className="stories-grid author-stories-grid">
           {renderAuthorStories()}
@@ -159,5 +165,5 @@ const mapStateToProps = ({ author, auth, userStories, pager, error }) => {
   return { author, auth, userStories, pager, error }
 };
 
-export default connect(mapStateToProps, { fetchAuthorBasic, fetchUserStories, clearError, clearUserStories })(Author);
+export default connect(mapStateToProps, { fetchAuthorBasic, fetchUserStories, clearError, clearUserStories, dropNav })(Author);
 

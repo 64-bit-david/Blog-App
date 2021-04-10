@@ -1,18 +1,24 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { editStory, fetchStory, clearError } from '../actions';
+import { editStory, fetchStory, clearError, dropNav } from '../actions';
 import displayError from './displayError';
 
 
-const EditStory = ({ story, editStory, history, match, error }) => {
+const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
 
   useEffect(() => {
     if (!story) {
       fetchStory(match.params.storyId);
     }
 
-  }, [story, match.params.storyId])
+  }, [story, match.params.storyId]);
+
+  useEffect(() => {
+    return function cleanup() {
+      dropNav(false);
+    }
+  }, [dropNav]);
 
   const preLoadForm = {
     title: story.title,
@@ -116,4 +122,4 @@ const mapStateToProps = ({ auth, story, error }) => {
 }
 
 
-export default connect(mapStateToProps, { editStory, clearError })(EditStory);
+export default connect(mapStateToProps, { editStory, clearError, dropNav })(EditStory);

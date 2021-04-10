@@ -5,12 +5,12 @@ import displayError from './displayError';
 import Loader from "react-loader-spinner";
 
 
-import { fetchStories, clearError, clearMessage, clearStory, clearAuthor, clearStories } from '../actions/index';
+import { fetchStories, clearError, clearMessage, clearStory, clearAuthor, clearStories, dropNav } from '../actions/index';
 import Snippets from './Snippets';
 import Pagination from './Pagination';
 
 
-const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, message, clearError, storeStory, clearStory, clearAuthor, clearStories }) => {
+const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, message, clearError, storeStory, clearStory, clearAuthor, clearStories, dropNav }) => {
 
 
 
@@ -20,7 +20,6 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   useEffect(() => {
     setCurrentPage(match.params.page || 1);
-    console.log(match.params.page, currentPage);
 
   }, [setCurrentPage, match.params.page, currentPage])
 
@@ -51,7 +50,13 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
     return function cleanup() {
       clearMessage()
     }
-  }, [clearMessage])
+  }, [clearMessage]);
+
+  useEffect(() => {
+    return function cleanup() {
+      dropNav(false);
+    }
+  }, [dropNav]);
 
 
 
@@ -189,4 +194,4 @@ const mapStateToProps = ({ stories, pager, error, message, loading, story: store
   return { stories, pager, error, message, loading, storeStory }
 }
 
-export default connect(mapStateToProps, { fetchStories, clearError, clearMessage, clearStory, clearAuthor, clearStories })(Stories);
+export default connect(mapStateToProps, { fetchStories, clearError, clearMessage, clearStory, clearAuthor, clearStories, dropNav })(Stories);

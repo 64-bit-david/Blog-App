@@ -25,6 +25,8 @@ export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const PAYMENT_SUCCESS = 'PAYMENT_SUCCESS';
+export const DROP_NAV = 'DROP_NAV';
+export const UNDROP_NAV = 'UNDROP_NAV';
 
 export const INIT_FETCH_STORIES = 'INIT_FETCH_STORIES';
 export const LOADING = 'LOADING';

@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Loader from "react-loader-spinner";
 
-import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage, clearUserStories } from '../actions';
+import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage, clearUserStories, dropNav } from '../actions';
 import Pagination from './Pagination';
 import displayError from './displayError';
 
-const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, clearError, error, deleteUser, history, clearMessage, message, clearUserStories }) => {
+const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, clearError, error, deleteUser, history, clearMessage, message, clearUserStories, dropNav }) => {
 
 
   const [loading, setLoading] = useState(true);
@@ -33,7 +33,11 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   } = useForm({ defaultValues: preLoadForm2 });
 
 
-
+  useEffect(() => {
+    return function cleanup() {
+      dropNav(false);
+    }
+  }, [dropNav])
 
 
   // const [input, setInput] = useState('');
@@ -336,7 +340,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
         </div>
         {renderUserInfo()}
         <div className="header-container sub-header-container">
-          <h2>Your stories</h2>
+          <h2>{!currentPage || currentPage === 1 ? "Your Stories" : `Your Stories - Page ${currentPage}`}</h2>
         </div>
         { loading ?
           <div className="loader loader-author">
@@ -386,5 +390,5 @@ const mapStateToProps = ({ author, auth, userStories, pager, error, message }) =
   return { author, auth, pager, userStories, error, message }
 };
 
-export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage, clearUserStories })(Author);
+export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage, clearUserStories, dropNav })(Author);
 

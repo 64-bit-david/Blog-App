@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { postStory, clearError } from '../actions';
+import { postStory, clearError, dropNav } from '../actions';
 import { useForm } from 'react-hook-form';
 import displayError from './displayError';
 
 
 
-const AddStory = ({ postStory, auth, history, error, clearError }) => {
+const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
 
 
   const [howFormat, setHowFormat] = useState(false);
 
   const { register, handleSubmit, errors } = useForm();
+
+  useEffect(() => {
+    return function cleanup() {
+      dropNav(false);
+    }
+  }, [dropNav])
 
   const onSubmit = (data) => {
     const creator = auth._id;
@@ -129,4 +135,4 @@ const mapStateToProps = ({ auth, story, error }) => {
   return { auth, story, error }
 }
 
-export default connect(mapStateToProps, { postStory, clearError })(AddStory)
+export default connect(mapStateToProps, { postStory, clearError, dropNav })(AddStory)
