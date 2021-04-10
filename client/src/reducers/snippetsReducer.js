@@ -1,4 +1,4 @@
-import { DELETE_SNIPPET, FETCH_SNIPPETS, POST_SNIPPET } from "../actions/types";
+import { DELETE_SNIPPET, FETCH_SNIPPETS, POST_SNIPPET, CLEAR_SNIPPETS } from "../actions/types";
 
 
 export default function func(state = [], action) {
@@ -9,6 +9,8 @@ export default function func(state = [], action) {
       return [action.payload, ...state];
     case DELETE_SNIPPET:
       return state.filter(snippet => snippet._id !== action.payload);
+    case CLEAR_SNIPPETS:
+      return [];
     default:
       return state;
   }

@@ -1,11 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { clearStories } from '../actions';
 
 
 
-const Pagination = ({ pager, currentPage, path, clearStories }) => {
+const Pagination = ({ pager, currentPage, path, clearStore }) => {
 
   return (
     <div className="paginate-container">
@@ -15,7 +13,7 @@ const Pagination = ({ pager, currentPage, path, clearStories }) => {
             <Link
               to={`${path}1`}
               className={`${currentPage === 1 && 'active'} `}
-              onClick={() => clearStories()}
+              onClick={() => clearStore()}
             >1
               </Link>
           </li>
@@ -25,7 +23,7 @@ const Pagination = ({ pager, currentPage, path, clearStories }) => {
           <li>
             <Link
               to={`${path}${pager.previousPage}`}
-              onClick={() => clearStories()}
+              onClick={() => clearStore()}
             >
               {pager.previousPage}
             </Link>
@@ -35,7 +33,7 @@ const Pagination = ({ pager, currentPage, path, clearStories }) => {
         <li>
           <Link to={`${path}${pager.currentPage}`}
             className="active"
-            onClick={() => clearStories()}
+            onClick={() => clearStore()}
           >
             {pager.currentPage}
           </Link>
@@ -43,7 +41,7 @@ const Pagination = ({ pager, currentPage, path, clearStories }) => {
         {pager.hasNextPage ?
           <li>
             <Link to={`${path}${pager.nextPage}`}
-              onClick={() => clearStories()}
+              onClick={() => clearStore()}
             >
               {pager.nextPage}
             </Link>
@@ -56,7 +54,7 @@ const Pagination = ({ pager, currentPage, path, clearStories }) => {
           <li>
 
             <Link to={`${path}${pager.lastPage}`}
-              onClick={() => clearStories()}
+              onClick={() => clearStore()}
             >
               {pager.lastPage}
             </Link>
@@ -70,4 +68,4 @@ const Pagination = ({ pager, currentPage, path, clearStories }) => {
 }
 
 
-export default connect(null, { clearStories })(Pagination);
+export default Pagination;

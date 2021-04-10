@@ -21,7 +21,7 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
   }, [story, fetchStory, match.params.storyId]);
 
   useEffect(() => {
-    if (story) {
+    if (story && !author) {
       if (story._user) {
         fetchAuthor(story._user);
       }

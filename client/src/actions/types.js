@@ -33,6 +33,9 @@ export const CLEAR_STORIES = "CLEAR_STORIES";
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const CLEAR_AUTHOR = 'CLEAR_AUTHOR';
 export const CLEAR_STORY = 'CLEAR_STORY';
+export const CLEAR_SNIPPETS = 'CLEAR_SNIPPETS';
+export const CLEAR_USER_STORIES = 'CLEAR_USER_STORIES';
+
 
 
 

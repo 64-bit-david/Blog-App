@@ -3,27 +3,28 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import openSocket from 'socket.io-client';
+import Loader from 'react-loader-spinner'
 
 import displayError from './displayError';
 import Pagination from './Pagination';
-import { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, clearError } from '../actions';
+import { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, clearError, clearSnippets } from '../actions';
 
 
 
-const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth, deleteSnippet, pager, match, error, clearError }) => {
+const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth, deleteSnippet, pager, match, error, clearError, clearSnippets, history }) => {
 
 
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, reset } = useForm();
   const [currentPage, setCurrentPage] = useState(match.params.page);
-
-
-  useEffect(() => {
-    setCurrentPage(match.params.page);
-  }, [match.params.page]);
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchAllSnippets(1)
+    setCurrentPage(match.params.page || 1);
+    console.log(match.params.page, currentPage);
+
+  }, [setCurrentPage, match.params.page, currentPage])
+
+  useEffect(() => {
     const socket = openSocket(process.env.REACT_APP_STRIPE_PATH);
     socket.on('snippets', data => {
       if (data.action === 'create') {
@@ -37,18 +38,31 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     return () => {
       socket.off('snippets');
     }
-
   }, [fetchAllSnippets, addSnippet]);
 
   useEffect(() => {
-    if (pager.currentPage !== currentPage) {
-      fetchAllSnippets(currentPage);
+    if (snippets.length < 1) {
+      if (pager.currentPage !== currentPage && currentPage) {
+        fetchAllSnippets(currentPage || 1);
+      }
     }
-  }, [currentPage, fetchAllSnippets, pager.currentPage])
+  }, [currentPage, fetchAllSnippets, pager, snippets.length])
 
+  // useEffect(() => {
+  //   if (pager.currentPage !== currentPage) {
+  //     fetchAllSnippets(currentPage);
+  //   }
+  // }, [currentPage, fetchAllSnippets, pager.currentPage])
+
+  useEffect(() => {
+    if (snippets.length > 1) setLoading(false);
+    if (snippets.length < 1) setLoading(true);
+  }, [snippets])
 
   const onSubmit = (data) => {
     postSnippet(data.snippetText);
+    reset();
+    history.push('/snippets/1')
   }
 
   const rendersnippetInput = () => {
@@ -111,10 +125,19 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
         </div>
         <p className="snippets-sub-header">Let other writers know what you're up to, add a short snippet to the live feed.</p>
         { rendersnippetInput()}
-        <div className="snippets-list">
-          {renderSnippets()}
-        </div>
-        {/* {paginationHelper(pager, currentPage, '/snippets/')} */}
+        { loading ?
+          <div className="loader loader-margin">
+            <Loader type="ThreeDots" color="#ccd5ae" height={80}
+              timeout={100000}
+            />
+          </div> :
+          <div className="snippets-list">
+            {renderSnippets()}
+          </div>
+        }
+        { loading ? null :
+          <Pagination pager={pager} currentPage={currentPage} path='/snippets/' clearStore={clearSnippets} />
+        }
 
       </div>
     )
@@ -131,6 +154,6 @@ const mapStateToProps = ({ snippets, auth, pager, error }) => {
   return { snippets, auth, pager, error };
 }
 
-export default connect(mapStateToProps, { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, displayError, clearError })(AllSnippets);
+export default connect(mapStateToProps, { postSnippet, fetchAllSnippets, addSnippet, deleteSnippet, displayError, clearError, clearSnippets })(AllSnippets);
 
 

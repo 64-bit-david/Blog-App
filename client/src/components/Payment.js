@@ -123,7 +123,7 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearErro
       authorId
     })
 
-
+    console.log(response.data);
     const session = await response.data;
     // When the customer clicks on the button, redirect them to Checkout.
     const result = await stripe.redirectToCheckout({

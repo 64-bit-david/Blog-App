@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { FETCH_STORIES, FETCH_USER_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, UPDATING_USERNAME, UPDATING_DESCRIPTION, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY, CLEAN_UP, FETCH_STORY_REQUEST, ADD_ERROR, DELETE_USER, CLEAR_MESSAGE, ADD_MESSAGE, DELETE_COMMENT, PAYMENT_SUCCESS, INIT_FETCH_STORIES, LOADING, CLEAN_UP_MESSAGE, CLEAR_STORIES, CLEAR_ERROR, CLEAR_AUTHOR, CLEAR_STORY } from './types';
+import { FETCH_STORIES, FETCH_USER_STORIES, FETCH_USER, POST_STORY, EDIT_STORY, UPDATE_USER, UPDATING_USERNAME, UPDATING_DESCRIPTION, FETCH_STORY, FETCH_AUTHOR, FETCH_AUTHOR_BASIC, UPDATE_STORY_COMMENTS, POST_SNIPPET, FETCH_SNIPPETS, DELETE_SNIPPET, PAGINATE, DELETE_STORY, CLEAN_UP, FETCH_STORY_REQUEST, ADD_ERROR, DELETE_USER, CLEAR_MESSAGE, ADD_MESSAGE, DELETE_COMMENT, PAYMENT_SUCCESS, INIT_FETCH_STORIES, LOADING, CLEAN_UP_MESSAGE, CLEAR_STORIES, CLEAR_ERROR, CLEAR_AUTHOR, CLEAR_STORY, CLEAR_SNIPPETS, CLEAR_USER_STORIES } from './types';
 
 
 export const fetchStories = (page) => async (dispatch) => {
   const res = await axios.get('/api/stories/?page=' + page);
-  dispatch({ type: FETCH_STORIES, payload: res.data.stories });
   dispatch({ type: PAGINATE, payload: res.data.pager })
+  dispatch({ type: FETCH_STORIES, payload: res.data.stories });
 }
 
 export const fetchUserStories = (page, userId) => async (dispatch) => {
@@ -295,5 +295,14 @@ export const clearAuthor = () => {
 
 export const clearStory = () => {
   return { type: CLEAR_STORY }
+}
 
+export const clearSnippets = () => {
+  return { type: CLEAR_SNIPPETS }
+}
+
+
+export const clearUserStories = () => {
+  console.log('imad')
+  return { type: CLEAR_USER_STORIES }
 }

@@ -30,7 +30,7 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
         socket.off('snippets');
       }
     }
-  }, [addSnippet, fetchSnippet]);
+  }, [addSnippet, fetchSnippet, snippets.length]);
 
 
 

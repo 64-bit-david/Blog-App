@@ -2,11 +2,16 @@ import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage } from '../actions';
+import Loader from "react-loader-spinner";
+
+import { fetchAuthor, fetchUser, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage, clearUserStories } from '../actions';
 import Pagination from './Pagination';
 import displayError from './displayError';
 
-const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, clearError, error, deleteUser, history, clearMessage, message }) => {
+const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserStories, match, pager, clearError, error, deleteUser, history, clearMessage, message, clearUserStories }) => {
+
+
+  const [loading, setLoading] = useState(true);
 
 
   const preLoadForm = {
@@ -70,6 +75,11 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     }
 
   }, [pager.currentPage, currentPage, auth, fetchUserStories]);
+
+  useEffect(() => {
+    if (userStories.length < 1) setLoading(true);
+    if (userStories.length > 0) setLoading(false);
+  }, [userStories.length])
 
 
   useEffect(() => {
@@ -328,11 +338,23 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
         <div className="header-container sub-header-container">
           <h2>Your stories</h2>
         </div>
-        <div className="stories-grid author-stories-grid">
-          {renderAuthorStories()}
-        </div>
-        {/* {paginationHelper(pager, currentPage, '/your-profile/')} */}
-        <Pagination pager={pager} currentPage={currentPage} path='/your-profile/' />
+        { loading ?
+          <div className="loader loader-author">
+            <Loader type="ThreeDots" color="#ccd5ae" height={80}
+              timeout={5000}
+            />
+          </div> :
+          <div className="stories-grid author-stories-grid">
+            {renderAuthorStories()}
+          </div>
+        }
+        { loading ? null :
+          <Pagination
+            pager={pager}
+            currentPage={currentPage}
+            path='/your-profile/'
+            clearStore={clearUserStories} />
+        }
       </div>
     )
 
@@ -364,5 +386,5 @@ const mapStateToProps = ({ author, auth, userStories, pager, error, message }) =
   return { author, auth, pager, userStories, error, message }
 };
 
-export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage })(Author);
+export default connect(mapStateToProps, { fetchAuthor, updateUsername, updateUserDesc, fetchUserStories, clearError, deleteUser, clearMessage, clearUserStories })(Author);
 

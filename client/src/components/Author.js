@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner'
-import { fetchAuthorBasic, fetchUserStories, clearError } from '../actions';
+import { fetchAuthorBasic, fetchUserStories, clearError, clearUserStories } from '../actions';
 import Pagination from './Pagination';
 import displayError from './displayError';
 
-const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager, error, clearError }) => {
+const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager, error, clearError, clearUserStories }) => {
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
@@ -14,28 +14,40 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
 
 
   useEffect(() => {
-    setCurrentPage(match.params.page);
-  }, [match.params.page])
+    setCurrentPage(match.params.page || 1);
+    console.log(match.params.page, currentPage);
+
+  }, [setCurrentPage, match.params.page, currentPage])
+
 
   useEffect(() => {
     if (!author) {
       fetchAuthorBasic(match.params.authorId);
     }
-  }, [fetchAuthorBasic, match.params.authorId]);
+  }, [fetchAuthorBasic, match.params.authorId, author]);
 
 
   useEffect(() => {
-    if (pager.currentPage !== currentPage) {
-      fetchUserStories(currentPage, match.params.authorId);
-    }
-    else {
-      fetchUserStories(1, match.params.authorId);
+    if (userStories.length < 1) {
+      if (pager.currentPage !== currentPage) {
+        fetchUserStories(currentPage, match.params.authorId);
+      }
+      else {
+        fetchUserStories(1, match.params.authorId);
+      }
     }
   }, [currentPage, pager.currentPage, fetchUserStories, match.params.authorId]);
 
   useEffect(() => {
     if (author) setLoading(false);
-  })
+  }, [loading, author])
+
+  useEffect(() => {
+    return function cleanup() {
+      clearUserStories();
+    }
+  }, [])
+
 
   const authorName = () => {
     if (author) {
@@ -115,7 +127,7 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
       return (
         <div className="loader loader-margin">
           <Loader type="ThreeDots" color="#ccd5ae" height={80}
-            timeout={100000}
+            timeout={5000}
           />
         </div>)
     }
@@ -128,8 +140,9 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
         <div className="stories-grid author-stories-grid">
           {renderAuthorStories()}
         </div>
-        {/* { paginationHelper(pager, currentPage, `/author/${match.params.authorId}/`)} */}
-        <Pagination pager={pager} currentPage={currentPage} path={`/author/${match.params.authorId}/`} />
+        {loading ? null :
+          <Pagination pager={pager} currentPage={currentPage} path={`/author/${match.params.authorId}/`} clearStore={clearUserStories} />
+        }
       </div>
     )
   }
@@ -146,5 +159,5 @@ const mapStateToProps = ({ author, auth, userStories, pager, error }) => {
   return { author, auth, userStories, pager, error }
 };
 
-export default connect(mapStateToProps, { fetchAuthorBasic, fetchUserStories, clearError })(Author);
+export default connect(mapStateToProps, { fetchAuthorBasic, fetchUserStories, clearError, clearUserStories })(Author);
 

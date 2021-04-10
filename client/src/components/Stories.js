@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import displayError from './displayError';
 import Loader from "react-loader-spinner";
 
 
-import { fetchStories, clearError, clearMessage, clearStory } from '../actions/index';
+import { fetchStories, clearError, clearMessage, clearStory, clearAuthor, clearStories } from '../actions/index';
 import Snippets from './Snippets';
 import Pagination from './Pagination';
 
 
-const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, message, clearError, storeStory, clearStory }) => {
+const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, message, clearError, storeStory, clearStory, clearAuthor, clearStories }) => {
 
 
 
@@ -21,25 +20,18 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   useEffect(() => {
     setCurrentPage(match.params.page || 1);
-  }, [setCurrentPage, match.params.page])
+    console.log(match.params.page, currentPage);
+
+  }, [setCurrentPage, match.params.page, currentPage])
 
   useEffect(() => {
-
     if (stories.length < 1) {
-      fetchStories(currentPage || 1);
+      if (pager.currentPage !== currentPage && currentPage) {
+        fetchStories(currentPage || 1);
+      }
     }
-
-
-
-
-  }, [fetchStories, currentPage, stories]);
-
-  // useEffect(() => {
-  //   if (pager.currentPage !== currentPage && currentPage) {
-  //     fetchStories(currentPage || 1);
-  //   }
-  //   if (stories.length > 0) setLoading(false);
-  // }, [fetchStories, pager.currentPage, currentPage]);
+    if (stories.length > 0) setLoading(false);
+  }, [fetchStories, pager, currentPage, stories.length]);
 
 
 
@@ -67,6 +59,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
     if (storeStoryId && storyId !== storeStoryId) {
       clearStory();
+      clearAuthor();
     }
   }
 
@@ -113,7 +106,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
       if (index === 2) {
         return (
           <div className="story-item-container sub-header-container" key={index}>
-            <h2>{!currentPage || currentPage == 1 ? "Latest Stories" : `Latest Stories - Page ${currentPage}`}</h2>
+            <h2>{!currentPage || currentPage === 1 ? "Latest Stories" : `Latest Stories - Page ${currentPage}`}</h2>
           </div>
         )
       }
@@ -155,11 +148,14 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
             {renderGrid()}
           </div>
         }
-        <Pagination
-          pager={pager}
-          currentPage={currentPage}
-          path={`/stories/`}
-        />
+        {loading ? null :
+          <Pagination
+            pager={pager}
+            currentPage={currentPage}
+            path={`/stories/`}
+            clearStore={clearStories}
+          />
+        }
       </div>
     )
   }
@@ -193,4 +189,4 @@ const mapStateToProps = ({ stories, pager, error, message, loading, story: store
   return { stories, pager, error, message, loading, storeStory }
 }
 
-export default connect(mapStateToProps, { fetchStories, clearError, clearMessage, clearStory })(Stories);
+export default connect(mapStateToProps, { fetchStories, clearError, clearMessage, clearStory, clearAuthor, clearStories })(Stories);

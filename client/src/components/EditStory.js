@@ -43,7 +43,9 @@ const EditStory = ({ story, editStory, history, match, error }) => {
     return (
       <div className="forms-container">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <h2 className="add-story-item-container">Edit Your Story!</h2>
+          <div className="header-container">
+            <h1>Edit Your Story!</h1>
+          </div>
           <div className="add-story-input-title add-story-item-container">
             <label> Edit Title</label>
             <input
