@@ -99,8 +99,8 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
   //ensure it matches the limits set in back end
   const renderSnippets = () => {
     let arrayToMap;
-    if (snippets.length > 5) {
-      arrayToMap = snippets.slice(0, 5);
+    if (snippets.length > 10) {
+      arrayToMap = snippets.slice(0, 10);
     } else {
       arrayToMap = snippets;
     }
@@ -128,7 +128,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     return (
       <div className="all-snippets-container snippets-container">
         <div className="header-container snippets-header">
-          <h1>Snippets</h1>
+          <h1>All Snippets</h1>
         </div>
         <p className="snippets-sub-header">Let other writers know what you're up to, add a short snippet to the live feed.</p>
         { rendersnippetInput()}

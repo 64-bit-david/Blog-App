@@ -26,7 +26,7 @@
   flex-direction: column;
   align-items: center;
   label{
-    font-size: 1.3rem;
+    font-size: 1.7rem;
     margin: .2rem 0;
   }
   .input-container{
@@ -82,11 +82,11 @@
   }
   .snippets-list{
     background-color: $color-3;
-    margin-top: 5rem;
+    margin-top: 3rem;
     padding: 1rem 2rem;
     border: 2px solid $color-5;
     border-radius: 3px; 
-    width: 75%;
+    width: 95%;
     @media(min-width: $lg){
       width: 75rem;
     }
@@ -103,6 +103,7 @@
     font-style: italic;
   }
   .snippet-form{
+    width: 95%;
   @media(min-width: $md){
     width: 75%;
   }

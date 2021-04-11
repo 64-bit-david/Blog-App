@@ -3,7 +3,7 @@ const io = require('../socket');
 const { validationResult } = require('express-validator');
 
 
-const SNIPPETS_PER_PAGE = 5;
+const SNIPPETS_PER_PAGE = 10;
 
 exports.createSnippet = async (req, res, next) => {
   const user = req.user;
@@ -45,7 +45,7 @@ exports.createSnippet = async (req, res, next) => {
 
 //for front page
 exports.getSnippets = async (req, res, next) => {
-  const snippets = await Snippet.find().sort({ _id: -1 }).limit(10);
+  const snippets = await Snippet.find().sort({ _id: -1 }).limit(SNIPPETS_PER_PAGE);
   res.status(200).json({ msg: 'Snippets fetched', snippets });
 }
 
@@ -54,7 +54,6 @@ exports.getAllSnippets = async (req, res, next) => {
 
   try {
     const totalSnippets = await Snippet.find().countDocuments();
-    console.log(totalSnippets)
     const snippets = await Snippet.find()
       .sort({ _id: -1 })
       .skip((page - 1) * SNIPPETS_PER_PAGE)

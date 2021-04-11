@@ -3,6 +3,7 @@
     height: $nav-height;
     background-color: $color-2;
     border-bottom: 2px solid $color-5;
+    // width: 100vw;
 
     .header {
       padding: 0 2rem;
@@ -10,6 +11,7 @@
       justify-content: space-between;
       align-items: center;
       height: 100%;
+
 
 
       @media (min-width: $sm) {
@@ -52,12 +54,11 @@
         
       }
       .header-right{
-        position: relative;
 
         .header-right-menu{
           display: flex;
           flex-direction: column;
-          position: absolute;
+          position: fixed;
           background-color: $color-2;
           top: $nav-height - 1rem;
           right: -2rem;
@@ -66,6 +67,7 @@
           z-index: 50;
           transform: translateX(100%);
           transition: all .2s ease-in;
+
 
       
 
