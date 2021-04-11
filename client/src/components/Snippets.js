@@ -14,23 +14,27 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
 
   //fetchsnippets, and open a socket the listens for created snippets
   useEffect(() => {
+    const socket = openSocket(process.env.REACT_APP_STRIPE_PATH);
+
+    socket.on('snippets', data => {
+      if (data.action === 'create') {
+        addSnippet(data.snippet);
+      }
+      if (data.action === 'delete') {
+        fetchSnippet();
+      }
+    })
+    return () => {
+      socket.off('snippets');
+    }
+
+  }, [addSnippet, fetchSnippet, snippets.length]);
+
+  useEffect(() => {
     if (snippets.length < 1) {
       fetchSnippet();
-      const socket = openSocket(process.env.REACT_APP_STRIPE_PATH);
-
-      socket.on('snippets', data => {
-        if (data.action === 'create') {
-          addSnippet(data.snippet);
-        }
-        if (data.action === 'delete') {
-          fetchSnippet();
-        }
-      })
-      return () => {
-        socket.off('snippets');
-      }
     }
-  }, [addSnippet, fetchSnippet, snippets.length]);
+  }, [])
 
 
 
