@@ -12,8 +12,6 @@ import Pagination from './Pagination';
 
 const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, message, clearError, storeStory, clearStory, clearAuthor, clearStories, dropNav }) => {
 
-
-
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
   const [loading, setLoading] = useState(true);
@@ -24,15 +22,19 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
   }, [setCurrentPage, match.params.page, currentPage])
 
   useEffect(() => {
-    if (stories.length < 1) {
-      if (pager.currentPage !== currentPage && currentPage) {
-        fetchStories(currentPage || 1);
+    const fetchCheck = async () => {
+      if (stories.length < 1) {
+        if (pager.currentPage !== currentPage && currentPage) {
+          await fetchStories(currentPage || 1);
+        }
+        else {
+          await fetchStories(1);
+        }
       }
     }
+    fetchCheck();
     if (stories.length > 0) setLoading(false);
   }, [fetchStories, pager, currentPage, stories.length]);
-
-
 
   useEffect(() => {
     if (stories.length > 0) setLoading(false);
@@ -79,7 +81,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
   }
 
   //renders the array of user stories into grid items, insert a featured story at the index 0, snippets component at index 1 and a title for latest stories at index 2
-  const renderGrid = () => {
+  const renderGrid1 = () => {
     const storiesWithFeed = storiesArrayWithFeed();
     return storiesWithFeed.map((story, index) => {
       if (index === 0) {
@@ -87,6 +89,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
           <div className={`story-item-container`} key={index}>
             <Link
               to={`/story/606ae0b59dbfba3cccf41568`}
+              onClick={() => clearStoryCheck(story._id, storeStory?._id)}
             >
               <div className="story-item featured-story">
                 <h5 className="featured-text">Featured Story</h5>
@@ -111,7 +114,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
       if (index === 2) {
         return (
           <div className="story-item-container sub-header-container" key={index}>
-            <h2>{!currentPage || currentPage === 1 ? "Latest Stories" : `Latest Stories - Page ${currentPage}`}</h2>
+            <h2>Latest Stories</h2>
           </div>
         )
       }
@@ -133,14 +136,54 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
         </div >
       )
     })
+  }
 
+  const renderGrid2 = () => {
+    return stories.map((story, index) => {
+      return (
+        <div className={`story-item-container`} key={index}>
+          <Link
+            to={`/story/${story._id}`}
+            onClick={() => clearStoryCheck(story._id, storeStory?._id)}
+          >
+            <div className="story-item">
+              <h3>{story.title}</h3>
+              <p className="story-page-author">Posted by: {story.username}</p>
+              <p className="story-page-desc">
+                {story.description}
+              </p>
+            </div>
+          </Link>
+
+        </div >
+      )
+    })
+  };
+
+  const gridToRender = () => {
+    if (pager.currentPage === 1) {
+      console.log('g1 render')
+      return (
+        <div className="stories-grid author-stories-grid">
+          {renderGrid1()}
+        </div>
+      )
+    }
+    else {
+      console.log('g2 render')
+      return (
+        <div className="stories-grid stories-grid-2 author-stories-grid">
+          {renderGrid2()};
+        </div>
+      )
+    }
   }
 
   const pageSuccess = () => {
     return (
       <div className="stories-container">
         <div className="header-container">
-          <h1>Home</h1>
+          <h1>{!currentPage || currentPage == 1 ? "Home" : `Latest Stories - Page ${currentPage}`}</h1>
         </div>
         <p className="p-welcome">Welcome to <span>Writer's Desk</span>, a space for creative writers to share their work! Sign up and post your own stories and consider supporting other writers with a donation.</p>
         { loading ?
@@ -149,9 +192,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
               timeout={5000}
             />
           </div> :
-          <div className="stories-grid author-stories-grid">
-            {renderGrid()}
-          </div>
+          gridToRender()
         }
         {loading ? null :
           <Pagination

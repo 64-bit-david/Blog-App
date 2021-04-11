@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner'
-import { fetchAuthorBasic, fetchUserStories, clearError, clearUserStories, dropNav } from '../actions';
+import { fetchAuthorBasic, fetchUserStories, clearError, clearUserStories, dropNav, clearPagination } from '../actions';
 import Pagination from './Pagination';
 import displayError from './displayError';
 
-const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager, error, clearError, clearUserStories, dropNav }) => {
+const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic, pager, error, clearError, clearUserStories, dropNav, clearPagination }) => {
 
   const [currentPage, setCurrentPage] = useState(match.params.page);
 
@@ -44,6 +44,7 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
   useEffect(() => {
     return function cleanup() {
       clearUserStories();
+      clearPagination();
     }
   }, []);
 
@@ -165,5 +166,5 @@ const mapStateToProps = ({ author, auth, userStories, pager, error }) => {
   return { author, auth, userStories, pager, error }
 };
 
-export default connect(mapStateToProps, { fetchAuthorBasic, fetchUserStories, clearError, clearUserStories, dropNav })(Author);
+export default connect(mapStateToProps, { fetchAuthorBasic, fetchUserStories, clearError, clearUserStories, dropNav, clearPagination })(Author);
 

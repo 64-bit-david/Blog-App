@@ -1,6 +1,7 @@
 .story-page-container{
   display: flex;
   flex-direction: column;
+  margin: 0 1rem;
 
   @media (min-width: $xl) {
     margin-left: 25rem;
@@ -107,6 +108,8 @@
         padding: 1rem 1rem;
         border-radius: 3px;
         border: 2px solid $color-5;
+        word-break: break-word;
+
 
       @media (min-width: $sm) {
         letter-spacing: .8px;
@@ -130,8 +133,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 3rem 0;
-      padding: 0 2rem;
+      margin: 3rem 0 0 0;
 
       @media (min-width: $xl) {
         padding-left: 12rem;
@@ -161,6 +163,7 @@
         label{
           font-size: 1.3rem;
           margin: .2rem 0;
+          margin-top: 3rem;
         }
         .input-container{
           display: flex;

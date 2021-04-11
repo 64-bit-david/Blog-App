@@ -161,7 +161,9 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
 
   return (
     <div className="comments-container">
-      <h5>Comments</h5>
+      <div className="sub-header-container">
+        <h2>Comments</h2>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>Add a Comment</label>
         <div className="input-container">
