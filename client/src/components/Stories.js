@@ -173,7 +173,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
       console.log('g2 render')
       return (
         <div className="stories-grid stories-grid-2 author-stories-grid">
-          {renderGrid2()};
+          {renderGrid2()}
         </div>
       )
     }
