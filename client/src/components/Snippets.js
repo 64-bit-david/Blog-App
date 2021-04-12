@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import openSocket from 'socket.io-client';
 import { useForm } from 'react-hook-form';
-import { postSnippet, fetchSnippet, addSnippet, deleteSnippet, clearError, clearAuthor } from '../actions';
+import { postSnippet, fetchSnippet, addSnippet, deleteSnippet, clearError, clearAuthor, clearSnippets } from '../actions';
 
 
-const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, deleteSnippet, clearAuthor }) => {
+const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, deleteSnippet, clearAuthor, clearSnippets }) => {
 
 
   const { register, handleSubmit, errors, reset } = useForm();
@@ -36,6 +36,11 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
     }
   }, [])
 
+  useEffect(() => {
+    return function cleanup() {
+      clearSnippets()
+    }
+  }, [])
 
 
   const onSubmit = (data) => {
@@ -124,6 +129,6 @@ const mapStateToProps = ({ snippets, auth }) => {
   return { snippets, auth };
 }
 
-export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet, deleteSnippet, clearError, clearAuthor })(Snippets);
+export default connect(mapStateToProps, { postSnippet, fetchSnippet, addSnippet, deleteSnippet, clearError, clearAuthor, clearSnippets })(Snippets);
 
 

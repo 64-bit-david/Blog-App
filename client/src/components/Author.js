@@ -28,14 +28,20 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
 
   useEffect(() => {
     if (userStories.length < 1) {
-      if (pager.currentPage !== currentPage) {
-        fetchUserStories(currentPage, match.params.authorId);
-      }
-      else {
-        fetchUserStories(1, match.params.authorId);
-      }
+      fetchUserStories(currentPage || 1, match.params.authorId);
     }
-  }, [currentPage, pager.currentPage, fetchUserStories, match.params.authorId]);
+  }, [currentPage, match.params.authorId]);
+
+  // useEffect(() => {
+  //   if (userStories.length < 1) {
+  //     if (pager.currentPage !== currentPage) {
+  //       fetchUserStories(currentPage, match.params.authorId);
+  //     }
+  //     else {
+  //       fetchUserStories(1, match.params.authorId);
+  //     }
+  //   }
+  // }, [currentPage, pager.currentPage, fetchUserStories, match.params.authorId]);
 
   useEffect(() => {
     if (author) setLoading(false);

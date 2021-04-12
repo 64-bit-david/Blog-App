@@ -62,23 +62,23 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     }
   }, [auth])
 
-  // useEffect(() => {
-  //   if (auth._id) {
-  //     fetchUserStories(currentPage || 1, auth._id);
-  //   }
-  // }, [auth, currentPage, fetchUserStories])
-
   useEffect(() => {
-    if (auth?._id) {
-      if (pager.currentPage !== currentPage && currentPage) {
-        fetchUserStories(currentPage, auth._id);
-      }
-      else {
-        fetchUserStories(1, auth._id);
-      }
+    if (auth._id) {
+      fetchUserStories(currentPage || 1, auth._id);
     }
+  }, [auth, currentPage])
 
-  }, [pager.currentPage, currentPage, auth, fetchUserStories]);
+  // useEffect(() => {
+  //   if (auth?._id) {
+  //     if (pager.currentPage !== currentPage && currentPage) {
+  //       fetchUserStories(currentPage, auth._id);
+  //     }
+  //     else {
+  //       fetchUserStories(1, auth._id);
+  //     }
+  //   }
+
+  // }, [pager.currentPage, currentPage, auth, fetchUserStories]);
 
   useEffect(() => {
     if (userStories.length < 1) setLoading(true);
