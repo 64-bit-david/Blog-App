@@ -27,10 +27,8 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
 
 
   useEffect(() => {
-    if (userStories.length < 1) {
-      fetchUserStories(currentPage || 1, match.params.authorId);
-    }
-  }, [currentPage, match.params.authorId]);
+    fetchUserStories(currentPage || 1, match.params.authorId);
+  }, [currentPage, match.params.authorId, fetchUserStories]);
 
   // useEffect(() => {
   //   if (userStories.length < 1) {
@@ -49,10 +47,15 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
 
   useEffect(() => {
     return function cleanup() {
-      clearUserStories();
       clearPagination();
     }
-  }, []);
+  }, [clearPagination]);
+
+  useEffect(() => {
+    return function cleanup() {
+      clearUserStories();
+    }
+  }, [clearUserStories]);
 
   useEffect(() => {
     return function cleanup() {

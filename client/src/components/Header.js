@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchUser, logout, dropNav, clearStories } from '../actions';
 
 const Header = ({ fetchUser, auth, logout, navStatus, dropNav, clearStories }) => {
 
-  const [dropDown, setDropDown] = useState(false);
 
   useEffect(() => {
     fetchUser();

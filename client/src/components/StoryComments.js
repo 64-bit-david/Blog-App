@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import Loader from 'react-loader-spinner'
 import { updateStoryComments, deleteStoryComment, fetchStory, clearError, clearAuthor } from '../actions';
+
 
 
 
@@ -10,6 +12,7 @@ import { updateStoryComments, deleteStoryComment, fetchStory, clearError, clearA
 const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, clearAuthor }) => {
 
   const { register, handleSubmit, errors, reset } = useForm();
+  const [loading, setLoading] = useState(false);
 
   const [commentPage, setCommentPage] = useState(1);
   const [commentsArray, setCommentsArray] = useState(null);
@@ -21,6 +24,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
   }
 
   const onSubmit = async (data) => {
+    setLoading(true);
     updateStoryComments(story._id, data.commentText);
     reset();
   }
@@ -42,11 +46,12 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
       }
     }
     createCommentPgArray();
+    setLoading(false);
 
     return function cleanup() {
       setCommentsArray(null);
     }
-  }, [commentPage, story])
+  }, [commentPage, story, setLoading]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
 
@@ -133,7 +138,11 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
               <div className="comment-right">
                 {comment.userId === auth._id ?
                   <button
-                    onClick={() => deleteComment(story._id, comment.id)}
+                    onClick={() => {
+                      deleteComment(story._id, comment.id);
+                      setLoading(true);
+                    }
+                    }
                     className="btn delete-btn"
                   >Delete</button> : null}
               </div>
@@ -178,7 +187,14 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
         )}
       </form>
       <ul className="comments-list">
-        {renderStoryComments()}
+        {loading ?
+          <div className="loader loader-comments">
+            <Loader type="ThreeDots" color="#ccd5ae" height={80}
+              timeout={3000}
+            />
+          </div> :
+          renderStoryComments()
+        }
       </ul>
       {commentPager()}
     </div>

@@ -38,15 +38,11 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     return () => {
       socket.off('snippets');
     }
-  }, []);
+  }, [fetchAllSnippets, addSnippet]);
 
   useEffect(() => {
-    if (snippets.length < 1) {
-      fetchAllSnippets(currentPage || 1);
-    } else {
-      fetchAllSnippets(1)
-    }
-  }, [currentPage])
+    fetchAllSnippets(currentPage || 1);
+  }, [currentPage, fetchAllSnippets])
 
 
   useEffect(() => {
@@ -64,7 +60,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     return function cleanup() {
       clearPagination();
     }
-  }, [])
+  }, [clearPagination])
 
   const onSubmit = (data) => {
     postSnippet(data.snippetText);

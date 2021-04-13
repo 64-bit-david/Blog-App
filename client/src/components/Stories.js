@@ -21,28 +21,9 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   }, [setCurrentPage, match.params.page, currentPage])
 
-  // useEffect(() => {
-  //   const fetchCheck = async () => {
-  //     if (stories.length < 1) {
-  //       if (pager.currentPage !== currentPage && currentPage) {
-  //         await fetchStories(currentPage || 1);
-  //       }
-  //       else {
-  //         await fetchStories(1);
-  //       }
-  //     }
-  //   }
-  //   fetchCheck();
-  //   if (stories.length > 0) setLoading(false);
-  // }, [fetchStories, pager, currentPage, stories.length]);
-
-
   useEffect(() => {
-    if (stories.length < 1) {
-      fetchStories(currentPage || 1);
-    }
-
-  }, [currentPage]);
+    fetchStories(currentPage || 1);
+  }, [currentPage, fetchStories]);
 
   useEffect(() => {
     if (stories.length > 0) setLoading(false);
@@ -71,9 +52,14 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
   useEffect(() => {
     return function cleanup() {
       clearStories();
+    }
+  }, [clearStories]);
+
+  useEffect(() => {
+    return function cleanup() {
       clearPagination();
     }
-  }, [])
+  }, [clearPagination])
 
 
 
@@ -104,7 +90,11 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
           <div className={`story-item-container`} key={index}>
             <Link
               to={`/story/606ae0b59dbfba3cccf41568`}
-              onClick={() => clearStoryCheck(story._id, storeStory?._id)}
+              onClick={() => {
+                clearStory();
+                clearAuthor();
+              }
+              }
             >
               <div className="story-item featured-story">
                 <h5 className="featured-text">Featured Story</h5>
@@ -198,7 +188,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
     return (
       <div className="stories-container">
         <div className="header-container">
-          <h1>{!currentPage || currentPage == 1 ? "Home" : `Latest Stories - Page ${currentPage}`}</h1>
+          <h1>{!currentPage || +currentPage === 1 ? "Home" : `Latest Stories - Page ${currentPage}`}</h1>
         </div>
         <p className="p-welcome">Welcome to <span>Writer's Desk</span>, a space for creative writers to share their work! Sign up and post your own stories and consider supporting other writers with a donation.</p>
         { loading ?

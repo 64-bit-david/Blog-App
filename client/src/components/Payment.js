@@ -66,7 +66,7 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearErro
     return function cleanup() {
       clearError()
     }
-  }, []);
+  }, [clearError]);
 
 
   useEffect(() => {
@@ -116,7 +116,8 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearErro
         fetchAuthorBasic(authorId);
       }
     }
-  }, [author]);
+
+  }, [author]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
 

@@ -8,9 +8,9 @@ export default function func(state = {}, action) {
     case UPDATE_USER:
       return action.payload;
     case UPDATING_USERNAME:
-      return { ...state, ['username']: action.payload };
+      return { ...state, [state.username]: action.payload };
     case UPDATING_DESCRIPTION:
-      return { ...state, ['description']: action.payload };
+      return { ...state, [state.description]: action.payload };
     case PAYMENT_SUCCESS:
       return action.payload;
     case DELETE_USER:

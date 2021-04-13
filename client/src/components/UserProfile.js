@@ -66,7 +66,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     if (auth._id) {
       fetchUserStories(currentPage || 1, auth._id);
     }
-  }, [auth, currentPage])
+  }, [auth._id, currentPage, fetchUserStories])
 
   // useEffect(() => {
   //   if (auth?._id) {

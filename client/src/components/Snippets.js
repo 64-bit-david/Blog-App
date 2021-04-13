@@ -31,16 +31,14 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
   }, [addSnippet, fetchSnippet, snippets.length]);
 
   useEffect(() => {
-    if (snippets.length < 1) {
-      fetchSnippet();
-    }
-  }, [])
+    fetchSnippet();
+  }, [fetchSnippet])
 
   useEffect(() => {
     return function cleanup() {
       clearSnippets()
     }
-  }, [])
+  }, [clearSnippets])
 
 
   const onSubmit = (data) => {

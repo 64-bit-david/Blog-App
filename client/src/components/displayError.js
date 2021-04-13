@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function (error, cleanUp) {
+export default function func(error, cleanUp) {
   return (
     <div className="error-container">
       <p>Error:{error.statusCode}</p>

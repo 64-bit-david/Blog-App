@@ -30,7 +30,7 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 
   useEffect(() => {
     if (story && author) setLoading(false);
-  })
+  }, [story, author, setLoading])
 
   useEffect(() => {
     return function cleanup() {
