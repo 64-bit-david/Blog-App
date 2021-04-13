@@ -56,3 +56,13 @@
     width: inherit;
   }
 }
+
+.err-pg-not-found{
+  display: flex;
+  flex: column;
+  justify-content: center;
+  align-items: center;
+  h1{
+    margin-bottom: 4rem;
+  }
+}
