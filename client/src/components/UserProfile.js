@@ -176,8 +176,8 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
             <button
               className="btn green-btn"
               onClick={() => {
-                setShowChangeUserName(true)
-                setChangeContainer(true)
+                setShowChangeUserName(!showChangeUsername)
+                setChangeContainer(!changeContainer)
               }}
             >Edit Username</button>
 
@@ -192,8 +192,8 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
             <button
               className="btn green-btn"
               onClick={() => {
-                setShowChangeDesc(true)
-                setChangeContainer(true)
+                setShowChangeDesc(!showChangeDesc)
+                setChangeContainer(!changeContainer)
               }}>
               {auth.description ? "Edit Description" : "Add Description"}
             </button>

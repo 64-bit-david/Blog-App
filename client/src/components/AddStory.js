@@ -33,7 +33,7 @@ const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
     if (howFormat) {
       return (
         <div className="how-to-format-container">
-          <p>Writer's Desk uses "marked" for formatting user stories. Most users only need to know that hitting the space button twice will format the text to a new line. <br />  For everything else however, check out the <span><a href="https://marked.js.org/">marked demo</a></span> for all formatting options</p>
+          <p>Writer's Desk uses "marked" for formatting user stories. Most users only need to know that hitting the space button twice will format to a new line. <br />  For everything else however, check out the <span><a href="https://marked.js.org/">marked documentation</a></span> for more detailed formatting options.</p>
           <button
             type="button"
             className="btn change-esc-btn"
@@ -53,7 +53,7 @@ const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
             <button
               type="button"
               className="btn htf-btn notification-btn"
-              onClick={() => setHowFormat(true)}>How to format</button>
+              onClick={() => setHowFormat(!howFormat)}>How to format</button>
           </div>
           {renderHowToFormat()}
           <div className="add-story-input-title add-story-item-container">
