@@ -20,11 +20,11 @@ import Error404 from './Error404';
 const App = () => {
 
   return (
-    <div class="body-container">
+    <div className="body-container">
       <BrowserRouter>
         <ScrollToTop />
         <Header />
-        <main class="main">
+        <main className="main">
           <Switch>
             <Route path="/" exact component={Stories} />
             <Route path="/stories/:page" component={Stories} />

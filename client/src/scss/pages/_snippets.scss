@@ -1,11 +1,12 @@
 .snippets-container{
   border-color: $color-5;
 
-
   &.story-item:hover {
     transform: scale(1);
     border-color: $color-5;
   }
+
+
 
 .snippet-header-container{
   text-align: center;
@@ -21,6 +22,7 @@
   text-align: center;
   margin: 1rem 0;
 }
+
 .snippet-form{
   display: flex;
   flex-direction: column;

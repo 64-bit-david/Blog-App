@@ -65,6 +65,13 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
         )}
 
       </form>
+
+    )
+  }
+
+  const renderSnippetAuthMsg = () => {
+    return (
+      <p className="snippets-sub-header">Sign in to post a snippet</p>
     )
   }
 
@@ -106,7 +113,7 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
           <h3>Snippets</h3>
         </div>
         <p className="snippets-sub-header">Let other writers know what you're up to, add a short snippet to the live feed.</p>
-        {rendersnippetInput()}
+        {auth ? rendersnippetInput() : renderSnippetAuthMsg()}
         {renderSnippets()}
         <div className="link-to-snippets">
           <Link to="/snippets/1">See all snippets</Link>

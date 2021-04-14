@@ -91,6 +91,12 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     )
   }
 
+  const renderSnippetAuthMsg = () => {
+    return (
+      <p className="snippets-sub-header">Sign in to post a snippet</p>
+    )
+  }
+
   //renders snippets component
   //When user adds a snippet, we slice the array to ensure it stays same length
   //ensure it matches the limits set in back end
@@ -128,7 +134,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
           <h1>All Snippets</h1>
         </div>
         <p className="snippets-sub-header">Let other writers know what you're up to, add a short snippet to the live feed.</p>
-        { rendersnippetInput()}
+        {!auth ? renderSnippetAuthMsg() : rendersnippetInput()}
         { loading ?
           <div className="loader loader-margin">
             <Loader type="ThreeDots" color="#ccd5ae" height={80}
