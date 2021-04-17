@@ -59,10 +59,7 @@
     font-family: $font-2;
     margin-bottom: 2rem;
     text-align: center;
-
-  @media(min-width: $xl){
-    text-align: left;
-  }
+    word-break: break-word;
     
   }
   .author-data-item{
@@ -74,6 +71,8 @@
     width: 90%;
     border: 2px solid $color-5;
     border-radius: 3px;
+  
+
   }
 
   .author-donations-container{
