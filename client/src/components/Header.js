@@ -12,7 +12,8 @@ const Header = ({ fetchUser, auth, logout, navStatus, dropNav, clearStories }) =
 
 
 
-
+  //determines what to render if user is auth or not
+  //render google style login button if not signed in, 
   const isLoggedIn = () => {
     if (!auth) {
       return (
@@ -29,6 +30,7 @@ const Header = ({ fetchUser, auth, logout, navStatus, dropNav, clearStories }) =
         </div>
       )
     }
+    // render nav for auth users
     if (auth?._id) {
       return (
         <div>
@@ -76,21 +78,19 @@ const Header = ({ fetchUser, auth, logout, navStatus, dropNav, clearStories }) =
 
 
 
-
+  //nav render
   return (
     <nav>
       <div className="header">
         <div className="header-left">
+          {/* when clicked, clear stories from store so updated stories are fetched */}
           <Link
             to="/"
             onClick={() => clearStories()}><h2>Writer's Desk</h2></Link>
         </div>
         <div className="header-right">
           {isLoggedIn()}
-
         </div>
-
-
       </div>
     </nav>
   )

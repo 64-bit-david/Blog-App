@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 
 const Pagination = ({ pager, currentPage, path, clearStore }) => {
 
+  //Pagintion helper component, for snippets and stories
+
   return (
     <div className="paginate-container">
       <ul>

@@ -18,7 +18,7 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
 
   }, [setCurrentPage, match.params.page, currentPage])
 
-
+  //if not author, fetch with url param
   useEffect(() => {
     if (!author) {
       fetchAuthorBasic(match.params.authorId);
@@ -26,20 +26,10 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
   }, [fetchAuthorBasic, match.params.authorId, author]);
 
 
+  //fetch author stories
   useEffect(() => {
     fetchUserStories(currentPage || 1, match.params.authorId);
   }, [currentPage, match.params.authorId, fetchUserStories]);
-
-  // useEffect(() => {
-  //   if (userStories.length < 1) {
-  //     if (pager.currentPage !== currentPage) {
-  //       fetchUserStories(currentPage, match.params.authorId);
-  //     }
-  //     else {
-  //       fetchUserStories(1, match.params.authorId);
-  //     }
-  //   }
-  // }, [currentPage, pager.currentPage, fetchUserStories, match.params.authorId]);
 
   useEffect(() => {
     if (author) setLoading(false);
@@ -63,7 +53,7 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
     }
   }, [dropNav])
 
-
+  //if author has updated their username, display that instead of name from google acc
   const authorName = () => {
     if (author) {
       if (author.username) {
@@ -73,6 +63,7 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
     }
     return null;
   }
+
 
   const authorDescription = () => {
     if (author) {
@@ -150,7 +141,8 @@ const Author = ({ author, match, fetchUserStories, userStories, fetchAuthorBasic
       <div className="author-page-container">
         {renderAuthorInfo()}
         <div className="header-container sub-header-container">
-          {/* <h2>{authorName()} 's stories</h2> */
+          {/* render depending on current page */}
+          {
             <h2>{!currentPage || currentPage === 1 ? `${authorName()}'s Stories ` : `${authorName()}'s Stories - Page ${currentPage}`}</h2>}
         </div>
         <div className="stories-grid author-stories-grid">

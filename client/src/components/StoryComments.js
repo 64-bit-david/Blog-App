@@ -30,7 +30,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
   }
 
 
-
+  //local pagination seperate from story/snippet pagination method
   useEffect(() => {
     const createCommentPgArray = () => {
       if (story.comments && !commentsArray) {
@@ -54,7 +54,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
   }, [commentPage, story, setLoading]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
-
+  //local pagination
   const commentPager = () => {
     if (story.comments) {
       const numOfComments = story.comments.length
@@ -120,6 +120,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
     }
   }
 
+  //input with validation (adding story comment)
   const renderStoryInput = () => {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -138,6 +139,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
     )
   }
 
+  //if user not signed in, render message instead of input
   const renderStoryInputAuthMsg = () => {
     return (
       <div><p className="story-comment-auth-msg">Sign in to post a comment</p></div>

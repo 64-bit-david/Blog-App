@@ -46,6 +46,7 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
     reset();
   }
 
+  //form with validation
   const rendersnippetInput = () => {
     return (
       <form className="snippet-form" onSubmit={handleSubmit(onSubmit)}>

@@ -58,12 +58,13 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
     return author.name
   }
 
+  //if user deletes story, push to user page
   const onDelete = async (storyId) => {
     await deleteStory(storyId);
     history.push('/your-profile')
   }
 
-
+  //
   const renderDeletePrompt = () => {
     if (deletePrompt) {
       return (
@@ -133,6 +134,7 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
             <div className="header-container">
               <h1>{story.title}</h1>
             </div>
+            {/* render edit or donate if auth user matches story author */}
             {renderEditOrDonate()}
             <p>{story.creator}</p>
             <p className="story-page-desc">{story.description}</p>
@@ -151,7 +153,6 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
                 </p>
               </div>
               <div className="story-page-sub-item grid-item">
-
                 <StoryComments />
               </div>
             </div>

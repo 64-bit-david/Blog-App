@@ -30,6 +30,7 @@ exports.createSnippet = async (req, res, next) => {
     username: username
   });
 
+  //if snippet saves, emit websocket action
   try {
     const response = await snippet.save();
 
@@ -48,6 +49,7 @@ exports.getSnippets = async (req, res, next) => {
   const snippets = await Snippet.find().sort({ _id: -1 }).limit(SNIPPETS_PER_PAGE);
   res.status(200).json({ msg: 'Snippets fetched', snippets });
 }
+
 
 exports.getAllSnippets = async (req, res, next) => {
   const page = +req.query.page || 1;
@@ -80,6 +82,7 @@ exports.deleteSnippet = async (req, res, next) => {
   try {
     const snippet = await Snippet.findById(snippetId);
 
+    //auth check user match
     if (snippet._user.toString() !== req.user._id.toString()) {
       const error = new Error("Cannot delete another user's snippet!");
       error.statusCode = 401;

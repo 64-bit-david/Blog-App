@@ -24,6 +24,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
   }, [setCurrentPage, match.params.page, currentPage])
 
 
+  //opens/closes websocket
   useEffect(() => {
     const socket = openSocket(process.env.REACT_APP_STRIPE_PATH);
     socket.on('snippets', data => {
@@ -62,6 +63,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     }
   }, [clearPagination])
 
+  //when a new snippet is posted, push user back to first page to see said snippet
   const onSubmit = (data) => {
     postSnippet(data.snippetText);
     reset();
@@ -69,6 +71,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     history.push('/snippets/1')
   }
 
+  //render input with validation
   const rendersnippetInput = () => {
     return (
       <form className="snippet-form" onSubmit={handleSubmit(onSubmit)}>
@@ -91,6 +94,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     )
   }
 
+  //render if not logged in
   const renderSnippetAuthMsg = () => {
     return (
       <p className="snippets-sub-header">Sign in to post a snippet</p>
@@ -127,6 +131,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
   }
 
 
+
   const pageSuccess = () => {
     return (
       <div className="all-snippets-container snippets-container">
@@ -134,6 +139,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
           <h1>All Snippets</h1>
         </div>
         <p className="snippets-sub-header">Let other writers know what you're up to, add a short snippet to the live feed.</p>
+        {/* if not auth, render msg instead */}
         {!auth ? renderSnippetAuthMsg() : rendersnippetInput()}
         { loading ?
           <div className="loader loader-margin">

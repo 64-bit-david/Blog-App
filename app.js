@@ -57,8 +57,11 @@ app.use(paymentRoutes);
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
-  const message = error.message;
+  let message = error.message;
   const data = error.data;
+  if (error.statusCode > 499) {
+    error.message = 'Network Error';
+  }
   res.status(status).json({ statusText: "error", error: message, data: data });
 })
 

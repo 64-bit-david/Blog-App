@@ -39,15 +39,12 @@ const postSchema = new Schema({
   }
 }, { timestamps: true });
 
+//takes the story content, marked will convert the format into html
+//Then dompurify will santize before it is sent to controller & then db
 postSchema.pre('validate', function (next) {
   this.sanitizedHtml = dompurify.sanitize(marked(this.content));
   next();
 })
 
 
-// postSchema.pre('save', function (next) {
-//   const error = new Error('Posting Story failed');
-//   error.statusCode = 500;
-//   return next(error);
-// })
 module.exports = mongoose.model('Post', postSchema);

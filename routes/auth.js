@@ -18,6 +18,9 @@ router.get("/auth/google/redirect", passport.authenticate("google", { failureRed
 });
 
 
+//this is run on almost every render through client header,
+//passport checks user has a valid cookie session and if so, sends the req.user
+
 router.get('/api/current_user', (req, res) => {
   try {
     res.send(req.user)

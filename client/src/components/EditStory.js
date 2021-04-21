@@ -21,6 +21,7 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
     }
   }, [dropNav]);
 
+  //add story data as default value to form
   const preLoadForm = {
     title: story?.title || '',
     description: story?.description || '',
@@ -35,8 +36,6 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
 
   const onSubmit = (data) => {
     const storyId = match.params.storyId;
-
-
     const title = data.title;
     const description = data.description;
     const content = data.content;
@@ -46,6 +45,7 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
 
 
 
+  //render forms with validation
   const forms = () => {
     return (
       <div className="forms-container">

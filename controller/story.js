@@ -5,6 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const STORIES_PER_PAGE = 7;
 
+//fetch stories, paginate
 exports.getStories = async (req, res, next) => {
   const page = +req.query.page || 1;
   let totalStories;
@@ -21,6 +22,7 @@ exports.getStories = async (req, res, next) => {
       throw error;
     }
 
+    //needed for fe pagination
     const pager = {
       totalStories,
       currentPage: page,
@@ -77,6 +79,8 @@ exports.addStory = async (req, res, next) => {
   }
   try {
     const user = await User.findOne(req.user._id);
+
+    //if username, append that to story as author name 
     const username = user.username ? user.username : user.name;
     const story = new Story({
       title,
@@ -127,8 +131,7 @@ exports.editStory = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    console.log(story._user);
-    console.log(req.user._id);
+
     if (story._user.toString() !== req.user._id.toString()) {
       const error = new Error("Cannot edit another user's story!");
       error.statusCode = 403;
@@ -169,6 +172,8 @@ exports.postStoryComment = async (req, res, next) => {
   }
 
   let username;
+
+  //create unique commentid
   const commentId = uuidv4();
   req.user.username ? username = req.user.username : username = req.user.name;
   const commentText = req.body.commentText;

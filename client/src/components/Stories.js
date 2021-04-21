@@ -16,6 +16,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   const [loading, setLoading] = useState(true);
 
+  //determines page to render
   useEffect(() => {
     setCurrentPage(match.params.page || 1);
 
@@ -62,7 +63,8 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
   }, [clearPagination])
 
 
-
+  //when story is clicked, check if the same story is held in store
+  //if not, clear the store so new story can be fetched.
   const clearStoryCheck = (storyId, storeStoryId) => {
 
     if (storeStoryId && storyId !== storeStoryId) {
@@ -72,6 +74,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
   }
 
   //creates a new array with a few extras inserted at the start of the stories array
+  //(featured story, title, snippets grid item)
   const storiesArrayWithFeed = () => {
     const emptyObj = {};
     const copyStories = [...stories];
@@ -143,6 +146,8 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
     })
   }
 
+  //with pagination, if not on page one return a grid of just stories,
+  //dont' need to rendr snippets/featured story
   const renderGrid2 = () => {
     return stories.map((story, index) => {
       return (
@@ -164,7 +169,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
       )
     })
   };
-
+  //determines which grid to render based on current page
   const gridToRender = () => {
     if (pager.currentPage === 1) {
       return (
@@ -209,6 +214,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
     )
   }
 
+  //if any messages in store render them (ex. after redirect from posting success story)
   const renderMessages = () => {
     if (message) {
       return (
@@ -224,6 +230,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
     }
   }
 
+  //render errors if any, otherwise render page.
   return (
     <div>
       {renderMessages()}

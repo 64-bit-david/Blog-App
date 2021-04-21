@@ -30,6 +30,7 @@ export const logout = () => async dispatch => {
   await axios.get('/api/logout');
 }
 
+//add story and a message to reducer, so when page redirects user has message story successfully posted
 export const postStory = ({ title, description, content, creator }, history) => async dispatch => {
   try {
     const res = await axios.post('/api/create-story', {
@@ -158,6 +159,7 @@ export const fetchAuthorBasic = (userId) => async dispatch => {
     dispatch({ type: ADD_ERROR, payload: error });
   }
 }
+
 export const updateStoryComments = (storyId, commentInput) => async dispatch => {
   try {
     const res = await axios.post(`/api/stories/comments/${storyId}`, {
@@ -277,6 +279,7 @@ export const deleteUser = (userId, history) => async dispatch => {
   }
 }
 
+//if dropdown is active when user changes component, use this to disable
 export const dropNav = (drop) => {
   if (drop) {
     return { type: DROP_NAV }
@@ -287,6 +290,7 @@ export const dropNav = (drop) => {
 }
 
 
+//clean up actions
 
 export const clearMessage = () => {
   return { type: CLEAR_MESSAGE };

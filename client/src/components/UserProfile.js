@@ -40,7 +40,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
   }, [dropNav])
 
 
-  // const [input, setInput] = useState('');
+  //some local state to determine prompts for editing user info
   const [showChangeUsername, setShowChangeUserName] = useState(false);
   const [showChangeDesc, setShowChangeDesc] = useState(false);
   const [showDeleteUser, setShowDeleteUser] = useState(false);
@@ -68,18 +68,6 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     }
   }, [auth._id, currentPage, fetchUserStories])
 
-  // useEffect(() => {
-  //   if (auth?._id) {
-  //     if (pager.currentPage !== currentPage && currentPage) {
-  //       fetchUserStories(currentPage, auth._id);
-  //     }
-  //     else {
-  //       fetchUserStories(1, auth._id);
-  //     }
-  //   }
-
-  // }, [pager.currentPage, currentPage, auth, fetchUserStories]);
-
   useEffect(() => {
     if (userStories.length < 1) setLoading(true);
     if (userStories.length > 0) setLoading(false);
@@ -94,7 +82,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
 
 
 
-
+  //for posting user changes to their profile
   const postUsernameChange = (data) => {
     updateUsername(data.username);
     setShowChangeUserName(false);
@@ -109,6 +97,8 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     deleteUser(auth._id, history);
   }
 
+
+  //render user info 
   const authorName = () => {
     if (auth) {
       if (auth.username) {
@@ -157,6 +147,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     }
   }
 
+  //re
   const renderUserInfo = () => {
     if (auth) {
       return (
@@ -224,6 +215,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     }
   }
 
+  //render prompt for changing username
   const renderChangeUsername = () => {
     if (auth) {
       return (
@@ -258,6 +250,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     }
   }
 
+  //render prompt for changing user desc
 
   const renderChangeDesc = () => {
     if (auth) {
@@ -302,6 +295,9 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
       )
     }
   }
+
+
+  //render prompt for delete user acc
 
   const renderDeleteUser = () => {
     return (
@@ -361,7 +357,6 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
         }
       </div>
     )
-
   }
 
   const renderMessages = () => {

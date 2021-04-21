@@ -1,6 +1,6 @@
 import { FETCH_STORY, UPDATE_STORY_COMMENTS, EDIT_STORY, CLEAN_UP, FETCH_STORY_REQUEST, DELETE_COMMENT, CLEAR_STORY } from '../actions/types';
 
-
+//checks if this is first comment or not, creates new array or adds comment to start
 const updateStoryComments = (state, action) => {
   const updatedState = { ...state };
   if (!updatedState.comments) {

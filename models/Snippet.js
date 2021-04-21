@@ -19,10 +19,5 @@ const snippetSchema = new Schema({
 }, { timestamps: true });
 
 
-// snippetSchema.pre('save', function (next) {
-//   const error = new Error('Posting Snippet failed');
-//   error.statusCode = 500;
-//   return next(error);
-// })
 
 module.exports = mongoose.model('Snippet', snippetSchema);

@@ -8,8 +8,6 @@ const { validationResult } = require('express-validator');
 const STORIES_PER_PAGE = 6;
 
 
-//delete this probably
-//might need it for auth?
 exports.getUser = async (req, res, next) => {
   const userId = req.params.userId;
   try {
@@ -75,6 +73,7 @@ exports.updateUsername = async (req, res, next) => {
   const errors = validationResult(req);
   try {
 
+    //check validation errors
     if (!errors.isEmpty()) {
       console.log(errors.errors[0].msg);
       const error = new Error(errors.errors[0].msg);
@@ -82,16 +81,20 @@ exports.updateUsername = async (req, res, next) => {
       throw error
     }
     let user = await User.findById(userId);
+    //authentication check
     if (user._id.toString() !== userId.toString()) {
       const error = new Error('Authentication error');
       error.statusCode = 403;
       throw error;
     }
+    //if user doesn't pass username/username doesn't exist set to empty string
     if (!username) {
       user.username = '';
       const updatedUser = await user.save();
       return res.status(201).json({ msg: 'Username reset', user: updatedUser });
     }
+
+
     let checkUsernameExists = await User.findOne({ 'username': username })
     if (checkUsernameExists) {
       return res.status(409).json({ msg: "Username taken, please choose another" });
@@ -154,6 +157,8 @@ exports.deleteUser = async (req, res, next) => {
       error.statusCode = 500;
       throw Error;
     }
+
+    //auth check
     if (user._id.toString() !== req.user._id.toString()) {
       const error = new Error('User deletion failed. Please try again');
       error.statusCode = 403;

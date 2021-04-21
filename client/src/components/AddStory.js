@@ -9,6 +9,7 @@ import displayError from './displayError';
 const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
 
 
+  //determines rendering format tips message
   const [howFormat, setHowFormat] = useState(false);
 
   const { register, handleSubmit, errors } = useForm();
@@ -29,6 +30,7 @@ const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
     postStory(postBody, history);
   }
 
+  //renders msg explaining formatting tips to user
   const renderHowToFormat = () => {
     if (howFormat) {
       return (
@@ -43,7 +45,7 @@ const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
     }
   }
 
-
+  //form with input validation
   const forms = () => {
     return (
       <div className="forms-container">

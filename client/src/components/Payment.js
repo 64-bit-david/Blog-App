@@ -11,7 +11,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 
 
-
+// render pre payment
 const ProductDisplay = ({ handleClick, amount, setAmount }) => (
 
 
@@ -43,7 +43,7 @@ const ProductDisplay = ({ handleClick, amount, setAmount }) => (
 
 );
 
-
+//render message post payment, message will display success or failure or cancel
 const Message = ({ message }) => (
 
   <section className="payment-after">
@@ -75,6 +75,7 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearErro
     }
   }, [dropNav]);
 
+  //check username
   useEffect(() => {
     const authorNameCheck = () => {
       if (author) {
@@ -93,19 +94,22 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearErro
     const amountPaid = query.get('amount') / 100;
     const paymentId = query.get('paymentId');
 
+    //if success, send message with amout paid and to which user
     if (query.get("success")) {
       setMessage(author ? `Your donation of £${amountPaid} to ${authorName} was successful 🙂` : 'LOADING');
 
 
+      //post payment data, 
       if (author && auth) {
         const authorId = author._id;
         const userId = auth._id;
         postPayment(amountPaid, authorId, userId, paymentId);
       }
     }
+    //if payment cancelled 
     if (query.get("canceled")) {
       setMessage(
-        "Payment Canceled."
+        "Payment Cancelled."
       );
     }
     if (!author && !query.get("canceled")) {
@@ -139,6 +143,9 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearErro
       // If `redirectToCheckout` fails due to a browser or network
       // error, display the localized error message to your customer
       // using `result.error.message`.
+      return (
+        <p>{result.error.message}</p>
+      )
     }
   }
 
