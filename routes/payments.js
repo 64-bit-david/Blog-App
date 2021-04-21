@@ -9,8 +9,14 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.post('/create-checkout-session', isAuth, async (req, res, next) => {
+  //convert stripe value to currency value
   const amount = req.body.amount * 100;
   const author = req.body.authorId;
+
+  //create a new paymentId Schma
+  //if successful, redirects with this Schema id
+  //and after redirect below we post the payment data to db
+  //and check that the schemaid exists, and has not processed a payment yet
   const paymentId = new PaymentId();
   try {
     await paymentId.save();
@@ -38,6 +44,11 @@ router.post('/create-checkout-session', isAuth, async (req, res, next) => {
   }
 });
 
+//when payment is redirected successfully, an id is added to db.
+//We check for existance of id, and that it is set to false
+//once payment is posted id is set to true
+//so if true, payment will not be posted
+//(prevents bug where on success page user can keep refreshing to increase their amount paid)
 router.post('/post-payment-data', isAuth, async (req, res, next) => {
   const authorId = req.body.authorId;
   const userId = req.body.userId;

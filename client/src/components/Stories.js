@@ -92,7 +92,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
         return (
           <div className={`story-item-container`} key={index}>
             <Link
-              to={`/story/606ae0b59dbfba3cccf41568`}
+              to={`/story/6076f50daa99aa3fc42a0d5f`}
               onClick={() => {
                 clearStory();
                 clearAuthor();
@@ -102,10 +102,9 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
               <div className="story-item featured-story">
                 <h5 className="featured-text">Featured Story</h5>
                 <h3>Shall I compare thee to a summer's day?</h3>
-                <p className="story-page-author">Posted by: Somebody</p>
+                <p className="story-page-author">Posted by: Will Shakes P</p>
                 <p className="story-page-desc">
-                  A poem I wrote back in February about better days to come! Kinda sombre in theme as well but don't let it get you down too much!
-                  A poem I wrote back in February about better days to come! Kinda sombre in theme as well but don't
+                  Thou will find 'tis the greatest poem I hath ever written. Tis about Summer and her splendid beauty. Please donate so I can buy more quills!
               </p>
               </div>
             </Link>
