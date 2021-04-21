@@ -167,7 +167,6 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   const gridToRender = () => {
     if (pager.currentPage === 1) {
-      console.log('g1 render')
       return (
         <div className="stories-grid author-stories-grid">
           {renderGrid1()}
@@ -175,7 +174,6 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
       )
     }
     else {
-      console.log('g2 render')
       return (
         <div className="stories-grid stories-grid-2 author-stories-grid">
           {renderGrid2()}

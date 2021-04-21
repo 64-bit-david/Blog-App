@@ -7,6 +7,7 @@ import displayError from './displayError';
 
 const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
 
+
   useEffect(() => {
     if (!story) {
       fetchStory(match.params.storyId);
@@ -21,9 +22,9 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
   }, [dropNav]);
 
   const preLoadForm = {
-    title: story.title,
-    description: story.description,
-    content: story.content
+    title: story?.title || '',
+    description: story?.description || '',
+    content: story?.content || ''
   }
 
   const { register, handleSubmit, errors } = useForm({
@@ -94,7 +95,13 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
               <p>The maximum length for a story is 10,000 characters</p>
             )}
           </div>
-          <button className="add-username-btn btn" type="submit">Submit</button>
+          <div className="form-btn-container">
+            <button
+              name="submit-button"
+              className="green-btn btn"
+              type="submit"
+            >Submit</button>
+          </div>
         </form>
       </div>
 

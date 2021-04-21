@@ -120,6 +120,30 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
     }
   }
 
+  const renderStoryInput = () => {
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <label>Add a Comment</label>
+        <div className="input-container">
+          <input
+            name='commentText'
+            ref={register({ required: true, maxLength: 100 })}
+          />
+          <button type="submit" className="btn green-btn">Post</button>
+        </div>
+        {errors.commentText && errors.commentText.type === 'maxLength' && (
+          <p className="validation-warning">Comments have a max length of 100 characters</p>
+        )}
+      </form>
+    )
+  }
+
+  const renderStoryInputAuthMsg = () => {
+    return (
+      <div><p className="story-comment-auth-msg">Sign in to post a comment</p></div>
+    )
+  }
+
   const renderStoryComments = () => {
     if (commentsArray) {
       if (commentsArray.length > 0) {
@@ -173,19 +197,7 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
       <div className="sub-header-container">
         <h2>Comments</h2>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label>Add a Comment</label>
-        <div className="input-container">
-          <input
-            name='commentText'
-            ref={register({ required: true, maxLength: 100 })}
-          />
-          <button type="submit" className="btn green-btn">Post</button>
-        </div>
-        {errors.commentText && errors.commentText.type === 'maxLength' && (
-          <p className="validation-warning">Comments have a max length of 100 characters</p>
-        )}
-      </form>
+      {auth ? renderStoryInput() : renderStoryInputAuthMsg()}
       <ul className="comments-list">
         {loading ?
           <div className="loader loader-comments">

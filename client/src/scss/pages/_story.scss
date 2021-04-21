@@ -69,7 +69,7 @@
     font-size: 2rem;
     font-style: italic;
     text-align: center;
-    margin: 0 2rem;
+    margin: 1rem 2rem;
   }
   .author-container{
     text-align: center;
@@ -109,6 +109,11 @@
         border-radius: 3px;
         border: 2px solid $color-5;
         word-break: break-word;
+        overflow-wrap: break-word;
+
+        pre {
+          white-space: pre-wrap;   
+        }
 
 
       @media (min-width: $sm) {
@@ -146,7 +151,11 @@
         border-radius: 3px;
         padding: 2rem;
         position: relative;
+      }
 
+      .story-comment-auth-msg{
+        font-size: 1.8rem;
+        margin: 1.5rem 0;
       }
       
   
@@ -166,6 +175,7 @@
           margin: .2rem 0;
           margin-top: 3rem;
         }
+
         .input-container{
           display: flex;
           justify-content: center;
