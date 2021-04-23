@@ -128,7 +128,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
     else {
       return userStories.map(story => {
         return (
-          <div className={`story-item-container`} key={story._id}>
+          <section className={`story-item-container`} key={story._id}>
             <Link
               to={`/story/${story._id}`}
             >
@@ -141,7 +141,7 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
               </div>
             </Link>
 
-          </div >
+          </section >
         )
       })
     }

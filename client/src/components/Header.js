@@ -80,19 +80,19 @@ const Header = ({ fetchUser, auth, logout, navStatus, dropNav, clearStories }) =
 
   //nav render
   return (
-    <nav>
+    <header>
       <div className="header">
-        <div className="header-left">
+        <div className="header-left logo">
           {/* when clicked, clear stories from store so updated stories are fetched */}
           <Link
             to="/"
             onClick={() => clearStories()}><h2>Writer's Desk</h2></Link>
         </div>
-        <div className="header-right">
+        <nav className="header-right">
           {isLoggedIn()}
-        </div>
+        </nav>
       </div>
-    </nav>
+    </header>
   )
 }
 

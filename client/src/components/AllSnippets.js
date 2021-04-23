@@ -113,7 +113,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
     }
     return arrayToMap.map(snippet => {
       return (
-        <div key={snippet._id} className="snippet-container">
+        <section key={snippet._id} className="snippet-container">
           <div className="snippet-left">
             <p className="snippet-text">{snippet.text}
             </p>
@@ -125,7 +125,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
             {snippet._user === auth?._id ?
               <button className="btn delete-btn" onClick={() => deleteSnippet(snippet._id)}>Delete</button> : null}
           </div>
-        </div>
+        </section>
       )
     })
   }

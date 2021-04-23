@@ -180,10 +180,10 @@ const Story = ({ match, story, fetchStory, fetchAuthor, author, deleteStory, aut
 
 
   return (
-    <div>
+    <article>
       {renderMessages()}
       {error ? displayError(error, clearError) : pageSuccess()}
-    </div>
+    </article>
   )
 }
 

@@ -90,7 +90,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
     return storiesWithFeed.map((story, index) => {
       if (index === 0) {
         return (
-          <div className={`story-item-container`} key={index}>
+          <section className={`story-item-container`} key={index}>
             <Link
               to={`/story/6076f50daa99aa3fc42a0d5f`}
               onClick={() => {
@@ -108,14 +108,14 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
               </p>
               </div>
             </Link>
-          </div>
+          </section>
         )
       }
       if (index === 1) {
         return (
-          <div className={`story-item-container snippets-container`} key={index}>
+          <aside className={`story-item-container snippets-container`} key={index}>
             <Snippets />
-          </div>
+          </aside>
         )
       }
       if (index === 2) {
@@ -126,7 +126,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
         )
       }
       return (
-        <div className={`story-item-container`} key={index}>
+        <section className={`story-item-container`} key={index}>
           <Link
             to={`/story/${story._id}`}
             onClick={() => clearStoryCheck(story._id, storeStory?._id)}
@@ -140,7 +140,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
             </div>
           </Link>
 
-        </div >
+        </section >
       )
     })
   }
@@ -150,7 +150,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
   const renderGrid2 = () => {
     return stories.map((story, index) => {
       return (
-        <div className={`story-item-container`} key={index}>
+        <section className={`story-item-container`} key={index}>
           <Link
             to={`/story/${story._id}`}
             onClick={() => clearStoryCheck(story._id, storeStory?._id)}
@@ -164,7 +164,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
             </div>
           </Link>
 
-        </div >
+        </section >
       )
     })
   };
@@ -188,7 +188,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
 
   const pageSuccess = () => {
     return (
-      <div className="stories-container">
+      <article className="stories-container">
         <div className="header-container">
           <h1>{!currentPage || +currentPage === 1 ? "Home" : `Latest Stories - Page ${currentPage}`}</h1>
         </div>
@@ -209,7 +209,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
             clearStore={clearStories}
           />
         }
-      </div>
+      </article>
     )
   }
 
