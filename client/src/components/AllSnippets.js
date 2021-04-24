@@ -75,7 +75,7 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
   const rendersnippetInput = () => {
     return (
       <form className="snippet-form" onSubmit={handleSubmit(onSubmit)}>
-        <label for="add-snippet">Post a snippet</label>
+        <label htmlForm="add-snippet">Post a snippet</label>
         <div className="input-container">
           <input
             name='snippetText'

@@ -59,7 +59,7 @@ const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
           </div>
           {renderHowToFormat()}
           <div className="add-story-input-title add-story-item-container">
-            <label for="add-title"> Add a Title</label>
+            <label htmlForm="add-title"> Add a Title</label>
             <input
               name="title"
               ref={register({ required: true, maxLength: 100 })}
@@ -73,7 +73,7 @@ const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
             )}
           </div>
           <div className="add-story-input-description add-story-item-container">
-            <label for="add-description"> Short description</label>
+            <label htmlForm="add-description"> Short description</label>
             <input
               name="description"
               ref={register({ required: true, maxLength: 200 })}
@@ -87,7 +87,7 @@ const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
             )}
           </div>
           <div className="add-story-input-content add-story-item-container">
-            <label for="add-story">Story</label>
+            <label htmlForm="add-story">Story</label>
             <textarea
               name="content"
               id="add-story"

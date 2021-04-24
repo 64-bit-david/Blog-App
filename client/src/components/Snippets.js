@@ -50,7 +50,7 @@ const Snippets = ({ postSnippet, fetchSnippet, snippets, addSnippet, auth, delet
   const rendersnippetInput = () => {
     return (
       <form className="snippet-form" onSubmit={handleSubmit(onSubmit)}>
-        <label name="snippetText" for="snippet-text">Post a snippet</label>
+        <label name="snippetText" htmlFor="snippet-text">Post a snippet</label>
         <div className="input-container">
           <input
             name='snippetText'

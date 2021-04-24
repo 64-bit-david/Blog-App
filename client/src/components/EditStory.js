@@ -54,7 +54,7 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
             <h1>Edit Your Story!</h1>
           </div>
           <div className="add-story-input-title add-story-item-container">
-            <label for="edit-title"> Edit Title</label>
+            <label htmlFor="edit-title"> Edit Title</label>
             <input
               id="edit-title"
               name="title"
@@ -68,7 +68,7 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
             )}
           </div>
           <div className="add-story-input-description add-story-item-container">
-            <label for="edit-description"> Edit description</label>
+            <label htmlFor="edit-description"> Edit description</label>
             <input
               id="edit-description"
               name="description"
@@ -83,7 +83,7 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
             )}
           </div>
           <div className="add-story-input-content add-story-item-container">
-            <label for="edit-story">Edit Story</label>
+            <label htmlFor="edit-story">Edit Story</label>
             <textarea
               id="edit-story"
               name="content"

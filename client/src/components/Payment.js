@@ -19,7 +19,7 @@ const ProductDisplay = ({ handleClick, amount, setAmount }) => (
     <div className="header-container">
       <h1>Support the author with a donation!</h1>
     </div>
-    <label for="donation-amount">Select an Amount</label>
+    <label htmlFor="donation-amount">Select an Amount</label>
     <select
       value={amount}
       onChange={(e) => setAmount(e.target.value)}
