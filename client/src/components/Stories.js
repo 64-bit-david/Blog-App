@@ -100,7 +100,7 @@ const Stories = ({ stories, fetchStories, pager, match, clearMessage, error, mes
               }
             >
               <div className="story-item featured-story">
-                <h5 className="featured-text">Featured Story</h5>
+                <p className="featured-text">Featured Story</p>
                 <h3>Shall I compare thee to a summer's day?</h3>
                 <p className="story-page-author">Posted by: Will Shakes P</p>
                 <p className="story-page-desc">

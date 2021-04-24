@@ -124,11 +124,12 @@ const StoryComments = ({ story, updateStoryComments, auth, deleteStoryComment, c
   const renderStoryInput = () => {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label>Add a Comment</label>
+        <label for="add-comment">Add a Comment</label>
         <div className="input-container">
           <input
             name='commentText'
             ref={register({ required: true, maxLength: 100 })}
+            id="add-comment"
           />
           <button type="submit" className="btn green-btn">Post</button>
         </div>

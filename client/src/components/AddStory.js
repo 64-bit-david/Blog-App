@@ -59,10 +59,11 @@ const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
           </div>
           {renderHowToFormat()}
           <div className="add-story-input-title add-story-item-container">
-            <label> Add a Title</label>
+            <label for="add-title"> Add a Title</label>
             <input
               name="title"
               ref={register({ required: true, maxLength: 100 })}
+              id="add-title"
             />
             {errors.title && errors.title.type === 'required' && (
               <p className="validation-warning">This is Required</p>
@@ -72,10 +73,11 @@ const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
             )}
           </div>
           <div className="add-story-input-description add-story-item-container">
-            <label> Short description</label>
+            <label for="add-description"> Short description</label>
             <input
               name="description"
               ref={register({ required: true, maxLength: 200 })}
+              id="add-description"
             />
             {errors.description && errors.description.type === 'required' && (
               <p className="validation-warning">This is Required</p>
@@ -85,9 +87,10 @@ const AddStory = ({ postStory, auth, history, error, clearError, dropNav }) => {
             )}
           </div>
           <div className="add-story-input-content add-story-item-container">
-            <label>Story</label>
+            <label for="add-story">Story</label>
             <textarea
               name="content"
+              id="add-story"
               ref={register({ required: true, minLength: 100, maxLength: 10000 })}
             />
             {errors.content && errors.content.type === 'required' && (

@@ -54,8 +54,9 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
             <h1>Edit Your Story!</h1>
           </div>
           <div className="add-story-input-title add-story-item-container">
-            <label> Edit Title</label>
+            <label for="edit-title"> Edit Title</label>
             <input
+              id="edit-title"
               name="title"
               ref={register({ required: true, maxLength: 100 })}
             />
@@ -67,8 +68,9 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
             )}
           </div>
           <div className="add-story-input-description add-story-item-container">
-            <label> Edit description</label>
+            <label for="edit-description"> Edit description</label>
             <input
+              id="edit-description"
               name="description"
               ref={register({ required: true, maxLength: 200 })}
 
@@ -81,8 +83,9 @@ const EditStory = ({ story, editStory, history, match, error, dropNav }) => {
             )}
           </div>
           <div className="add-story-input-content add-story-item-container">
-            <label>Edit Story</label>
+            <label for="edit-story">Edit Story</label>
             <textarea
+              id="edit-story"
               name="content"
               ref={register({ required: true, minLength: 100, maxLength: 10000 })}
             />

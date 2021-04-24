@@ -56,6 +56,9 @@
     font-size: 1.6rem;
     .snippet-username{
       text-decoration: underline;
+      &:hover{
+        font-weight: 500;
+      }
     }
     .snippet-text{
       word-break: break-word;

@@ -63,7 +63,9 @@ const Header = ({ fetchUser, auth, logout, navStatus, dropNav, clearStories }) =
             <button
               onClick={() => dropNav(!navStatus)}
               className="burger-btn"
+              title="nav-drop"
             >
+
               <div className="burger-line"></div>
               <div className="burger-line"></div>
               <div className="burger-line"></div>

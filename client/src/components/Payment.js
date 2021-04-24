@@ -19,10 +19,11 @@ const ProductDisplay = ({ handleClick, amount, setAmount }) => (
     <div className="header-container">
       <h1>Support the author with a donation!</h1>
     </div>
-    <label>Select an Amount</label>
+    <label for="donation-amount">Select an Amount</label>
     <select
       value={amount}
       onChange={(e) => setAmount(e.target.value)}
+      id="donation-amount"
     >
       <option value='1'>£1</option>
       <option value='2'>£2</option>
@@ -67,6 +68,12 @@ const Payment = ({ author, match, fetchAuthorBasic, auth, postPayment, clearErro
       clearError()
     }
   }, [clearError]);
+
+  useEffect(() => {
+    if (!author) {
+      fetchAuthorBasic(match.params.authorId)
+    }
+  }, [author, fetchAuthorBasic, match.params.authorId])
 
 
   useEffect(() => {

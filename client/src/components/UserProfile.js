@@ -230,9 +230,10 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
             }}
           >X</button>
           <form onSubmit={handleSubmit(postUsernameChange)}>
-            <label>Change Username: </label>
+            <label for="edit-username">Change Username: </label>
             <div className="input-container">
               <input
+                id="edit-username"
                 name="username"
                 ref={register({ required: true, maxLength: 30 })}
               />
@@ -267,12 +268,13 @@ const Author = ({ userStories, auth, updateUsername, updateUserDesc, fetchUserSt
             }}
           >X</button>
           <form onSubmit={handleSubmit2(postDescChange)}>
-            <label>
+            <label for="edit-description">
               {auth.description ? 'Edit your description' :
                 "Add a description to your profile"}
             </label>
             <div className="input-container">
               <input
+                id="edit-description"
                 name="description"
                 ref={register2({ required: true, minLength: 5, maxLength: 100 })}
               />
