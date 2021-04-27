@@ -67,15 +67,17 @@ const AllSnippets = ({ postSnippet, fetchAllSnippets, snippets, addSnippet, auth
   const onSubmit = (data) => {
     postSnippet(data.snippetText);
     reset();
-    clearSnippets();
-    history.push('/snippets/1')
+    // clearSnippets();
+    if (match.params.page > 1) {
+      history.push('/snippets/1')
+    }
   }
 
   //render input with validation
   const rendersnippetInput = () => {
     return (
       <form className="snippet-form" onSubmit={handleSubmit(onSubmit)}>
-        <label htmlForm="add-snippet">Post a snippet</label>
+        <label htmlFor="add-snippet">Post a snippet</label>
         <div className="input-container">
           <input
             name='snippetText'
