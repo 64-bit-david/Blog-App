@@ -79,7 +79,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(keys.mongoURI,
+mongoose.connect(keys.mongoURITest,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
